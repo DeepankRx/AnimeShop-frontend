@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import MainDrawer from "./components/menu/Drawer";
 import HomePage from "./pages/HomePage";
 import SplashScreen from "./pages/SplashScreen";
 
@@ -8,7 +9,7 @@ const App = () => {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, 1000);
   }, []);
 
   return (
@@ -19,9 +20,12 @@ const App = () => {
           {loading ? (
             <SplashScreen />
           ) : (
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-            </Routes>
+            <>
+              <MainDrawer />
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+              </Routes>
+            </>
           )}
         </div>
       </div>
