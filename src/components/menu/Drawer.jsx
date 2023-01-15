@@ -63,7 +63,7 @@ export default function MainDrawer() {
   );
 
   return (
-    <div className="w-[90%] p-4 flex  justify-between items-center m-auto">
+    <div className="w-[100%] p-2 flex  justify-between items-center m-auto">
       <div className="text-2xl space-x-2">
         <span className="text-red-500">Z</span>
         <span className="text-yellow-500">E</span>

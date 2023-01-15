@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainDrawer from "./components/menu/Drawer";
 import HomePage from "./pages/HomePage";
+import ProductsPage from "./pages/ProductsPage";
 import SplashScreen from "./pages/SplashScreen";
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
               <MainDrawer />
               <Routes>
                 <Route path="/" element={<HomePage />} />
+                <Route path="/products" element={<ProductsPage />} />
               </Routes>
             </>
           )}
