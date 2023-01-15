@@ -4,7 +4,8 @@ module.exports = {
   theme: {
     extend: {
       screens:{
-        'mdrev':{'max':'768px'}
+        'mdrev':{'max':'768px'},
+        'smrev':{'max':'600px'},
       }
     },
   },
