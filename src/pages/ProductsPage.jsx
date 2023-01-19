@@ -12,14 +12,14 @@ const ProductsPage = () => {
   return (
     <div className='grid grid-cols-4 gap-4 m-4'>
         <div className='col-span-1  shadow-lg p-4 space-y-4'>
-          <div className='flex justify-center text-lg'>
+          {/* <div className='flex justify-center text-lg'>
             <FontAwesomeIcon icon={faFilter} size='xl' /> Filters
           </div>
           <InputField labelName='Category'/>
           <InputField labelName='Category'/>
           <InputField labelName='Category'/>
           <InputField labelName='Category'/>
-          <Button>Submit</Button>
+          <Button>Submit</Button> */}
         </div>
         <div className='col-span-2 h-[200px] space-y-4'>
             <ProductMediumCard />

@@ -4,6 +4,8 @@ import { assets } from '../assets'
 import Button from '../components/Button'
 import InputField from '../components/InputField'
 import * as Yup from 'yup';
+import { ALL_LINKS } from '../constant'
+import { Link } from 'react-router-dom'
 const SignupPage = () => {
   const initialValues={
     firstName:'',
@@ -41,6 +43,7 @@ const SignupPage = () => {
             <InputField labelName='Email' type='text' uni='email' placeholder='Email' />
             <InputField labelName='Username' type='text' uni='username' placeholder='Username' />
             <InputField labelName='Password' type='password' uni='password' placeholder='Password' />
+            <div>Already have an account ? <Link to={ALL_LINKS.LoginPage.pageLink} className='text-blue-500'>Login</Link></div>
             <Button type='submit'>Signup</Button>
             </div>
         </Form>
