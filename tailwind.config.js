@@ -6,6 +6,10 @@ module.exports = {
       screens:{
         'mdrev':{'max':'768px'},
         'smrev':{'max':'600px'},
+      },
+      colors:{
+        primary:'#313652',
+        secondary:'#008060'
       }
     },
   },

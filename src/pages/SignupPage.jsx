@@ -11,9 +11,9 @@ const SignupPage = () => {
     firstName:'',
     lastName:'',
     email:'',
-    username:'',
+    mobileNo:'',
     password:'',
-
+    repeatedPassword:''
   }
 
   const onSubmit=(values)=>{
@@ -24,28 +24,29 @@ const SignupPage = () => {
     firstName:Yup.string().required('Required'),
     lastName:Yup.string().required('Required'),
     email:Yup.string().email('Invalid Email Format').required('Required'),
-    username:Yup.string().required('Required'),
+    mobileNo:Yup.string().required('Required').max(10),
     password:Yup.string().required('Required'),
+    repeatedPassword:Yup.string().required('Required'),
 
   })
   return (
     <div className='flex flex-col items-center'>
-        <div className='h-[600px] overflow-hidden'>
-            <img src={assets.bg_01} />
+        <div className='h-[400px] overflow-hidden'>
+            <img className='' src={assets.bg_01} />
         </div>
         <Formik initialValues={initialValues} validationSchema={validateSchema} onSubmit={onSubmit}>
-        <Form className='translate-y-[-300px] bg-white w-[600px] p-8 shadow-lg  rounded-lg flex flex-col items-center smrev:w-[90%]'>
+        <Form className='translate-y-[-300px] smrev:translate-y-[-300px] bg-white w-[600px] p-8 shadow-lg  rounded-lg flex flex-col gap-2 smrev:w-[90%]'>
             <div className='text-center text-2xl font-bold'>Signup</div>
-            <div className='rounded-full w-[80px] h-[80px] shadow-lg'></div>
-            <div className='w-[100%] space-y-4'>
-            <InputField labelName='First Name' type='text' uni='firstName' placeholder='First Name' />
-            <InputField labelName='Last  Name' type='text' uni='lastName' placeholder='Last Name' />
-            <InputField labelName='Email' type='text' uni='email' placeholder='Email' />
-            <InputField labelName='Username' type='text' uni='username' placeholder='Username' />
-            <InputField labelName='Password' type='password' uni='password' placeholder='Password' />
+            <div className='w-[100%] gap-4 grid grid-cols-2 smrev:grid-cols-1'>
+            <InputField className='col-span-1' labelName='First Name' type='text' uni='firstName' placeholder='First Name' />
+            <InputField className='col-span-1' labelName='Last  Name' type='text' uni='lastName' placeholder='Last Name' />
+            <InputField className='col-span-2' labelName='Email' type='text' uni='email' placeholder='Email' />
+            <InputField className='col-span-2' labelName='Mobile No' type='text' uni='mobileNo' placeholder='Mobile No' />
+            <InputField className='col-span-1' labelName='Password' type='password' uni='password' placeholder='Password' />
+            <InputField className='col-span-1' labelName='Confirm Password' type='password' uni='repeatedPassword' placeholder='Password' />
+            </div>
             <div>Already have an account ? <Link to={ALL_LINKS.LoginPage.pageLink} className='text-blue-500'>Login</Link></div>
             <Button type='submit'>Signup</Button>
-            </div>
         </Form>
         </Formik>
     </div>

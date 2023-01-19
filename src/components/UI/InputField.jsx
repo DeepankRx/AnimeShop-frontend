@@ -8,17 +8,10 @@ const InputField = ({
   type,
   uni,
   placeholder,
-  onChange,
-  value,
-  touched,
-  error,
-  onBlur,
-  disabled,
   rowWise,
   inputClass,
   labelClass,
-  min,
-  maxLength,
+  className
 }) => {
 
   const [passVisibility,setPassVisibility]=useState(false);
@@ -31,7 +24,7 @@ const showPass=()=>{
 }
 
   return (
-    <>
+    <div className={className}>
         <label className=" text-slate-600 col-span-1 flex items-center" htmlFor={uni}>
           {labelName}
         </label>
@@ -48,7 +41,7 @@ const showPass=()=>{
       </div>
       <ErrorMessage name={uni} component={(props)=><div className="text-red-500">{props.children}</div>} />
 
-    </>
+    </div>
   );
 };
 
