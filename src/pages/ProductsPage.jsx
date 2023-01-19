@@ -4,10 +4,10 @@ import ProductMediumCard from '../components/cards/ProductMediumCard'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import  FilterIcon  from '@mui/icons-material/Filter'
 import DailyDeals from '../components/cards/DailyDeals'
-import InputField from '../components/InputField'
+import InputField from '../components/UI/InputField'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFilter } from '@fortawesome/free-solid-svg-icons'
-import Button from '../components/Button'
+import Button from '../components/UI/Button'
 const ProductsPage = () => {
   return (
     <div className='grid grid-cols-4 gap-4 m-4'>

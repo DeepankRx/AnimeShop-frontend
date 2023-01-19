@@ -1,8 +1,8 @@
 import { Formik ,Form} from 'formik'
 import React from 'react'
 import { assets } from '../assets'
-import Button from '../components/Button'
-import InputField from '../components/InputField'
+import Button from '../components/UI/Button'
+import InputField from '../components/UI/InputField'
 import * as Yup from 'yup';
 import { ALL_LINKS } from '../constant'
 import { Link } from 'react-router-dom'

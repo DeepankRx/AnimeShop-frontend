@@ -12,7 +12,10 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from '@mui/icons-material/Menu'
 import { Dialog, DialogContent } from "@mui/material";
-import { DATA } from "../../constant";
+import { ALL_LINKS, DATA } from "../../constant";
+import { Link } from "react-router-dom";
+import PersonIcon from '@mui/icons-material/Person'
+import LoginIcon from '@mui/icons-material/Login'
 
 export default function MainDrawer() {
   const [state, setState] = React.useState({
@@ -33,6 +36,21 @@ export default function MainDrawer() {
     setState({ ...state, [anchor]: open });
   };
 
+  const menu=[
+    {
+      name:'Signup',
+      pageLink:ALL_LINKS.SignupPage.pageLink,
+      icon:<PersonIcon/>
+    },
+    {
+      name:'Login',
+      pageLink:ALL_LINKS.LoginPage.pageLink,
+      icon:<LoginIcon/>
+
+    },
+
+  ]
+
   const list = (anchor) => (
     <Box
       sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
@@ -48,15 +66,15 @@ export default function MainDrawer() {
         <span className="text-orange-500">X</span>
       </div>
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding>
+        {menu.map((item, index) => (
+          <Link to={item.pageLink} key={index} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {item.icon}
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={item.name} />
             </ListItemButton>
-          </ListItem>
+          </Link>
         ))}
       </List>
     </Box>
