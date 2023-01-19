@@ -25,7 +25,6 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      {/* {loading ? <SplashScreen />: */}
       <div id="page-container">
         <div id="content-wrap">
           {loading ? (

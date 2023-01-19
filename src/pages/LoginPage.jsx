@@ -34,7 +34,7 @@ const LoginPage = () => {
             <InputField labelName='Username' type='text' uni='username' placeholder='Username' />
             <InputField labelName='Password' type='password' uni='password' placeholder='Password' />
             <div>Don't have an account ? <Link to={ALL_LINKS.SignupPage.pageLink} className='text-blue-500'>Signup</Link></div>
-            <Button type='submit'>Login</Button>
+            <Button type='submit' classname=''>Login</Button>
             </div>
         </Form>
         </Formik>

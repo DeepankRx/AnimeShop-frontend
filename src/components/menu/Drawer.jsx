@@ -20,6 +20,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import InstagramIcon  from "@mui/icons-material/Instagram";
 import FacebookIcon  from "@mui/icons-material/Facebook";
 import WhatsAppIcon  from "@mui/icons-material/WhatsApp";
+import HomeIcon  from "@mui/icons-material/Home";
 
 export default function MainDrawer() {
   const [state, setState] = React.useState({
@@ -41,6 +42,12 @@ export default function MainDrawer() {
   };
 
   const menu=[
+    {
+      name:'Home',
+      pageLink:ALL_LINKS.HomePage.pageLink,
+      icon:<HomeIcon/>
+
+    },
     {
       name:'Signup',
       pageLink:ALL_LINKS.SignupPage.pageLink,

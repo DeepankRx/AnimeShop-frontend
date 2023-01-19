@@ -23,7 +23,7 @@ export const ALL_LINKS = {
     loginRequire: false,
   },
   HomePage: {
-    pageLink: "/home",
+    pageLink: "/",
     view: HomePage,
     loginRequire: false,
   },

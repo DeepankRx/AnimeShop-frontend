@@ -8,7 +8,7 @@ module.exports = {
         'smrev':{'max':'600px'},
       },
       colors:{
-        primary:'#313652',
+        primary:'#14274E',
         secondary:'#008060'
       }
     },
