@@ -4,6 +4,7 @@ import MainDrawer from "./components/menu/Drawer";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import ProductsPage from "./pages/ProductsPage";
+import SignupPage from "./pages/SignupPage";
 import SplashScreen from "./pages/SplashScreen";
 
 const App = () => {
@@ -28,6 +29,7 @@ const App = () => {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/products" element={<ProductsPage />} />
                 <Route path="/login" element={<LoginPage />} />
+                <Route path="/signup" element={<SignupPage />} />
               </Routes>
             </>
           )}
