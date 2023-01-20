@@ -14,7 +14,9 @@ const App = () => {
     ALL_LINKS.LoginPage,
     ALL_LINKS.SignupPage,
     ALL_LINKS.HomePage,
-    ALL_LINKS.ProductsPage
+    ALL_LINKS.ProductsPage,
+    ALL_LINKS.Category,
+    ALL_LINKS.Product,
   ]
   const [loading, setLoading] = useState(true);
   useEffect(() => {

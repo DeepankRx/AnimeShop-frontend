@@ -93,23 +93,23 @@ export default function MainDrawer() {
 
   return (
     <div className="text-white">
-    <div className="bg-primary py-[5px] border-b-2 px-20 smrev:px-2 border-b-white flex justify-between">
+    <div className="bg-black py-[5px] border-b-2 px-20 smrev:px-2 border-b-white flex justify-between">
       <p>Hassle free returns within a week</p>
       <div className="space-x-2">
-        <InstagramIcon/>
-        <FacebookIcon/>
-        <WhatsAppIcon/>
+        <InstagramIcon fontSize="small"/>
+        <FacebookIcon fontSize="small"/>
+        <WhatsAppIcon fontSize="small"/>
       </div>
     </div>
-    <div className="w-[100%]  bg-primary p-2 px-20 smrev:p-2 flex  justify-between items-center m-auto">
+    <div className="w-[100%]  bg-white text-black  px-20 py-4 smrev:px-2 flex  justify-between items-center m-auto">
       <div className="text-xl font-semibold">Zerox Store</div>
       <div className="flex space-x-4">
-        <div className="flex justify-center items-center px-2 space-x-1 "><PersonIcon fontSize='large'/><span className="font-bold uppercase smrev:hidden">Account</span></div>
-        <div className="flex justify-center items-center px-2 space-x-1 "><ShoppingCartIcon fontSize='large'/><span className="font-bold uppercase smrev:hidden">Cart</span></div>
+        <div className="flex justify-center items-center px-2 space-x-1 "><PersonIcon fontSize='small'/><span className="font-bold  smrev:hidden">Account</span></div>
+        <div className="flex justify-center items-center px-2 space-x-1 "><ShoppingCartIcon fontSize='small'/><span className="font-bold  smrev:hidden">Cart</span></div>
 
       {["left"].map((anchor) => (
         <React.Fragment key={anchor}>
-          <div className="hover:cursor-pointer bg-black rounded-full p-2" onClick={toggleDrawer(anchor, true)}><MenuIcon  fontSize='large'/></div>
+          <div className="hover:cursor-pointer bg-black rounded-full p-2" onClick={toggleDrawer(anchor, true)}><MenuIcon sx={{color:'white'}}  fontSize='medium'/></div>
           <Drawer
             anchor={anchor}
             open={state[anchor]}

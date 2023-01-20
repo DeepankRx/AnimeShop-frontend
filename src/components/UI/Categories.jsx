@@ -5,8 +5,8 @@ const Categories = () => {
     const CategoryBox=()=>{
         return (
             <div className='space-y-2 text-xl'>
-            <div className='w-[240px] h-[240px] rounded-full bg-gray-200 hover:translate-y-[-8px] transition-all ease-in duration-200 hover:bg-white shadow-lg cursor-pointer flex justify-center items-center'>
-                <img src={assets.subject} className='w-[60%] h-auto hover:scale-125 ease-linear duration-200'/>
+            <div className='w-[240px] h-[240px] rounded-full bg-white hover:translate-y-[-8px] transition-all ease-in duration-200 hover:bg-white shadow-lg cursor-pointer flex justify-center items-center'>
+                <img src={assets.dummy} className='w-[60%] h-auto hover:scale-125 ease-linear duration-200'/>
             </div>
             <div className='text-center font-semibold'>Fashion</div>
             </div>

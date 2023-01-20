@@ -25,7 +25,7 @@ const HomePage = () => {
       <Testimonial/>
     </div>
 
-    <div className='grid grid-cols-2 mdrev:grid-cols-1 px-20 py-8 gap-4'>
+    <div className='grid grid-cols-2 mdrev:grid-cols-1 px-20 py-8 mdrev:p-4 gap-4'>
       <div className='bg-gray-200 h-[240px] col-span-1'></div>
       <div className='bg-gray-200 h-[240px] col-span-1'></div>
     </div>

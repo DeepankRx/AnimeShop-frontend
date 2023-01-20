@@ -4,8 +4,9 @@ module.exports = {
   theme: {
     extend: {
       screens:{
-        'mdrev':{'max':'768px'},
         'smrev':{'max':'600px'},
+        'mdrev':{'max':'768px'},
+        'lgrev':{'max':'1024px'},
       },
       colors:{
         primary:'#14274E',

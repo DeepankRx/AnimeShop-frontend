@@ -47,7 +47,7 @@ const HeroSection = () => {
             <div className='text-6xl font-semibold'>{currentHero.text.para1}</div>
             <div className='text-6xl font-semibold'>{currentHero.text.para2}</div>
             <div className='font-semibold text-lg'>{currentHero.text.para3}</div>
-            <Button classname='bg-[#fff] w-[160px] text-black'>Buy now</Button>
+            <Button classname='bg-[#fff] w-[160px] text-[#000]'>Buy now</Button>
         </div>
         <div className='md:w-[60%] bg-slate-400 overflow-hidden'>
             <img src={currentHero.image} className='h-[100%] w-[100%]' />
