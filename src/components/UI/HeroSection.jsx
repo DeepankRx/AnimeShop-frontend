@@ -20,9 +20,9 @@ const HeroSection = () => {
             image:assets.hero_2,
             no:1,
             text:{
-                para1:'Kharid le',
-                para2:'Bsdk',
-                para3:'Badiya maal hai gareeb nahi ho jayega.'
+                para1:'Trending Latest ',
+                para2:'Merchandise',
+                para3:'50% off on your first purchase. .'
             },
             order:''
         }
