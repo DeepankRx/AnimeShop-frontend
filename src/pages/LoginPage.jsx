@@ -7,18 +7,26 @@ import * as Yup from 'yup';
 import { Link } from 'react-router-dom'
 import { ALL_LINKS } from '../constant'
 import styles from '../styles/css/backgrounds.module.css'
+import { toast } from 'react-toastify';
+import { login } from '../services/APIs';
 const LoginPage = () => {
   const initialValues={
-    username:'',
+    email:'',
     password:''
   }
 
   const onSubmit=(values)=>{
-    console.log(values)
+    login(values)
+    .then((res)=>{
+      toast.success('Login Successful');
+    })
+    .catch((err)=>{
+      toast.error(err.response.data.message);
+    })
   }
 
   const validateSchema=Yup.object({
-    username:Yup.string().required('Required'),
+    email:Yup.string().required('Required'),
     password:Yup.string().required('Required'),
 
   })
@@ -31,7 +39,7 @@ const LoginPage = () => {
         <Form className='translate-y-[-200px] bg-white w-[600px] p-8 shadow-lg  rounded-lg flex flex-col items-center smrev:w-[90%]'>
             <div className='text-center text-2xl font-bold'>Login</div>
             <div className='w-[100%] space-y-4'>
-            <InputField labelName='Username' type='text' uni='username' placeholder='Username' />
+            <InputField labelName='Email' type='text' uni='email' placeholder='Email' />
             <InputField labelName='Password' type='password' uni='password' placeholder='Password' />
             <div>Don't have an account ? <Link to={ALL_LINKS.SignupPage.pageLink} className='text-blue-500'>Signup</Link></div>
             <Button type='submit' classname=''>Login</Button>

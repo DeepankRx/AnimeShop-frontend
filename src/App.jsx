@@ -5,7 +5,7 @@ import MainDrawer from "./components/menu/Drawer";
 import { ALL_LINKS } from "./constant";
 import SplashScreen from "./pages/SplashScreen";
 import AuthContext from "./store/AuthContext";
-
+import "react-toastify/dist/ReactToastify.css";
 const App = () => {
 
   const authCtx=useContext(AuthContext);
