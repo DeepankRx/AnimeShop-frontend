@@ -1,14 +1,19 @@
 import { Formik, Form } from 'formik';
-import React from 'react';
+import React, { useContext } from 'react';
 import { assets } from '../assets';
 import Button from '../components/UI/Button';
 import InputField from '../components/UI/InputField';
 import * as Yup from 'yup';
 import { ALL_LINKS } from '../constant';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { register } from '../services/APIs';
+import AuthContext from '../store/AuthContext';
+import { useEffect } from 'react';
 const SignupPage = () => {
+  
+  const navigate=useNavigate();
+  const authCtx=useContext(AuthContext);
   const initialValues = {
     firstName: '',
     lastName: '',
@@ -18,11 +23,16 @@ const SignupPage = () => {
     repeatedPassword: '',
   };
 
-  const onSubmit = (values) => {
-    alert('SignupPage');
+  useEffect(() => {
+    if(authCtx.isLoggedIn)navigate(ALL_LINKS.HomePage.pageLink)
+    }, [authCtx.isLoggedIn]);
+
+  const onSubmit = (values,{resetForm}) => {
     register(values)
       .then((res) => {
         toast.success('Signup Successful');
+        resetForm();
+        navigate(ALL_LINKS.LoginPage.pageLink);
       })
       .catch((err) => {
         toast.error(err.response.data.message);

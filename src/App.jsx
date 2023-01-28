@@ -1,14 +1,18 @@
 import { Suspense, useContext, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import MainDrawer from "./components/menu/Drawer";
 import { ALL_LINKS } from "./constant";
 import SplashScreen from "./pages/SplashScreen";
 import AuthContext from "./store/AuthContext";
 import "react-toastify/dist/ReactToastify.css";
+import { getUserProfile } from "./services/APIs";
+import { useDispatch } from "react-redux";
+import { userActions } from "./store/userSlice";
 const App = () => {
 
   const authCtx=useContext(AuthContext);
+  const dispatch=useDispatch();
 
   const PAGES=[
     ALL_LINKS.LoginPage,
@@ -23,6 +27,17 @@ const App = () => {
     setTimeout(() => {
       setLoading(false);
     }, 1000);
+
+    if(authCtx.isLoggedIn){
+      getUserProfile(authCtx.userid)
+      .then((res)=>{
+        dispatch(userActions.setUserDetails(res.data.data));
+      })
+      .catch((err)=>{
+        toast.error(err)
+      })
+    }else{
+    }
   }, []);
 
   return (

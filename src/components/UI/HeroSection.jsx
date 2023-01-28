@@ -7,7 +7,7 @@ import { assets } from '../../assets'
 const HeroSection = () => {
     const heroData=[
         {
-            image:assets.hero_1,
+            image:assets.anime_bg_3,
             no:0,
             text:{
                 para1:'New From Zerox',
@@ -17,7 +17,7 @@ const HeroSection = () => {
             order:'flex-row-reverse'
         },
         {
-            image:assets.hero_2,
+            image:assets.anime_bg_2,
             no:1,
             text:{
                 para1:'Trending Latest ',
@@ -43,13 +43,13 @@ const HeroSection = () => {
 
   return (
     <div className={`md:h-[600px] flex  mdrev:flex-col text-white relative ${currentHero.order}`}>
-        <div className={` md:w-[40%] bg-purple-400 flex flex-col justify-center px-10 smrev:px-2 mdrev:h-[400px] gap-4 ${styles.bg_flash}`}>
+        <div className={` md:w-[60%] bg-purple-400 flex flex-col justify-center px-10 smrev:px-2 mdrev:h-[400px] gap-4 ${styles.bg_flash}`}>
             <div className='text-6xl font-semibold'>{currentHero.text.para1}</div>
             <div className='text-6xl font-semibold'>{currentHero.text.para2}</div>
             <div className='font-semibold text-lg'>{currentHero.text.para3}</div>
             <Button classname='bg-[#fff] w-[160px] text-[#000]'>Buy now</Button>
         </div>
-        <div className='md:w-[60%] bg-slate-400 overflow-hidden'>
+        <div className='md:w-[40%] bg-slate-400 overflow-hidden'>
             <img src={currentHero.image} className='h-[100%] w-[100%]' />
         </div>
         <div className='absolute right-8 bottom-3 flex gap-1 translate-y-8'>

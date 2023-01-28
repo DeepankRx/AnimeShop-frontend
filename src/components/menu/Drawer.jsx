@@ -21,8 +21,12 @@ import InstagramIcon  from "@mui/icons-material/Instagram";
 import FacebookIcon  from "@mui/icons-material/Facebook";
 import WhatsAppIcon  from "@mui/icons-material/WhatsApp";
 import HomeIcon  from "@mui/icons-material/Home";
+import MenuPopOver from "./MenuPopOver";
+import { useContext } from "react";
+import AuthContext from "../../store/AuthContext";
 
 export default function MainDrawer() {
+  const authCtx=useContext(AuthContext);
   const [state, setState] = React.useState({
     top: false,
     left: false,
@@ -45,24 +49,42 @@ export default function MainDrawer() {
     {
       name:'Home',
       pageLink:ALL_LINKS.HomePage.pageLink,
-      icon:<HomeIcon/>
-
+      icon:<HomeIcon/>,
+      showAlways:true
     },
     {
       name:'Signup',
       pageLink:ALL_LINKS.SignupPage.pageLink,
-      icon:<PersonIcon/>
+      icon:<PersonIcon/>,
+      showLoggedIn:false
     },
     {
       name:'Login',
       pageLink:ALL_LINKS.LoginPage.pageLink,
-      icon:<LoginIcon/>
-
+      icon:<LoginIcon/>,
+      showLoggedIn:false
     },
-
   ]
 
-  const list = (anchor) => (
+
+  const customer=[menu[0]];
+
+  const showMenu={
+    'logout':[menu[0],menu[1],menu[2]],
+    'customer':[menu[0]],
+  }
+
+
+  let loadMenu=[];
+  if(authCtx.isLoggedIn){
+    loadMenu=showMenu[authCtx.role]
+  }else{
+    loadMenu=showMenu.logout;
+  }
+
+
+  const list = (anchor) => {
+    return(
     <Box
       sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
       role="presentation"
@@ -77,8 +99,8 @@ export default function MainDrawer() {
         <span className="text-orange-500">X</span>
       </div>
       <List>
-        {menu.map((item, index) => (
-          <Link to={item.pageLink} key={index} disablePadding>
+        {loadMenu.map((item, index) => 
+          <Link to={item.pageLink} key={index}>
             <ListItemButton>
               <ListItemIcon>
                 {item.icon}
@@ -86,10 +108,10 @@ export default function MainDrawer() {
               <ListItemText primary={item.name} />
             </ListItemButton>
           </Link>
-        ))}
+        )}
       </List>
     </Box>
-  );
+  )};
 
   return (
     <div className="text-white">
@@ -103,9 +125,11 @@ export default function MainDrawer() {
     </div>
     <div className="w-[100%]  bg-white text-black  px-20 py-4 smrev:px-2 flex  justify-between items-center m-auto">
       <div className="text-xl font-semibold">Zerox Store</div>
-      <div className="flex space-x-4">
-        <div className="flex justify-center items-center px-2 space-x-1 "><PersonIcon fontSize='small'/><span className="font-bold  smrev:hidden">Account</span></div>
-        <div className="flex justify-center items-center px-2 space-x-1 "><ShoppingCartIcon fontSize='small'/><span className="font-bold  smrev:hidden">Cart</span></div>
+      <div className="flex space-x-4 smrev:space-x-1 items-center">
+        <MenuPopOver/>
+        <Button variant='text' sx={{color:'black'}}>
+      <div className="flex justify-center items-center px-2 space-x-2 "><ShoppingCartIcon fontSize='small'/><span className="font-bold  smrev:hidden">CART</span></div>
+      </Button>
 
       {["left"].map((anchor) => (
         <React.Fragment key={anchor}>

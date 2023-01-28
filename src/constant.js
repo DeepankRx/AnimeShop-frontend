@@ -27,7 +27,7 @@ export const ALL_LINKS = {
   HomePage: {
     pageLink: "/",
     view: HomePage,
-    loginRequire: false,
+    loginRequire: true,
   },
   Category: {
     pageLink: "/category",

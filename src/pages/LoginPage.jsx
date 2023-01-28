@@ -1,23 +1,43 @@
 import { Formik ,Form} from 'formik'
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { assets } from '../assets'
 import Button from '../components/UI/Button'
 import InputField from '../components/UI/InputField'
 import * as Yup from 'yup';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ALL_LINKS } from '../constant'
-import styles from '../styles/css/backgrounds.module.css'
 import { toast } from 'react-toastify';
-import { login } from '../services/APIs';
+import { getUserProfile, login } from '../services/APIs';
+import AuthContext from '../store/AuthContext'
+import { useDispatch } from 'react-redux'
+import { userActions } from '../store/userSlice'
 const LoginPage = () => {
+
+  
+  
+  const dispatch=useDispatch();
+  const navigate=useNavigate();
+  const authCtx=useContext(AuthContext);
   const initialValues={
     email:'',
     password:''
   }
+  useEffect(() => {
+    if(authCtx.isLoggedIn)navigate(ALL_LINKS.HomePage.pageLink)
+    }, [authCtx.isLoggedIn]);
 
   const onSubmit=(values)=>{
     login(values)
     .then((res)=>{
+      const data=res.data.data;
+      authCtx.login(data.token,data.id,'customer');
+      getUserProfile(data.id)
+      .then(res=>{
+        console.log(res.data.data)
+        dispatch(userActions.setUserDetails(res.data.data))
+      })
+      .catch(err=>console.log(err));
+      navigate(ALL_LINKS.HomePage.pageLink);
       toast.success('Login Successful');
     })
     .catch((err)=>{
