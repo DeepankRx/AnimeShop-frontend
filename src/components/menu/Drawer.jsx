@@ -8,8 +8,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+
 import MenuIcon from '@mui/icons-material/Menu'
 import { Dialog, DialogContent } from "@mui/material";
 import { ALL_LINKS, DATA } from "../../constant";
@@ -24,6 +23,7 @@ import HomeIcon  from "@mui/icons-material/Home";
 import MenuPopOver from "./MenuPopOver";
 import { useContext } from "react";
 import AuthContext from "../../store/AuthContext";
+import LeftPane from "./LeftPane";
 
 export default function MainDrawer() {
   const authCtx=useContext(AuthContext);
@@ -45,42 +45,41 @@ export default function MainDrawer() {
     setState({ ...state, [anchor]: open });
   };
 
-  const menu=[
-    {
-      name:'Home',
-      pageLink:ALL_LINKS.HomePage.pageLink,
-      icon:<HomeIcon/>,
-      showAlways:true
-    },
-    {
-      name:'Signup',
-      pageLink:ALL_LINKS.SignupPage.pageLink,
-      icon:<PersonIcon/>,
-      showLoggedIn:false
-    },
-    {
-      name:'Login',
-      pageLink:ALL_LINKS.LoginPage.pageLink,
-      icon:<LoginIcon/>,
-      showLoggedIn:false
-    },
-  ]
+  // const menu=[
+  //   {
+  //     name:'Home',
+  //     pageLink:ALL_LINKS.HomePage.pageLink,
+  //     icon:<HomeIcon/>,
+  //     showAlways:true
+  //   },
+  //   {
+  //     name:'Signup',
+  //     pageLink:ALL_LINKS.SignupPage.pageLink,
+  //     icon:<PersonIcon/>,
+  //     showLoggedIn:false
+  //   },
+  //   {
+  //     name:'Login',
+  //     pageLink:ALL_LINKS.LoginPage.pageLink,
+  //     icon:<LoginIcon/>,
+  //     showLoggedIn:false
+  //   },
+  // ]
 
 
-  const customer=[menu[0]];
 
-  const showMenu={
-    'logout':[menu[0],menu[1],menu[2]],
-    'customer':[menu[0]],
-  }
+  // const showMenu={
+  //   'logout':[menu[0],menu[1],menu[2]],
+  //   'customer':[menu[0]],
+  // }
 
 
-  let loadMenu=[];
-  if(authCtx.isLoggedIn){
-    loadMenu=showMenu[authCtx.role]
-  }else{
-    loadMenu=showMenu.logout;
-  }
+  // let loadMenu=[];
+  // if(authCtx.isLoggedIn){
+  //   loadMenu=showMenu[authCtx.role]
+  // }else{
+  //   loadMenu=showMenu.logout;
+  // }
 
 
   const list = (anchor) => {
@@ -91,7 +90,7 @@ export default function MainDrawer() {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <div className=" p-2 flex justify-center  text-xl font-bold space-x-4 pt-4">
+      {/* <div className=" p-2 flex justify-center  text-xl font-bold space-x-4 pt-4">
         <span className="text-red-500">Z</span>
         <span className="text-yellow-500">E</span>
         <span className="text-blue-500">R</span>
@@ -109,7 +108,8 @@ export default function MainDrawer() {
             </ListItemButton>
           </Link>
         )}
-      </List>
+      </List> */}
+      <LeftPane/>
     </Box>
   )};
 

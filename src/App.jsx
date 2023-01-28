@@ -21,6 +21,8 @@ const App = () => {
     ALL_LINKS.ProductsPage,
     ALL_LINKS.Category,
     ALL_LINKS.Product,
+    ALL_LINKS.Dashboard,
+    ALL_LINKS.SellerProducts
   ]
   const [loading, setLoading] = useState(true);
   useEffect(() => {

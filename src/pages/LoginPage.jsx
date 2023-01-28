@@ -22,6 +22,7 @@ const LoginPage = () => {
     email:'',
     password:''
   }
+  
   useEffect(() => {
     if(authCtx.isLoggedIn)navigate(ALL_LINKS.HomePage.pageLink)
     }, [authCtx.isLoggedIn]);
