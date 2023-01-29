@@ -1,6 +1,6 @@
 import { List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { useContext } from 'react';
@@ -14,9 +14,11 @@ import DashboardIcon  from "@mui/icons-material/Dashboard";
 import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
 import { useSelector } from 'react-redux';
 import { assets } from '../../assets';
+import { useState } from 'react';
 const LeftPane = () => {
     const authCtx=useContext(AuthContext);
     const user=useSelector(state=>state.user.user)
+    const [highlightIndex,setHighlightIndex]=useState(-1);
 
     const menu=[
         {
@@ -83,16 +85,25 @@ const LeftPane = () => {
         <h1 className='font-semibold'>{`${user.mobileNo}`}</h1>
       </div>
       }
-      <List className='flex flex-col items-center'>
+      {/* <NavLink 
+          to={menuSections[item].pageLink}
+          className={({ isActive }) =>
+          isActive && menuSections[item].pageLink
+            ? `flex border-l-4 ml-2 border-primary text-primary`
+            : ""
+        }
+           key={index} ></NavLink> */}
+      <List className='flex flex-col items-center gap-2'>
         {loadMenu.map((item, index) => 
-          <Link to={item.pageLink} key={index}>
+          <NavLink exact={true} to={item.pageLink} key={index} className={({isActive})=>`${isActive ? setHighlightIndex(index) : ''} ${index===highlightIndex ? 'bg-black text-white font-bold rounded-lg':''}`}>
             <ListItemButton sx={{width:200}}>
-              <ListItemIcon>
+              <ListItemIcon sx={{color:`${index===highlightIndex ? 'white' :''} `}} >
                 {item.icon}
               </ListItemIcon>
-              <ListItemText primary={item.name} />
+
+              <h1 className='p-1'>{item.name}</h1>
             </ListItemButton>
-          </Link>
+          </NavLink>
         )}
           {authCtx.isLoggedIn &&
             <ListItemButton sx={{width:200}}>

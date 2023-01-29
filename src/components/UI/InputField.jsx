@@ -11,7 +11,9 @@ const InputField = ({
   rowWise,
   inputClass,
   labelClass,
-  className
+  className,
+  min,
+
 }) => {
 
   const [passVisibility,setPassVisibility]=useState(false);
@@ -35,6 +37,7 @@ const showPass=()=>{
           type={type!=='password' || type===undefined ? type : type==='password' && passVisibility ? 'text' : 'password'}
           id={uni}
           name={uni}
+          min={min}
         ></Field>
        {type==='password' && passVisibility && <FontAwesomeIcon onClick={()=>hidePass()} className="p-1 cursor-pointer" icon={faEye} size='lg' color="black"/>}
        {type==='password' && !passVisibility && <FontAwesomeIcon onClick={()=>showPass()} className="p-1 cursor-pointer" icon={faEyeSlash} size='lg' color="black"/>}

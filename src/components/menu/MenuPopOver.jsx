@@ -32,7 +32,7 @@ export default function MenuPopOver() {
   return (
     <div>
       <Button variant='text' sx={{color:'black'}} onClick={handleClick}>
-      <div className="flex justify-center items-center px-2 space-x-2 "><PersonIcon fontSize='small'/><span className="font-bold  smrev:hidden">Accounts</span></div>
+      <div className="flex justify-center items-center  space-x-2 "><PersonIcon sx={{':hover':{color:'#D61355'}}} fontSize='small'/><span className="font-bold  smrev:hidden"></span></div>
       </Button>
       <Popover
         id={id}

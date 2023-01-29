@@ -115,7 +115,7 @@ export default function MainDrawer() {
 
   return (
     <div className="text-white">
-    <div className="bg-black py-[5px] border-b-2 px-20 smrev:px-2 border-b-white flex justify-between">
+    <div className="bg-black py-[5px] border-b-2  px-2 border-b-white flex justify-between">
       <p>Hassle free returns within a week</p>
       <div className="space-x-2">
         <InstagramIcon fontSize="small"/>
@@ -123,12 +123,12 @@ export default function MainDrawer() {
         <WhatsAppIcon fontSize="small"/>
       </div>
     </div>
-    <div className="w-[100%]  bg-white text-black  px-20 py-4 smrev:px-2 flex  justify-between items-center m-auto">
-      <div className="text-xl font-semibold">Zerox Store</div>
-      <div className="flex space-x-4 smrev:space-x-1 items-center">
+    <div className="w-[100%]  bg-white text-black   py-4 px-2 flex  justify-between items-center m-auto">
+      <Link to={ALL_LINKS.HomePage.pageLink} className="text-xl font-semibold">Zerox Store</Link>
+      <div className="flex space-x-1 items-center">
         <MenuPopOver/>
         <Button variant='text' sx={{color:'black'}}>
-      <div className="flex justify-center items-center px-2 space-x-2 "><ShoppingCartIcon fontSize='small'/><span className="font-bold  smrev:hidden">CART</span></div>
+      <div className="flex justify-center items-center  space-x-2 "><ShoppingCartIcon sx={{':hover':{color:'#D61355'}}} fontSize='small'/><span className="font-bold  smrev:hidden"></span></div>
       </Button>
 
       {["left"].map((anchor) => (
