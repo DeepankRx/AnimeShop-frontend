@@ -13,7 +13,8 @@ const InputField = ({
   labelClass,
   className,
   min,
-
+  fieldRequired,
+  as
 }) => {
 
   const [passVisibility,setPassVisibility]=useState(false);
@@ -28,7 +29,7 @@ const showPass=()=>{
   return (
     <div className={className}>
         <label className=" text-slate-600 col-span-1 flex items-center" htmlFor={uni}>
-          {labelName}
+          {labelName} {fieldRequired && <span className="text-red-500 ">*</span>}
         </label>
         <div className={`flex items-center space-x-2   rounded-lg bg-blue-100`}>
         <Field
@@ -37,6 +38,7 @@ const showPass=()=>{
           type={type!=='password' || type===undefined ? type : type==='password' && passVisibility ? 'text' : 'password'}
           id={uni}
           name={uni}
+          as={as}
           min={min}
         ></Field>
        {type==='password' && passVisibility && <FontAwesomeIcon onClick={()=>hidePass()} className="p-1 cursor-pointer" icon={faEye} size='lg' color="black"/>}

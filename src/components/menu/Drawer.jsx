@@ -127,13 +127,14 @@ export default function MainDrawer() {
       <Link to={ALL_LINKS.HomePage.pageLink} className="text-xl font-semibold">Zerox Store</Link>
       <div className="flex space-x-1 items-center">
         <MenuPopOver/>
+        {authCtx.role!=='seller' &&
         <Button variant='text' sx={{color:'black'}}>
       <div className="flex justify-center items-center  space-x-2 "><ShoppingCartIcon sx={{':hover':{color:'#D61355'}}} fontSize='small'/><span className="font-bold  smrev:hidden"></span></div>
       </Button>
-
+}
       {["left"].map((anchor) => (
         <React.Fragment key={anchor}>
-          <div className="hover:cursor-pointer bg-black rounded-full p-2" onClick={toggleDrawer(anchor, true)}><MenuIcon sx={{color:'white'}}  fontSize='medium'/></div>
+          <div className={`hover:cursor-pointer bg-black rounded-full p-2 ${authCtx.role==='seller' ?  'md:hidden' :''}`} onClick={toggleDrawer(anchor, true)}><MenuIcon sx={{color:'white'}}  fontSize='medium'/></div>
           <Drawer
             anchor={anchor}
             open={state[anchor]}
@@ -143,6 +144,7 @@ export default function MainDrawer() {
           </Drawer>
         </React.Fragment>
       ))}
+  
       </div>
     </div>
     </div>

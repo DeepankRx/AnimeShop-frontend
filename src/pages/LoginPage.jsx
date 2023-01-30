@@ -31,7 +31,7 @@ const LoginPage = () => {
     login(values)
     .then((res)=>{
       const data=res.data.data;
-      authCtx.login(data.token,data.id,'customer');
+      authCtx.login(data.token,data.id,'seller');
       getUserProfile(data.id)
       .then(res=>{
         console.log(res.data.data)
