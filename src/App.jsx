@@ -21,7 +21,6 @@ const App = () => {
     ALL_LINKS.ProductsPage,
     ALL_LINKS.Category,
     ALL_LINKS.Product,
-    ALL_LINKS.SellerProducts,
     ALL_LINKS.Dashboard,
   ]
   const [loading, setLoading] = useState(true);
@@ -58,7 +57,6 @@ const App = () => {
                   <Route
                     key={i}
                     path={item.pageLink}
-                    exact
                     element={
                       authCtx.isLoggedIn ? (
                         <item.view />
@@ -71,7 +69,6 @@ const App = () => {
                   <Route
                     key={i}
                     path={item.pageLink}
-                    exact
                     element={<item.view />}
                   />
                 ));

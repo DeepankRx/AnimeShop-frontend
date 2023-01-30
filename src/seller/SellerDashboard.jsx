@@ -1,50 +1,94 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react';
-import  InventoryIcon from '@mui/icons-material/Inventory';
-
+import { Box } from '@mui/system'
+import React from 'react'
+import { NavLink, Route, Routes } from 'react-router-dom'
+import { assets } from '../assets'
+import LeftPane from '../components/menu/LeftPane'
+import { ALL_LINKS, SELLER_LINKS } from '../constant'
+import DashboardIcon  from "@mui/icons-material/Dashboard";
+import LogoutIcon  from "@mui/icons-material/Logout";
+import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
+import { useSelector } from 'react-redux'
+import { List, ListItemButton, ListItemIcon } from '@mui/material'
+import { useState } from 'react'
+import AddIcon from '@mui/icons-material/Add';
 const SellerDashboard = () => {
 
-  const BoxWrapper=({children,className})=>{
-    return(
-      <div className={`col-span-1 border-2 flex border-slate-300 p-2 rounded-lg hover:cursor-pointer  ${className}`}>
-        {children}
-      </div>
-    )
-  }
+  const user=useSelector(state=>state.user.user)
+
+  const [highlightIndex,setHighlightIndex]=useState(-1)
+
+  const PAGES=[
+    SELLER_LINKS.SellerDashboardDefault,
+    SELLER_LINKS.AddProduct,
+    SELLER_LINKS.SellerProducts,
+  ];
+
+  const menu=[
+    {
+      name:'Dashboard',
+      pageLink:SELLER_LINKS.SellerDashboardDefault.pageLink,
+      icon:<DashboardIcon/>,
+      showAlways:false
+    },
+    {
+      name:'My Products',
+      pageLink:SELLER_LINKS.SellerProducts.pageLink,
+      icon:<ProductionQuantityLimitsIcon/>,
+      showAlways:false
+    },
+    {
+      name:'Add Product',
+      pageLink:SELLER_LINKS.AddProduct.pageLink,
+      icon:<AddIcon/>,
+      showAlways:false
+    },
+  ]
+
+
+
   return (
-    <div className='w-[90%] mx-auto  px-20 py-8  lgrev:w-[100%]  lgrev:p-4 '>
-      <h1 className='text-3xl font-bold'>Your Account</h1>
-      <h1 className='text-lg'>Hello Himanshu Chauhan</h1>
-      <div className='grid grid-cols-3 gap-4 my-8 mdrev:grid-cols-1'>
-        <BoxWrapper className='h-[120px]  border-pink-500  hover:bg-pink-100'>
-          <div className='flex items-center'>
-          <div className='mr-4'>
-          <InventoryIcon sx={{fontSize:60}}  />
-          </div>
-          <div className=''>
-            <h1 className='text-xl font-semibold'>Your Products</h1>
-            <h1 className='text-base'>Add , Delete , Update Products</h1>
-          </div>
-          </div>
-        </BoxWrapper>
-        <BoxWrapper className='h-[120px] border-green-500 hover:bg-green-100'/>
-        <BoxWrapper className='h-[120px] border-yellow-500 hover:bg-yellow-100'/>
-        <BoxWrapper className='h-[120px] border-red-500 hover:bg-red-100'/>
-        <BoxWrapper className='h-[120px] border-blue-500 hover:bg-blue-100'/>
-        <BoxWrapper className='h-[120px] border-teal-500 hover:bg-teal-100'/>
+    <div className='flex flex-row h-[calc(100vh_-_110px)] bg-background p-4 gap-4'>
+
+    <div className='min-w-[300px]  h-[calc(100vh_-_142px)] smrev:hidden bg-white rounded-2xl'> 
+    <div className='flex flex-col items-center my-8'>
+        <div className='bg-green-100 w-28 h-28  rounded-full relative overflow-hidden shadow-lg'>
+          <img src={assets.person} className='object-fit'/>
+        </div>
+        <h1 className='font-bold  mt-4'>{`${user.firstName} ${user.lastName}`}</h1>
+        <h1 className='font-semibold'>{`${user.mobileNo}`}</h1>
       </div>
 
-      <div className='border-[1px] border-black'/>
+      <List className='flex flex-col items-center gap-2'>
+        {menu.map((item, index) => 
+          <NavLink exact={true} to={item.pageLink} key={index} className={({isActive})=>`${isActive ? setHighlightIndex(index) : ''} ${index===highlightIndex ? 'bg-black text-white font-bold rounded-lg':''}`}>
+            <ListItemButton sx={{width:200}}>
+              <ListItemIcon sx={{color:`${index===highlightIndex ? 'white' :''} `}} >
+                {item.icon}
+              </ListItemIcon>
 
-      <div className='grid grid-cols-3 gap-4 my-8 mdrev:grid-cols-1'>
-        <BoxWrapper className='h-[300px]'/>
-        <BoxWrapper className='h-[300px]'/>
-        <BoxWrapper className='h-[300px]'/>
-        <BoxWrapper className='h-[300px]'/>
-        <BoxWrapper className='h-[300px]'/>
-        <BoxWrapper className='h-[300px]'/>
-      </div>
+              <h1 className='p-1'>{item.name}</h1>
+            </ListItemButton>
+          </NavLink>
+        )}
+
+            <ListItemButton sx={{width:200}}>
+              <ListItemIcon>
+                <LogoutIcon/>
+              </ListItemIcon>
+              <h1 className='p-1'>Logout</h1>
+            </ListItemButton>
+
+      </List>
+      
+     </div>
+     
+     <Routes>
+     {PAGES.map((item,i)=>(
+        <Route path={item.pageLink}  element={<item.view/>} />
+     ))}
+     </Routes>
     </div>
+    // </div>
   )
 }
 

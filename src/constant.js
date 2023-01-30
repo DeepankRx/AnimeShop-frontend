@@ -8,7 +8,10 @@ const SignupPage = lazy(() => import("./pages/SignupPage"));
 const CategoryPage = lazy(() => import("./pages/CategoryPage"));
 const ProductPage = lazy(() => import("./pages/ProductPage"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
-const SellerProducts = lazy(() => import("./pages/SellerProducts"));
+const SellerProductsInternal = lazy(() => import("./seller/SellerProductsInternal"));
+const AddProduct = lazy(() => import("./seller/AddProduct"));
+const SellerDashboardDefault = lazy(() => import("./seller/SellerDashboardDefault"));
+
 
 export const ALL_LINKS = {
   LoginPage: {
@@ -42,16 +45,31 @@ export const ALL_LINKS = {
     loginRequire: false,
   },
   Dashboard: {
-    pageLink: "/dashboard",
+    pageLink: "/dashboard/*",
     view: Dashboard,
     loginRequire: true,
   },
-  SellerProducts: {
-    pageLink: "/dashboard/my_products",
-    view: SellerProducts,
+
+};
+
+export const SELLER_LINKS={
+  
+  SellerDashboardDefault: {
+    pageLink: "",
+    view: SellerDashboardDefault,
     loginRequire: true,
   },
-};
+  SellerProducts: {
+    pageLink: "my_products",
+    view: SellerProductsInternal,
+    loginRequire: true,
+  },
+  AddProduct: {
+    pageLink: "add_product",
+    view: AddProduct,
+    loginRequire: true,
+  },
+}
 
 export const DATA = {
   site_name: "ZEROX",
