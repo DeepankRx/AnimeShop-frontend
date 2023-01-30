@@ -7,6 +7,8 @@ const BASE_URL={
   productApi : '/api/product',
 }
 
+const TOP_PRODUCTS_LIMIT=4;
+
 const userModule={
   signup:BASE_URL.userApi+'/signup',
   login:BASE_URL.userApi+'/login',
@@ -20,7 +22,7 @@ const userModule={
   getProductByCategory:BASE_URL.productApi+'/getByCategory/',
   productGroupBySubCategory:BASE_URL.productApi+'/product-by-sub-category/',
   allProductGroupBySubCategory:BASE_URL.productApi+'/all-product-by-sub-category',
-  getTopProducts:BASE_URL.productApi+'/top-products',
+  getTopProducts:BASE_URL.productApi+`/top-products/?limit=${TOP_PRODUCTS_LIMIT}`,
   getCategories:BASE_URL.productApi+'/categories',
 }
 

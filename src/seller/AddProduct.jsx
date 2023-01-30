@@ -12,7 +12,8 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { Button } from "@mui/material";
 import React from "react";
-
+import {toast} from 'react-toastify';
+import { createProduct } from '../services/APIs';
 const AddProduct = () => {
 
 
@@ -23,13 +24,28 @@ const AddProduct = () => {
     subCategories:[''],
     description:[''],
     hashtags:[''],
-
+    price:'',
     variations:[{size:'',countInStock:''}],
   }
 
   const onSubmit=(values)=>{
-    console.log(values)
-
+      const formData=new FormData();
+      formData.append('name',values.name);
+      formData.append('brand',values.brand);
+      formData.append('category',values.category);
+      formData.append('subCategories',JSON.stringify(values.subCategories));
+      formData.append('descriptions',JSON.stringify(values.description));
+      formData.append('hashtags',JSON.stringify(values.hashtags));
+      formData.append('variants',JSON.stringify(values.variations));
+      formData.append('price',values.price);
+      image.forEach((img)=>formData.append('images',img));
+      createProduct(formData).then((res)=>{
+        toast.success('Product added successfully');
+      }
+      ).catch((err)=>{
+        toast.error(err.message);
+      }
+      )
   }
 
   const validationSchema=Yup.object({
@@ -39,6 +55,7 @@ const AddProduct = () => {
     brand:Yup.string().required('Required'),
     variations:Yup.array().of(Yup.object({size:Yup.string().required('Required'),countInStock:Yup.number().required('Required').min(0,'Min value should be 0')})),
     description:Yup.array(Yup.string().required('Required')),
+    price:Yup.number().required('Required').min(0,'Min value should be 0'),
   })
 
   const [image,setImage]=useState([]);
@@ -64,6 +81,7 @@ const AddProduct = () => {
                     <FormWrapper>
                     <InputField labelName='Product Name' uni='name' placeholder='Shirt' fieldRequired={true} />
                     <InputField labelName='Brand' uni='brand' placeholder='Zerox' fieldRequired={true} />
+                    <InputField labelName='Price' uni='price'  type={'number'} placeholder='1000' fieldRequired={true} />
                     <InputField labelName='Category' uni='category' placeholder='Fashion' fieldRequired={true}/>
 
                     </FormWrapper>
@@ -111,13 +129,13 @@ const AddProduct = () => {
                                 <div className='w-[100%]'>
                                 <Button className='' onClick={()=>push('')} variant='contained'>Add Variation</Button>
                                 </div>
-                                    
+
                                 </>
                             )
                         }}
                     </FieldArray>
                     </FormWrapper>
-                    
+
                     <Gap>Description</Gap>
                     <FormWrapper>
                       <FieldArray name='description'>
