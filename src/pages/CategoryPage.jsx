@@ -361,7 +361,7 @@ const CategoryPage = () => {
 
           <div className="w-[80%] mdrev:w-[100%] flex flex-col gap-2">
             <div className="flex justify-between">
-              <p className="text-xl ">{products.size} products</p>
+              <p className="text-xl ">{products.length} products</p>
               <div className="flex justify-center items-center">
                 <div className="border-r-2 border-r-gray-500 px-2">
                   Best Selling
