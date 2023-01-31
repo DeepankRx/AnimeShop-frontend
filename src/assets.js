@@ -8,6 +8,7 @@ import anime_bg_1 from './images/anime_bg_1.png'
 import anime_bg_2 from './images/anime_bg_2.png'
 import anime_bg_3 from './images/anime_bg_3.png'
 import person from './images/person.jpg'
+import art_01 from './images/art_01.webp'
 export const assets={
     bg_01,
     hero_1,
@@ -18,5 +19,6 @@ export const assets={
     anime_bg_1,
     anime_bg_2,
     anime_bg_3,
-    person
+    person,
+    art_01
 }

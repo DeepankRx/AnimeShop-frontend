@@ -9,6 +9,7 @@ import { Checkbox, FormControlLabel, FormGroup, Slider } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { getProducts } from '../services/APIs';
+import SearchIcon from '@mui/icons-material/Search';
 const CategoryPage = () => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
@@ -83,15 +84,22 @@ const CategoryPage = () => {
 
   //Collapsable States
   const [collapsableMenu, setCollapsableMenu] = useState({
-    productsType: true,
-    brand: true,
+    productsType: false,
+    brand: false,
   });
 
   return (
     <div className="bg-stone-100">
-      <div className=" mdrev:p-4 ">
-        <div className="text-4xl py-8 border-b-2 border-gray-200 px-20 mdrev:p-4">
-          Limited Editions
+        <div className="text-4xl  border-b-2  h-[320px] overflow-hidden bg-[#27203b] mdrev:h-[160px] relative">
+        <img src={assets.art_01} className='w-[200%] h-[200%]  object-contain' />
+        <div className='absolute top-0 flex flex-col justify-center items-center h-[100%]  text-white w-[100%] '>
+        <h1 className='text-4xl font-bold'>Limited Editions</h1>
+        <h1 className='text-xl font-bold text-center'>The Ultimate Collection !</h1>
+        </div>
+        </div>
+        <div className='p-3 flex justify-center items-center translate-y-[-32px] bg-white rounded-xl shadow-xl w-[50%] m-auto smrev:w-[80%]  '>
+          <SearchIcon className='mx-1' fontSize='large' color='primary'/>
+          <input placeholder='Search' className='appearance-none  w-[100%] !outline-none  ' type='text' name='search'></input>
         </div>
 
         <div className="px-20 py-8 lgrev:p-4 flex mdrev:flex-col gap-4">
@@ -248,7 +256,7 @@ const CategoryPage = () => {
                 >
                   <FontAwesomeIcon
                     icon={
-                      collapsableMenu.productsType ? faCaretUp : faCaretDown
+                      collapsableMenu.brand ? faCaretUp : faCaretDown
                     }
                   />
                 </div>
@@ -413,7 +421,7 @@ const CategoryPage = () => {
             </div>
           </div>
         </div>
-      </div>
+
     </div>
   );
 };

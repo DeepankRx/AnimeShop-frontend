@@ -8,7 +8,7 @@ const SignupPage = lazy(() => import("./pages/SignupPage"));
 const CategoryPage = lazy(() => import("./pages/CategoryPage"));
 const ProductPage = lazy(() => import("./pages/ProductPage"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
-const SellerProductsInternal = lazy(() => import("./seller/SellerProductsInternal"));
+const SellerProducts = lazy(() => import("./seller/SellerProducts"));
 const AddProduct = lazy(() => import("./seller/AddProduct"));
 const SellerDashboardDefault = lazy(() => import("./seller/SellerDashboardDefault"));
 
@@ -61,7 +61,7 @@ export const SELLER_LINKS={
   },
   SellerProducts: {
     pageLink: "my_products",
-    view: SellerProductsInternal,
+    view: SellerProducts,
     loginRequire: true,
   },
   AddProduct: {

@@ -14,8 +14,10 @@ import { Button } from "@mui/material";
 import React from "react";
 import {toast} from 'react-toastify';
 import { createProduct } from '../services/APIs';
+import { useNavigate } from 'react-router-dom';
+import { SELLER_LINKS } from '../constant';
 const AddProduct = () => {
-
+  const navigate=useNavigate();
 
   const initialValues={
     name:'',
@@ -28,7 +30,7 @@ const AddProduct = () => {
     variations:[{size:'',countInStock:''}],
   }
 
-  const onSubmit=(values)=>{
+  const onSubmit=(values,{resetForm})=>{
       const formData=new FormData();
       formData.append('name',values.name);
       formData.append('brand',values.brand);
@@ -41,6 +43,8 @@ const AddProduct = () => {
       image.forEach((img)=>formData.append('images',img));
       createProduct(formData).then((res)=>{
         toast.success('Product added successfully');
+        resetForm({values:''});
+        navigate('/dashboard/'+SELLER_LINKS.SellerProducts.pageLink)
       }
       ).catch((err)=>{
         toast.error(err.message);
@@ -82,7 +86,6 @@ const AddProduct = () => {
                     <InputField labelName='Product Name' uni='name' placeholder='Shirt' fieldRequired={true} />
                     <InputField labelName='Brand' uni='brand' placeholder='Zerox' fieldRequired={true} />
                     <InputField labelName='Price' uni='price'  type={'number'} placeholder='1000' fieldRequired={true} />
-
                     <InputField labelName='Category' uni='category' placeholder='Fashion' fieldRequired={true}/>
 
                     </FormWrapper>
@@ -96,12 +99,12 @@ const AddProduct = () => {
                           return(
                           <>
                           {subCategories.map((item,index)=>(
-                          <div className='col-span-1' key={index} >
+                          <div className='relative col-span-1' key={index} >
                           <InputField  fieldRequired={true} labelName='Sub Category' uni={`subCategories.${index}`} placeholder='Men Shirt'/>
                           {index>0 && <IconButton onClick={()=>remove(index)}  sx={{position:'absolute',top:8,right:-12}}  aria-label="delete" size="small"><CancelIcon /></IconButton>}
                           </div>
                           ))}
-                          <div className='w-[100%]'>
+                          <div className='col-span-full'>
                             <Button className='' onClick={()=>push('')} variant='contained'>Add Sub Category</Button>
                           </div>
                           </>
@@ -127,7 +130,7 @@ const AddProduct = () => {
                                     {index>0 && <IconButton onClick={()=>remove(index)}  sx={{position:'absolute',top:8,right:-12}}  aria-label="delete" size="small"><CancelIcon /></IconButton>}
                                     </div>
                                 ))}
-                                <div className='w-[100%]'>
+                                <div className='col-span-full'>
                                 <Button className='' onClick={()=>push('')} variant='contained'>Add Variation</Button>
                                 </div>
 
@@ -152,7 +155,7 @@ const AddProduct = () => {
                           {index>0 && <IconButton onClick={()=>remove(index)}  sx={{position:'absolute',top:8,right:-12}}  aria-label="delete" size="small"><CancelIcon /></IconButton>}
                           </div>
                           ))}
-                          <div className='w-[100%] '>
+                          <div className='col-span-full '>
                             <Button className='' onClick={()=>push('')} variant='contained'>Add Description</Button>
                             </div>
                           </>
@@ -176,7 +179,7 @@ const AddProduct = () => {
                           {index>0 && <IconButton onClick={()=>remove(index)}  sx={{position:'absolute',top:8,right:-12}}  aria-label="delete" size="small"><CancelIcon /></IconButton>}
                           </div>
                           ))}
-                            <div className='w-[100%]'>
+                            <div className='col-span-full'>
                             <Button className='' onClick={()=>push('')} variant='contained'>Add Hashtag</Button>
                             </div>
                           </>

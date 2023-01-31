@@ -5,7 +5,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 import { ALL_LINKS, SELLER_LINKS } from "../constant";
 
-const SellerProductsInternal = () => {
+const SellerProducts = () => {
   const TableRow = () => {
     return (
       <tr class="bg-white border-b ">
@@ -33,7 +33,7 @@ const SellerProductsInternal = () => {
     <>
       <div className="absolute right-8 bottom-8 z-10">
         <Link
-          to={SELLER_LINKS.AddProduct.pageLink}
+          to={'/dashboard/'+SELLER_LINKS.AddProduct.pageLink}
           className="bg-black w-12 h-12 flex justify-center items-center rounded-full cursor-pointer "
         >
           <AddIcon fontSize="large" sx={{ color: "white" }} />
@@ -68,4 +68,4 @@ const SellerProductsInternal = () => {
   );
 };
 
-export default SellerProductsInternal;
+export default SellerProducts;
