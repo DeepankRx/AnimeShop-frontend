@@ -7,11 +7,22 @@ import HeroSection from '../components/UI/HeroSection'
 import styles from '../styles/css/backgrounds.module.css'
 import parallex from '../styles/css/parallex.module.css'
 const HomePage = () => {
-  const Testimonial=()=>{
+  const testimonial = [
+    {
+      tagline :'We offer a wide selection of anime merchandise from popular shows like Naruto, Dragon Ball, and Death Note.'
+    },
+    {
+      tagline : 'Our merchandise is made with premium materials and designed to last for years. We also offer a wide selection of anime figures.'
+    },
+    {
+      tagline : 'We offer competitive prices and excellent customer service to ensure our customers have the best shopping experience.'
+    }
+  ]
+  const Testimonial=({tagline})=>{
     return (
       <div className=' flex justify-center flex-col py-4 px-10'>
         <FontAwesomeIcon icon={faTag} size='5x' className='text-secondary'/>
-        <p className='text-lg font-semibold text-center'>Lorem ipsum dolor sit amet consectetur adipis elit. Placeat, optio!</p>
+        <p className='text-lg font-semibold text-center'>{tagline}</p>
       </div>
     )
   }
@@ -20,9 +31,13 @@ const HomePage = () => {
     <HeroSection/>
     <Categories/>
     <div className={`grid grid-cols-3 mdrev:grid-cols-1 px-20 py-20  items-center smrev:p-6`}>
-      <Testimonial/>
-      <Testimonial/>
-      <Testimonial/>
+     {
+        testimonial.map((item,i)=>{
+          return (
+            <Testimonial key={i} tagline={item.tagline}/>
+          )
+        })
+     }
     </div>
 
     <div className='grid grid-cols-2 mdrev:grid-cols-1 px-20 py-8 mdrev:p-4 gap-4'>
