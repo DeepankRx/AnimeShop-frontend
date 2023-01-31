@@ -51,7 +51,7 @@ const SellerDashboard = () => {
 
 
   return (
-    <div className='flex flex-row h-[calc(100vh_-_110px)] mdrev:h-[200px] bg-background p-4 gap-4'>
+    <div className='flex flex-row md:h-[calc(100vh_-_110px)]  bg-background p-4 gap-4'>
 
     <div className='min-w-[300px]  h-[calc(100vh_-_142px)] mdrev:hidden bg-white rounded-2xl'> 
     <div className='flex flex-col items-center my-8'>

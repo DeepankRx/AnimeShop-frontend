@@ -11,7 +11,7 @@ const SellerDashboardDefault = () => {
         )
       }
     
-      const TopSeller=()=>{
+      const TopCustomer=()=>{
         return(
           <div className='flex justify-between items-center bg-yellow-500 p-2 rounded-xl shadow-lg'>
           <div className='w-12 h-12 overflow-hidden rounded-full'><img src={assets.person}/></div>
@@ -47,15 +47,18 @@ const SellerDashboardDefault = () => {
 
   </div>
 
-  <div className='w-[40%]  p-4 space-y-4 lgrev:w-[100%] bg-white rounded-2xl'>
+  <div className='w-[40%]  p-4 space-y-4 lgrev:w-[100%] bg-white rounded-2xl '>
     <div className='rounded-lg h-[200px] shadow-lg'></div>
 
     <h1 className='text-2xl'>Top Customers</h1>
-    <div className='flex flex-col gap-4 '>
-      <TopSeller/>
-      <TopSeller/>
-      <TopSeller/>
-      <TopSeller/>
+    <div className=''>
+    <div className='flex flex-col gap-4 overflow-y-auto  '>
+      <TopCustomer/>
+      <TopCustomer/>
+      <TopCustomer/>
+      <TopCustomer/>
+
+    </div>
     </div>
 
   </div>

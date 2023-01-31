@@ -134,7 +134,7 @@ export default function MainDrawer() {
 }
       {["left"].map((anchor) => (
         <React.Fragment key={anchor}>
-          <div className={`hover:cursor-pointer bg-black rounded-full p-2 ${authCtx.role==='seller' ?  'md:hidden' :''}`} onClick={toggleDrawer(anchor, true)}><MenuIcon sx={{color:'white'}}  fontSize='medium'/></div>
+          <div className={`hover:cursor-pointer bg-black rounded-full p-2 ${authCtx.role==='seller' ?  '' :''}`} onClick={toggleDrawer(anchor, true)}><MenuIcon sx={{color:'white'}}  fontSize='medium'/></div>
           <Drawer
             anchor={anchor}
             open={state[anchor]}

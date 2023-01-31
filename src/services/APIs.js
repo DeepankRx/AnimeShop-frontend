@@ -1,10 +1,11 @@
 import http from './http_service';
 
+const BASE_MAIN_URL='https://anime-shop-9r2x.vercel.app'
 
 const BASE_URL={
-  userApi : '/api/user',
-  addressApi : '/api/address',
-  productApi : '/api/product',
+  userApi :BASE_MAIN_URL+ '/api/user',
+  addressApi :BASE_MAIN_URL+ '/api/address',
+  productApi :BASE_MAIN_URL+ '/api/product',
 }
 
 const TOP_PRODUCTS_LIMIT=4;
