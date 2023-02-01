@@ -35,9 +35,9 @@ const AddProduct = () => {
       formData.append('name',values.name);
       formData.append('brand',values.brand);
       formData.append('category',values.category);
-      formData.append('subCategories',JSON.stringify(values.subCategories));
-      formData.append('descriptions',JSON.stringify(values.description));
-      formData.append('hashtags',JSON.stringify(values.hashtags));
+     values.subCategories.forEach((sub)=>formData.append('subCategories',sub));
+     values.hashtags.forEach((hashtag)=>formData.append('hashtags',hashtag));
+     values.description.forEach((desc)=>formData.append('descriptions',desc));
       formData.append('variants',JSON.stringify(values.variations));
       formData.append('price',values.price);
       image.forEach((img)=>formData.append('images',img));

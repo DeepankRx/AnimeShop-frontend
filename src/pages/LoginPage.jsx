@@ -13,8 +13,8 @@ import { useDispatch } from 'react-redux'
 import { userActions } from '../store/userSlice'
 const LoginPage = () => {
 
-  
-  
+
+
   const dispatch=useDispatch();
   const navigate=useNavigate();
   const authCtx=useContext(AuthContext);
@@ -22,7 +22,7 @@ const LoginPage = () => {
     email:'',
     password:''
   }
-  
+
   useEffect(() => {
     if(authCtx.isLoggedIn)navigate(ALL_LINKS.HomePage.pageLink)
     }, [authCtx.isLoggedIn]);
