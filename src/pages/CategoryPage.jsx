@@ -89,7 +89,7 @@ const CategoryPage = () => {
   });
 
   return (
-    <div className="bg-stone-100">
+    <div className="bg-light">
         <div className="text-4xl  border-b-2  h-[320px] overflow-hidden bg-[#27203b] mdrev:h-[160px] relative">
         <img src={assets.art_01} className='w-[200%] h-[200%]  object-contain' />
         <div className='absolute top-0 flex flex-col justify-center items-center h-[100%]  text-white w-[100%] '>

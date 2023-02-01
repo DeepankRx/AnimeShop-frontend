@@ -4,7 +4,7 @@ import ProductDetailed from '../components/UI/ProductDetailed'
 
 const ProductPage = () => {
   const dataToSend={
-  pName:'test',
+  pName:'Zerox Brand Shirt',
   pImages:[assets.bg_01,assets.bg_02],
   pDescription:['test'],
   pID:'test',
