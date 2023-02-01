@@ -8,10 +8,12 @@ import { ALL_LINKS } from '../constant';
 import { Checkbox, FormControlLabel, FormGroup, Slider } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
-import { getProducts } from '../services/APIs';
+import { getProducts,getFilters } from '../services/APIs';
 import SearchIcon from '@mui/icons-material/Search';
 const CategoryPage = () => {
   const [products, setProducts] = useState([]);
+  const [productsType, setProductsType] = useState([]);
+  const [productsBrand, setProductsBrand] = useState([]);
   useEffect(() => {
     getProducts()
       .then((res) => {
@@ -20,6 +22,15 @@ const CategoryPage = () => {
       .catch((err) => {
         console.log(err);
       });
+    getFilters()
+      .then((res) => {
+        setProductsType(res.data.data.subCategories);
+        setProductsBrand(res.data.data.brands);
+      })
+      .catch((err) => {
+        console.log(err);
+      }
+      );
   }, []);
   const looks = [
     {
@@ -44,10 +55,13 @@ const CategoryPage = () => {
   ];
 
   const [currentLook, setCurrentLook] = useState(looks[0]);
+  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [search, setSearch] = useState('');
+  const ProductDetailLink = ALL_LINKS.Product.pageLink.substring(0,ALL_LINKS.Product.pageLink.length-3);
 
-  const Product = ({ image, name, brand, price }) => {
+  const Product = ({ image, name, brand, price,id }) => {
     return (
-      <Link to={ALL_LINKS.Product.pageLink}>
+      <Link to={`${ProductDetailLink}${id}`}>
         <div
           className={`cursor-pointer hover:scale-105 ease-linear duration-300 col-span-1 bg-white flex px-8 py-4 space-y-4 shadow-lg ${currentLook.product} `}
         >
@@ -87,7 +101,14 @@ const CategoryPage = () => {
     productsType: false,
     brand: false,
   });
+  // Search
+  useEffect(() => {
+    const filtered = products.filter((product) => {
+      return product.name.toLowerCase().includes(search.toLowerCase()) || product.brand.toLowerCase().includes(search.toLowerCase()) || product.hashtags.join(' ').toLowerCase().includes(search.toLowerCase())  || product.subCategories.join(' ').toLowerCase().includes(search.toLowerCase()) || product.category.toLowerCase().includes(search.toLowerCase()) || product.descriptions.join(' ').toLowerCase().includes(search.toLowerCase());
+    })
+    setFilteredProducts(filtered);
 
+  }, [search, products,value]);
   return (
     <div className="bg-light">
         <div className="text-4xl  border-b-2  h-[320px] overflow-hidden bg-[#27203b] mdrev:h-[160px] relative">
@@ -99,7 +120,12 @@ const CategoryPage = () => {
         </div>
         <div className='p-3 flex justify-center items-center translate-y-[-32px] bg-white rounded-xl shadow-xl w-[50%] m-auto smrev:w-[80%]  '>
           <SearchIcon className='mx-1' fontSize='large' color='primary'/>
-          <input placeholder='Search' className='appearance-none  w-[100%] !outline-none  ' type='text' name='search'></input>
+          <input placeholder='Search' className='appearance-none  w-[100%] !outline-none  ' type='text' name='search'
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+          }}
+          />
         </div>
 
         <div className="px-20 py-8 lgrev:p-4 flex mdrev:flex-col gap-4">
@@ -126,7 +152,7 @@ const CategoryPage = () => {
               </div>
               {collapsableMenu.productsType && (
                 <FormGroup>
-                  <FormControlLabel
+                  {/* <FormControlLabel
                     control={
                       <Checkbox
                         onChange={() =>
@@ -223,7 +249,27 @@ const CategoryPage = () => {
                       />
                     }
                     label="Shirt"
-                  />
+                  /> */}
+                  {
+                    productsType.map((item, index) => {
+                      return (
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              onChange={() =>
+                                setCheckboxValue({
+                                  ...checkboxValue,
+                                  shirt: !checkboxValue.shirt,
+                                })
+                              }
+                              value={checkboxValue.shirt}
+                            />
+                          }
+                          label={item}
+                        />
+                      )
+                    })
+                  }
                 </FormGroup>
               )}
             </div>
@@ -263,7 +309,7 @@ const CategoryPage = () => {
               </div>
               {collapsableMenu.brand && (
                 <FormGroup>
-                  <FormControlLabel
+                  {/* <FormControlLabel
                     control={
                       <Checkbox
                         onChange={() =>
@@ -360,7 +406,27 @@ const CategoryPage = () => {
                       />
                     }
                     label="Zerox"
-                  />
+                  /> */}
+                  {
+                    productsBrand.map((item, index) => {
+                      return (
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              onChange={() =>
+                                setCheckboxValue({
+                                  ...checkboxValue,
+                                  shirt: !checkboxValue.shirt,
+                                })
+                              }
+                              value={checkboxValue.shirt}
+                            />
+                          }
+                          label={item}
+                        />
+                      )
+                    })
+                  }
                 </FormGroup>
               )}
             </div>
@@ -403,7 +469,7 @@ const CategoryPage = () => {
               </div>
             </div>
             <div className={`gap-4  -cols-1 ${currentLook.productParent}`}>
-              {products.map((product, index) => {
+              {/* {products.map((product, index) => {
                 return (
                   <div
                     key={index}
@@ -414,10 +480,46 @@ const CategoryPage = () => {
                       name={product.name}
                       price={product.price}
                       brand={product.brand}
+                      id = {product._id}
                     />
                   </div>
                 );
-              })}
+              })} */}
+              {
+                filteredProducts.length > 0 ? filteredProducts.map((product, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className={`col-span-1 ${currentLook.productChild}`}
+                    >
+                      <Product
+                        image={product.images[0]}
+                        name={product.name}
+                        price={product.price}
+                        brand={product.brand}
+                        id = {product._id}
+                      />
+                    </div>
+                  );
+                }
+                ) : products.map((product, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className={`col-span-1 ${currentLook.productChild}`}
+                    >
+                      <Product
+                        image={product.images[0]}
+                        name={product.name}
+                        price={product.price}
+                        brand={product.brand}
+                        id = {product._id}
+                      />
+                    </div>
+                  );
+                }
+                )
+              }
             </div>
           </div>
         </div>

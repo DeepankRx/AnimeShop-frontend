@@ -40,7 +40,7 @@ export const ALL_LINKS = {
     loginRequire: false,
   },
   Product: {
-    pageLink: "/product",
+    pageLink: "/product/:id",
     view: ProductPage,
     loginRequire: false,
   },
@@ -53,7 +53,7 @@ export const ALL_LINKS = {
 };
 
 export const SELLER_LINKS={
-  
+
   SellerDashboardDefault: {
     pageLink: "",
     view: SellerDashboardDefault,

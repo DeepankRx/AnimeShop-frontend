@@ -25,6 +25,7 @@ const userModule={
   allProductGroupBySubCategory:BASE_URL.productApi+'/all-product-by-sub-category',
   getTopProducts:BASE_URL.productApi+`/top-products/?limit=${TOP_PRODUCTS_LIMIT}`,
   getCategories:BASE_URL.productApi+'/categories',
+  getFilters  :BASE_URL.productApi+'/filters',
 }
 
 let token='';
@@ -54,11 +55,19 @@ export function addAddress( address) {
 }
 
 export function createProduct(product) {
-  return http.post(userModule.createProduct, product);
+  return http.post(userModule.createProduct, product,{
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  });
 }
 
 export function updateProduct(id,product) {
-  return http.put(userModule.updateProduct + id, product);
+  return http.put(userModule.updateProduct + id, product,{
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  });
 }
 
 export function deleteProduct(id) {
@@ -92,3 +101,13 @@ export function getTopProducts() {
 export function getCategories() {
   return http.get(userModule.getCategories);
 }
+
+export function getFilters() {
+  return http.get(userModule.getFilters);
+}
+
+export function getAProductFromEachCategory() {
+  return http.get(userModule.getAProductFromEachCategory);
+}
+
+
