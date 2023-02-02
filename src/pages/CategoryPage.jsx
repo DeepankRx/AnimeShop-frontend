@@ -20,6 +20,7 @@ const CategoryPage = () => {
     getProducts()
       .then((res) => {
         setProducts(res.data.data);
+        setFilteredProducts(res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -106,8 +107,9 @@ const CategoryPage = () => {
 
   //Checkbox
   const [checkboxValue, setCheckboxValue] = useState({
-    shirt: false,
-  });
+    productsType: [],
+    brand: [],
+    });
 
   //Collapsable States
   const [collapsableMenu, setCollapsableMenu] = useState({
@@ -117,11 +119,69 @@ const CategoryPage = () => {
   // Search
   useEffect(() => {
     const filtered = products.filter((product) => {
-      return product.name.toLowerCase().includes(search.toLowerCase()) || product.brand.toLowerCase().includes(search.toLowerCase()) || product.hashtags.join(' ').toLowerCase().includes(search.toLowerCase())  || product.subCategories.join(' ').toLowerCase().includes(search.toLowerCase()) || product.category.toLowerCase().includes(search.toLowerCase()) || product.descriptions.join(' ').toLowerCase().includes(search.toLowerCase());
+      if (search.length > 0 && checkboxValue.productsType.length === 0 && checkboxValue.brand.length === 0) {
+        return (
+          product.name.toLowerCase().includes(search.toLowerCase()) ||
+          product.brand.toLowerCase().includes(search.toLowerCase()) ||
+          product.hashtags.join(' ').toLowerCase().includes(search.toLowerCase()) ||
+          product.subCategories.join(' ').toLowerCase().includes(search.toLowerCase()) ||
+          product.category.toLowerCase().includes(search.toLowerCase()) ||
+          product.descriptions.join(' ').toLowerCase().includes(search.toLowerCase())
+        );
+      }
+      if (search.length > 0 && checkboxValue.productsType.length > 0 && checkboxValue.brand.length === 0) {
+        return (
+          checkboxValue.productsType.includes(product.subCategories.join(' ')) &&
+          (product.name.toLowerCase().includes(search.toLowerCase()) ||
+            product.brand.toLowerCase().includes(search.toLowerCase()) ||
+            product.hashtags.join(' ').toLowerCase().includes(search.toLowerCase()) ||
+            product.subCategories.join(' ').toLowerCase().includes(search.toLowerCase()) ||
+            product.category.toLowerCase().includes(search.toLowerCase()) ||
+            product.descriptions.join(' ').toLowerCase().includes(search.toLowerCase()))
+        );
+      }
+      if (search.length > 0 && checkboxValue.productsType.length === 0 && checkboxValue.brand.length > 0) {
+        return (
+          checkboxValue.brand.includes(product.brand) &&
+          (product.name.toLowerCase().includes(search.toLowerCase()) ||
+            product.brand.toLowerCase().includes(search.toLowerCase()) ||
+            product.hashtags.join(' ').toLowerCase().includes(search.toLowerCase()) ||
+            product.subCategories.join(' ').toLowerCase().includes(search.toLowerCase()) ||
+            product.category.toLowerCase().includes(search.toLowerCase()) ||
+            product.descriptions.join(' ').toLowerCase().includes(search.toLowerCase()))
+        );
+      }
+      if (search.length > 0 && checkboxValue.productsType.length > 0 && checkboxValue.brand.length > 0) {
+        return (
+          checkboxValue.brand.includes(product.brand) &&
+          checkboxValue.productsType.includes(product.subCategories.join(' ')) &&
+          (product.name.toLowerCase().includes(search.toLowerCase()) ||
+            product.brand.toLowerCase().includes(search.toLowerCase()) ||
+            product.hashtags.join(' ').toLowerCase().includes(search.toLowerCase()) ||
+            product.subCategories.join(' ').toLowerCase().includes(search.toLowerCase()) ||
+            product.category.toLowerCase().includes(search.toLowerCase()) ||
+            product.descriptions.join(' ').toLowerCase().includes(search.toLowerCase()))
+        );
+      }
+      if(checkboxValue.productsType.length > 0 && checkboxValue.brand.length === 0){
+        return checkboxValue.productsType.includes(product.subCategories.join(' ')) && (product.price >= value[0] && product.price <= value[1])
+      }
+      if(checkboxValue.brand.length > 0 && checkboxValue.productsType.length === 0){
+        return checkboxValue.brand.includes(product.brand) && (product.price >= value[0] && product.price <= value[1])
+      }
+      if(checkboxValue.brand.length > 0 && checkboxValue.productsType.length > 0){
+        return checkboxValue.brand.includes(product.brand) && checkboxValue.productsType.includes(product.subCategories.join(' ')) && (product.price >= value[0] && product.price <= value[1])
+      }
+      if(checkboxValue.brand.length === 0 && checkboxValue.productsType.length === 0){
+        return (product.price >= value[0] && product.price <= value[1])
+      }
+      if(search.length === 0 && checkboxValue.brand.length === 0 && checkboxValue.productsType.length === 0){
+        return (product.price >= value[0] && product.price <= value[1])
+      }
     })
     setFilteredProducts(filtered);
 
-  }, [search, products,value]);
+  }, [search, products,value,checkboxValue]);
   return (
     <div className="bg-light">
         <div className="text-4xl  border-b-2  h-[320px] overflow-hidden bg-[#27203b] mdrev:h-[160px] relative">
@@ -165,114 +225,17 @@ const CategoryPage = () => {
               </div>
               {collapsableMenu.productsType && (
                 <FormGroup>
-                  {/* <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={() =>
-                          setCheckboxValue({
-                            ...checkboxValue,
-                            shirt: !checkboxValue.shirt,
-                          })
-                        }
-                        value={checkboxValue.shirt}
-                      />
-                    }
-                    label="Shirt"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={() =>
-                          setCheckboxValue({
-                            ...checkboxValue,
-                            shirt: !checkboxValue.shirt,
-                          })
-                        }
-                        value={checkboxValue.shirt}
-                      />
-                    }
-                    label="Shirt"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={() =>
-                          setCheckboxValue({
-                            ...checkboxValue,
-                            shirt: !checkboxValue.shirt,
-                          })
-                        }
-                        value={checkboxValue.shirt}
-                      />
-                    }
-                    label="Shirt"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={() =>
-                          setCheckboxValue({
-                            ...checkboxValue,
-                            shirt: !checkboxValue.shirt,
-                          })
-                        }
-                        value={checkboxValue.shirt}
-                      />
-                    }
-                    label="Shirt"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={() =>
-                          setCheckboxValue({
-                            ...checkboxValue,
-                            shirt: !checkboxValue.shirt,
-                          })
-                        }
-                        value={checkboxValue.shirt}
-                      />
-                    }
-                    label="Shirt"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={() =>
-                          setCheckboxValue({
-                            ...checkboxValue,
-                            shirt: !checkboxValue.shirt,
-                          })
-                        }
-                        value={checkboxValue.shirt}
-                      />
-                    }
-                    label="Shirt"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={() =>
-                          setCheckboxValue({
-                            ...checkboxValue,
-                            shirt: !checkboxValue.shirt,
-                          })
-                        }
-                        value={checkboxValue.shirt}
-                      />
-                    }
-                    label="Shirt"
-                  /> */}
                   {
                     productsType.map((item, index) => {
                       return (
                         <FormControlLabel
+                          key={index}
                           control={
                             <Checkbox
                               onChange={() =>
                                 setCheckboxValue({
                                   ...checkboxValue,
-                                  shirt: !checkboxValue.shirt,
+                                  productsType: checkboxValue.productsType.includes(item) ? checkboxValue.productsType.filter((i) => i !== item) : [...checkboxValue.productsType, item]
                                 })
                               }
                               value={checkboxValue.shirt}
@@ -322,114 +285,17 @@ const CategoryPage = () => {
               </div>
               {collapsableMenu.brand && (
                 <FormGroup>
-                  {/* <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={() =>
-                          setCheckboxValue({
-                            ...checkboxValue,
-                            shirt: !checkboxValue.shirt,
-                          })
-                        }
-                        value={checkboxValue.shirt}
-                      />
-                    }
-                    label="Zerox"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={() =>
-                          setCheckboxValue({
-                            ...checkboxValue,
-                            shirt: !checkboxValue.shirt,
-                          })
-                        }
-                        value={checkboxValue.shirt}
-                      />
-                    }
-                    label="Zerox"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={() =>
-                          setCheckboxValue({
-                            ...checkboxValue,
-                            shirt: !checkboxValue.shirt,
-                          })
-                        }
-                        value={checkboxValue.shirt}
-                      />
-                    }
-                    label="Zerox"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={() =>
-                          setCheckboxValue({
-                            ...checkboxValue,
-                            shirt: !checkboxValue.shirt,
-                          })
-                        }
-                        value={checkboxValue.shirt}
-                      />
-                    }
-                    label="Zerox"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={() =>
-                          setCheckboxValue({
-                            ...checkboxValue,
-                            shirt: !checkboxValue.shirt,
-                          })
-                        }
-                        value={checkboxValue.shirt}
-                      />
-                    }
-                    label="Zerox"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={() =>
-                          setCheckboxValue({
-                            ...checkboxValue,
-                            shirt: !checkboxValue.shirt,
-                          })
-                        }
-                        value={checkboxValue.shirt}
-                      />
-                    }
-                    label="Zerox"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={() =>
-                          setCheckboxValue({
-                            ...checkboxValue,
-                            shirt: !checkboxValue.shirt,
-                          })
-                        }
-                        value={checkboxValue.shirt}
-                      />
-                    }
-                    label="Zerox"
-                  /> */}
                   {
                     productsBrand.map((item, index) => {
                       return (
                         <FormControlLabel
+                        key={index}
                           control={
                             <Checkbox
                               onChange={() =>
                                 setCheckboxValue({
                                   ...checkboxValue,
-                                  shirt: !checkboxValue.shirt,
+                                  brand: checkboxValue.brand.includes(item) ? checkboxValue.brand.filter((i) => i !== item) : [...checkboxValue.brand, item]
                                 })
                               }
                               value={checkboxValue.shirt}
@@ -448,7 +314,7 @@ const CategoryPage = () => {
 
           <div className="w-[80%] mdrev:w-[100%] flex flex-col gap-2">
             <div className="flex justify-between">
-              <p className="text-xl ">{products.length} products</p>
+              <p className="text-xl ">{filteredProducts.length} products</p>
               <div className="flex justify-center items-center">
                 <div className="border-r-2 border-r-gray-500 px-2">
                   Best Selling
@@ -483,7 +349,7 @@ const CategoryPage = () => {
             </div>
             <div className={`gap-4  ${currentLook.productParent}`}>
               {
-                filteredProducts.length > 0 ? filteredProducts.map((product, index) => {
+                filteredProducts.length >0 ? filteredProducts.map((product, index) => {
                   return (
                     <div
                       key={index}
@@ -499,23 +365,11 @@ const CategoryPage = () => {
                     </div>
                   );
                 }
-                ) : products.map((product, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className={`col-span-1 ${currentLook.productChild}`}
-                    >
-                      <Product
-                        image={product.images[0]}
-                        name={product.name}
-                        price={product.price}
-                        brand={product.brand}
-                        id = {product._id}
-                      />
-                    </div>
-                  );
-                }
-                )
+                ) : <div className="text-2xl font-bold">
+<h1>No Products Found</h1>
+                </div>
+
+
               }
             </div>
           </div>

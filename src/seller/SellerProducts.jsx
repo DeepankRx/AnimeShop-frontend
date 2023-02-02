@@ -5,8 +5,9 @@ import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 import { ALL_LINKS, SELLER_LINKS } from "../constant";
 import { useEffect } from "react";
+import { deleteProduct } from "../services/APIs";
 import { useState } from "react";
-import { getProducts } from "../services/APIs";
+import { getSellerProducts } from "../services/APIs";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
@@ -17,48 +18,66 @@ import { useContext } from "react";
 import AuthContext from "../store/AuthContext";
 import Spinner from "../components/UI/Spinner";
 import CardPlaceHolderSkelton from "../components/skeltons/CardPlaceHolderSkelton";
-
 const SellerProducts = () => {
   const authCtx=useContext(AuthContext);
   const [products, setProducts] = useState([]);
   const [loading ,setLoading] =useState(true);
+  const [search,setSearch]=useState("");
+  const [filteredProducts,setFilteredProducts]=useState([]);
   useEffect(() => {
-    getProducts()
+    getSellerProducts(authCtx.userid)
       .then((res) => {
-        const data = res.data.data.filter((item)=>item.createdBy===authCtx.userid);
-        console.log(data)
-        setProducts(data);
+        setProducts(res.data.data);
+        setFilteredProducts(res.data.data);
         setLoading(false);
       })
       .catch((err) => {
         toast.error(err);
       });
   }, []);
+  //Search
+  useEffect(() => {
+    const filtered = products.filter((product) => {
+      return product.name.toLowerCase().includes(search.toLowerCase()) || product.brand.toLowerCase().includes(search.toLowerCase()) || product.hashtags.join(' ').toLowerCase().includes(search.toLowerCase())  || product.subCategories.join(' ').toLowerCase().includes(search.toLowerCase()) || product.category.toLowerCase().includes(search.toLowerCase()) || product.descriptions.join(' ').toLowerCase().includes(search.toLowerCase());
+    })
+    setFilteredProducts(filtered);
 
-  const TableRow = () => {
-    return (
-      <tr class="bg-white border-b ">
-        <th class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-          Apple MacBook Pro 17"
-        </th>
-        <td class="px-6 py-4">Sliver</td>
-        <td class="px-6 py-4">Laptop</td>
-        <td class="px-6 py-4">$2999</td>
-        <td class="px-6 py-4">
-          <a href="#" class="font-medium text-blue-600  hover:underline">
-            Edit
-          </a>
-        </td>
-        <td class="px-6 py-4">
-          <a href="#" class="font-medium text-blue-600  hover:underline">
-            Delete
-          </a>
-        </td>
-      </tr>
-    );
+  }, [search, products])
+  const handleDelete = (id) => {
+    deleteProduct(id)
+      .then((res) => {
+        const data = products.filter((item) => item._id !== id);
+        setProducts(data);
+        toast.success("Product deleted successfully");
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message);
+      });
   };
+  // const TableRow = () => {
+  //   return (
+  //     <tr className="bg-white border-b ">
+  //       <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+  //         Apple MacBook Pro 17"
+  //       </th>
+  //       <td className="px-6 py-4">Sliver</td>
+  //       <td className="px-6 py-4">Laptop</td>
+  //       <td className="px-6 py-4">$2999</td>
+  //       <td className="px-6 py-4">
+  //         <Link to="#" className="font-medium text-blue-600  hover:underline">
+  //           Edit
+  //         </Link>
+  //       </td>
+  //       <td className="px-6 py-4">
+  //         <Link to="#" className="font-medium text-blue-600  hover:underline">
+  //           Delete
+  //         </Link>
+  //       </td>
+  //     </tr>
+  //   );
+  // };
 
-  const PopoverCard = () => {
+  const PopoverCard = ({productId}) => {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -96,7 +115,12 @@ const SellerProducts = () => {
           <div className="rounded-lg flex flex-col">
             <Button size="medium">Edit</Button>
             <Button size="medium">View</Button>
-            <Button size="medium">Delete</Button>
+            <Button size="medium"
+              onClick={() => {
+                handleDelete(productId);
+                handleClose();
+              }}
+            >Delete</Button>
           </div>
         </Popover>
       </div>
@@ -108,7 +132,7 @@ const SellerProducts = () => {
       <div className="col-span-1 bg-white  rounded-xl overflow-hidden relative">
         <div className="w-[100%] max-h-[200px] flex justify-center items-center overflow-hidden relative">
           <img src={product.images[0]} className='w-[100%]  object-cover' />
-          <h2 className="absolute right-2 bottom-2 text-white bg-transparent px-2 py-1 backdrop-blur-sm rounded-lg text-xl font-bold">₹ 999</h2>
+          <h2 className="absolute right-2 bottom-2 text-white bg-transparent px-2 py-1 backdrop-blur-sm rounded-lg text-xl font-bold">₹ {product.price}</h2>
         </div>
         <div className="p-2 border-[1px] border-black border-t-0 rounded-xl rounded-t-none">
         <h2 className=" font-semibold">{product.name}</h2>
@@ -119,7 +143,9 @@ const SellerProducts = () => {
 
         </div>
         <div className="absolute top-2 right-2 rounded-full w-8 h-8 bg-white">
-          <PopoverCard/>
+          <PopoverCard
+            productId={product._id}
+          />
         </div>
 
       </div>
@@ -139,16 +165,16 @@ const SellerProducts = () => {
       </div>
 
       {/* <div className=" overflow-x-hidden  flex-1  flex flex-col gap-4 rounded-2xl">
-          <div class="relative  shadow-md sm:rounded-2xl  overflow-x-auto overflow-y-auto bg-white h-[100%]">
-            <table class=" text-sm text-left text-gray-500  w-[100%] ">
-              <thead class="text-xs text-gray-700 uppercase bg-gray-50  ">
+          <div className="relative  shadow-md sm:rounded-2xl  overflow-x-auto overflow-y-auto bg-white h-[100%]">
+            <table className=" text-sm text-left text-gray-500  w-[100%] ">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50  ">
                 <tr>
-                  <th class="px-6 py-3">Product name</th>
-                  <th class="px-6 py-3">Color</th>
-                  <th class="px-6 py-3">Category</th>
-                  <th class="px-6 py-3">Price</th>
-                  <th class="px-6 py-3">Edit</th>
-                  <th class="px-6 py-3">Delete</th>
+                  <th className="px-6 py-3">Product name</th>
+                  <th className="px-6 py-3">Color</th>
+                  <th className="px-6 py-3">Category</th>
+                  <th className="px-6 py-3">Price</th>
+                  <th className="px-6 py-3">Edit</th>
+                  <th className="px-6 py-3">Delete</th>
                 </tr>
               </thead>
               <tbody>
@@ -175,9 +201,9 @@ const SellerProducts = () => {
           <div className='p-2 bg-blue-100 rounded-xl shadow-xl flex items-center'>
           <SearchIcon className='' fontSize='small' color='primary'/>
           <input placeholder='Search' className='appearance-none bg-blue-100 text-sm  w-[100%] !outline-none  ' type='text' name='search'
-          // value={search}
+          value={search}
           onChange={(e) => {
-            // setSearch(e.target.value);
+            setSearch(e.target.value);
           }}
           />
         </div>
@@ -187,7 +213,7 @@ const SellerProducts = () => {
             {/* Products Page */}
 
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-4 sm:grid-cols-2">
-            {loading ? 
+            {loading ?
             <>
             <CardPlaceHolderSkelton/>
             <CardPlaceHolderSkelton/>
@@ -198,9 +224,15 @@ const SellerProducts = () => {
             <CardPlaceHolderSkelton/>
             <CardPlaceHolderSkelton/>
             </>:
-            products.map((item,i)=>
-              <ProductCard product={item} key={i}/>
-              )}
+            filteredProducts.length>0 ?
+            filteredProducts.map((product,i)=>(
+              <ProductCard key={i} product={product}/>
+            ))  :
+            <div className="flex justify-center items-center">
+              <h2 className="text-2xl font-semibold">No Products Found</h2>
+            </div>
+
+            }
             </div>
           </div>
         </div>

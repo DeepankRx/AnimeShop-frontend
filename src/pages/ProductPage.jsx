@@ -28,6 +28,7 @@ const ProductPage = () => {
         images={product.images ? product.images : []}
         brand={product.brand ? product.brand : ''}
         sizes={product.variants ? product.variants : []}
+        productId={product._id ? product._id : ''}
         reviews={product.reviews ? product.reviews : []}
       />
     </div>
