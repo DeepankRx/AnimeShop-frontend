@@ -10,6 +10,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { getProducts,getFilters } from '../services/APIs';
 import SearchIcon from '@mui/icons-material/Search';
+import PremiumCard from '../components/UI/PremiumCard';
+import styles from '../styles/css/Premium.module.css'
 const CategoryPage = () => {
   const [products, setProducts] = useState([]);
   const [productsType, setProductsType] = useState([]);
@@ -36,7 +38,7 @@ const CategoryPage = () => {
     {
       active: 'grid4x4',
       imageParent: 'h-[200px]',
-      productParent: 'grid grid-cols-4 mdrev:grid-cols-1',
+      productParent: 'grid grid-cols-1 sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-4',
       product: 'flex-col',
     },
     {
@@ -61,20 +63,31 @@ const CategoryPage = () => {
 
   const Product = ({ image, name, brand, price,id }) => {
     return (
-      <Link to={`${ProductDetailLink}${id}`}>
+      <Link className='bg-white' to={`${ProductDetailLink}${id}`}>
         <div
-          className={`cursor-pointer hover:scale-105 ease-linear duration-300 col-span-1 bg-white flex px-8 py-4 space-y-4 shadow-lg ${currentLook.product} `}
+          className={`cursor-pointer hover:scale-105 ease-linear duration-300 col-span-1 bg-white flex px-2 py-4 space-y-2 shadow-lg ${currentLook.product} ${styles.card_box}`}
         >
+          {brand.toLowerCase()==='zerox'  &&<span/>}
           <div
             className={`flex justify-center items-center ${currentLook.imageParent}`}
           >
             <img src={image} className="w-[100%] h-[100%] object-contain " />
           </div>
+          <div className="flex  items-center gap-1">
+            <div className="w-6 h-6 rounded-full
+            flex items-center justify-center bg-blue-500 text-white font-bold" >
+              {
+                brand.charAt(0).toUpperCase()
+              }
+            </div>
+            <h2 className="text-blue-500 text-sm font-bold">{brand}</h2>
+          </div>
           <div className={`p-2 ${currentLook.desc}`}>
-            <p className="text-gray-700 text-lg">{name}</p>
-            <p className="text-gray-500 text-sm">{brand}</p>
+            <p className="text-gray-700 text-sm overflow-hidden break-normal">{name}</p>
+            <p className="text-gray-500 text-xs overflow-hidden break-normal">{brand}</p>
           </div>
           <p className="text-black font-bold text-sm p-2">₹{price}</p>
+
         </div>
       </Link>
     );
@@ -468,23 +481,7 @@ const CategoryPage = () => {
                 </div>
               </div>
             </div>
-            <div className={`gap-4  -cols-1 ${currentLook.productParent}`}>
-              {/* {products.map((product, index) => {
-                return (
-                  <div
-                    key={index}
-                    className={`col-span-1 ${currentLook.productChild}`}
-                  >
-                    <Product
-                      image={product.images[0]}
-                      name={product.name}
-                      price={product.price}
-                      brand={product.brand}
-                      id = {product._id}
-                    />
-                  </div>
-                );
-              })} */}
+            <div className={`gap-4  ${currentLook.productParent}`}>
               {
                 filteredProducts.length > 0 ? filteredProducts.map((product, index) => {
                   return (

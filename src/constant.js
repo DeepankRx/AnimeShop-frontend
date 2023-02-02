@@ -10,6 +10,7 @@ const ProductPage = lazy(() => import("./pages/ProductPage"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const SellerProducts = lazy(() => import("./seller/SellerProducts"));
 const AddProduct = lazy(() => import("./seller/AddProduct"));
+const SizingGuide = lazy(() => import("./pages/SizingGuide"));
 const SellerDashboardDefault = lazy(() => import("./seller/SellerDashboardDefault"));
 
 
@@ -48,6 +49,11 @@ export const ALL_LINKS = {
     pageLink: "/dashboard/*",
     view: Dashboard,
     loginRequire: true,
+  },
+  SizingGuide: {
+    pageLink: "/size_guide",
+    view: SizingGuide,
+    loginRequire: false,
   },
 
 };

@@ -14,7 +14,9 @@ const InputField = ({
   className,
   min,
   fieldRequired,
-  as
+  as,
+  override,
+  children
 }) => {
 
   const [passVisibility,setPassVisibility]=useState(false);
@@ -40,7 +42,7 @@ const showPass=()=>{
           name={uni}
           as={as}
           min={min}
-        ></Field>
+        >{override ? children : null}</Field>
        {type==='password' && passVisibility && <FontAwesomeIcon onClick={()=>hidePass()} className="p-1 cursor-pointer" icon={faEye} size='lg' color="black"/>}
        {type==='password' && !passVisibility && <FontAwesomeIcon onClick={()=>showPass()} className="p-1 cursor-pointer" icon={faEyeSlash} size='lg' color="black"/>}
       </div>

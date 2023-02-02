@@ -92,10 +92,7 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews }
     );
   };
 
-  const [productImages, setProductImages] = useState([
-    assets.bg_01,
-    assets.bg_02,
-  ]);
+
 
   const [currentImage, SetCurrentImage] = useState(images[0]);
 
@@ -280,11 +277,11 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews }
               className="object-contain"
             />
           </div>
-          <div className="w-[200px] my-2 flex space-x-4">
+          <div className=" my-2 flex space-x-4">
             {images.map((element, i) => (
-              <div className="w-[100%]  cursor-pointer shadow-lg ">
+              <div className="w-[80px]  cursor-pointer shadow-lg ">
                 <img
-                  className="object-fill"
+                  className="object-cover"
                   alt={i + 'Image'}
                   key={i}
                   onClick={() => onImageTabButtonHandler(element)}
@@ -295,7 +292,7 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews }
           </div>
           <div className="flex  items-center gap-2">
             <span className="w-8 h-8 rounded-full
-            flex items-center justify-center bg-blue-500 text-white font-bold" src={assets.person} >
+            flex items-center justify-center bg-blue-500 text-white font-bold" >
               {
                 brand.charAt(0).toUpperCase()
               }
@@ -350,7 +347,7 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews }
               <div
                 key={i}
                 className={  `bg-gray-100'
-                  flex items-center justify-center w-8 h-8 rounded-full cursor-pointer border-black border-[1px]`}
+                  flex items-center justify-center w-8 h-8 rounded-full  border-black border-[1px]`}
                 // onClick={() => onSizeButtonHandler(element)}
               >
                 {element.size}
@@ -388,7 +385,7 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews }
             <h2 className="smrev:hidden">{name}</h2>
           </div>
           <div className="flex items-center gap-2"></div>
-          {/* <Button variant="contained" size="large">Add to Bag</Button> */}
+          <a className='text-blue-50'>Size Chart</a>
           <PopoverCard />
         </div>
       </div>

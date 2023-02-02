@@ -15,9 +15,13 @@ import React from "react";
 import {toast} from 'react-toastify';
 import { createProduct } from '../services/APIs';
 import { useNavigate } from 'react-router-dom';
-import { SELLER_LINKS } from '../constant';
+import { ALL_LINKS, SELLER_LINKS } from '../constant';
+import { useContext } from 'react';
+import AuthContext from '../store/AuthContext';
 const AddProduct = () => {
   const navigate=useNavigate();
+  const authCtx=useContext(AuthContext);
+  
 
   const initialValues={
     name:'',
@@ -35,9 +39,10 @@ const AddProduct = () => {
       formData.append('name',values.name);
       formData.append('brand',values.brand);
       formData.append('category',values.category);
-     values.subCategories.forEach((sub)=>formData.append('subCategories',sub));
-     values.hashtags.forEach((hashtag)=>formData.append('hashtags',hashtag));
-     values.description.forEach((desc)=>formData.append('descriptions',desc));
+      formData.append('createdBy',authCtx.userid);
+      values.subCategories.forEach((sub)=>formData.append('subCategories',sub));
+      values.hashtags.forEach((hashtag)=>formData.append('hashtags',hashtag));
+      values.description.forEach((desc)=>formData.append('descriptions',desc));
       formData.append('variants',JSON.stringify(values.variations));
       formData.append('price',values.price);
       image.forEach((img)=>formData.append('images',img));
@@ -125,7 +130,20 @@ const AddProduct = () => {
                                 <>
                                 {variations.map((item,index)=>(
                                     <div className='relative col-span-2  grid grid-cols-2 lgrev:grid-cols-1  gap-4' key={index} >
-                                    <InputField fieldRequired={true} labelName='Size' uni={`variations.${index}.size`} placeholder='XL'/>
+                                    <InputField override={true} as='select' fieldRequired={true} labelName='Size' uni={`variations.${index}.size`} placeholder='XL'>
+                                    <option value="" disabled>Choose</option>
+                                    <option value="4XS">4XS</option>
+                                    <option value="3XS">3XS</option>
+                                    <option value="2XS">2XS</option>
+                                    <option value="XS">XS</option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                    <option value="2XL">2XL</option>
+                                    <option value="3XL">3XL</option>
+                                    <option value="4XL">4XL</option>
+                                    </InputField>
                                     <InputField fieldRequired={true} type='number' labelName='Quantity In Stock' min={0} uni={`variations.${index}.countInStock`} placeholder='99'/>
                                     {index>0 && <IconButton onClick={()=>remove(index)}  sx={{position:'absolute',top:8,right:-12}}  aria-label="delete" size="small"><CancelIcon /></IconButton>}
                                     </div>
@@ -139,6 +157,8 @@ const AddProduct = () => {
                         }}
                     </FieldArray>
                     </FormWrapper>
+                    <a href={ALL_LINKS.SizingGuide.pageLink} target='_blank' className='text-blue-500 cursor-pointer'>Check Size Chart</a>
+
 
                     <Gap>Description</Gap>
                     <FormWrapper>
