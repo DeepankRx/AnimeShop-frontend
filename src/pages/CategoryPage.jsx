@@ -385,11 +385,11 @@ const CategoryPage = () => {
                 ) 
               }
             </div>
-
+            {filteredProducts.length===0 &&
             <div className='flex justify-center h-[400px] p-4 flex-col gap-2 '>
               <h2 className='text-xl font-bold text-center'>No Products Found Senpai !</h2>
                   <img src={assets.cutout_01} className='object-cover sm:object-contain h-[100%]'></img>
-              </div>
+              </div>}
           </div>
         </div>
 
