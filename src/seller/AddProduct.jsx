@@ -18,10 +18,14 @@ import { useNavigate } from 'react-router-dom';
 import { ALL_LINKS, SELLER_LINKS } from '../constant';
 import { useContext } from 'react';
 import AuthContext from '../store/AuthContext';
+
+
 const AddProduct = () => {
   const navigate=useNavigate();
   const authCtx=useContext(AuthContext);
-
+  const [image,setImage]=useState([]);
+  const [preview,setPreview]=useState([]);
+  
 
   const initialValues={
     name:'',
@@ -35,6 +39,8 @@ const AddProduct = () => {
   }
 
   const onSubmit=(values,{resetForm})=>{
+    if(preview.length===0){toast.error("Please add atleast 1 Image !");}
+    else{
       const formData=new FormData();
       formData.append('name',values.name);
       formData.append('brand',values.brand);
@@ -55,6 +61,8 @@ const AddProduct = () => {
         toast.error(err.message);
       }
       )
+    }
+      
   }
 
   const validationSchema=Yup.object({
@@ -67,8 +75,7 @@ const AddProduct = () => {
     price:Yup.number().required('Required').min(0,'Min value should be 0'),
   })
 
-  const [image,setImage]=useState([]);
-  const [preview,setPreview]=useState([]);
+
 
   useEffect(()=>{
     if(image.length===0)return;
@@ -213,12 +220,15 @@ const AddProduct = () => {
                     <FormWrapper>
                     {image && (
                     preview.map((item,i)=>
-                    <div key={i} className="w-full h-60 rounded-md flex justify-center items-center overflow-hidden">
+                    <div className='relative'>
+                    <div key={i} className=" w-full h-60 rounded-md flex justify-center items-center overflow-hidden">
                       <img className='object-contain w-[100%] h-[100%]' src={item}></img>
+                    </div>
+                    <IconButton onClick={()=>{setPreview(preview.filter((item2=>item!==item2)))}}  sx={{position:'absolute',top:-16,right:-16,zIndex:10}}  aria-label="delete" size="small"><CancelIcon /></IconButton>
                     </div>
                     )
                     )}
-                    {image.length<=4 && <div className="border-2 border-dotted w-full h-60 border-black rounded-md flex justify-center items-center lgrev:my-2">
+                    {preview.length<=4 && <div className="border-2 border-dotted w-full h-60 border-black rounded-md flex justify-center items-center lgrev:my-2">
                     <div className=" right-0 bottom-8">
                       <label htmlFor="profile_pic">
                         <FontAwesomeIcon
@@ -238,6 +248,7 @@ const AddProduct = () => {
                     </FormWrapper>
                     <div className='flex justify-end my-10 mr-0'>
                     <Button className='w-[100]' type='submit' variant='contained'>Add Product</Button>
+
                     </div>
                 </Form>
             </Formik>

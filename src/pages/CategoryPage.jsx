@@ -12,15 +12,18 @@ import { getProducts,getFilters } from '../services/APIs';
 import SearchIcon from '@mui/icons-material/Search';
 import PremiumCard from '../components/UI/PremiumCard';
 import styles from '../styles/css/Premium.module.css'
+import CardPlaceHolderSkelton from '../components/skeltons/CardPlaceHolderSkelton';
 const CategoryPage = () => {
   const [products, setProducts] = useState([]);
   const [productsType, setProductsType] = useState([]);
   const [productsBrand, setProductsBrand] = useState([]);
+  const [loading,setLoading]=useState(true);
   useEffect(() => {
     getProducts()
       .then((res) => {
         setProducts(res.data.data);
         setFilteredProducts(res.data.data);
+        setLoading(false)
       })
       .catch((err) => {
         console.log(err);
@@ -69,6 +72,7 @@ const CategoryPage = () => {
           className={`cursor-pointer hover:scale-105 ease-linear duration-300 col-span-1 bg-white flex px-2 py-4 space-y-2 shadow-lg ${currentLook.product} ${styles.card_box}`}
         >
           {brand.toLowerCase()==='zerox'  &&<span/>}
+          <div className='gap-2 flex flex-col'>
           <div
             className={`flex justify-center items-center ${currentLook.imageParent}`}
           >
@@ -83,6 +87,7 @@ const CategoryPage = () => {
             </div>
             <h2 className="text-blue-500 text-sm font-bold">{brand}</h2>
           </div>
+          </div>
           <div className={`p-2 ${currentLook.desc}`}>
             <p className="text-gray-700 text-sm overflow-hidden break-normal">{name}</p>
             <p className="text-gray-500 text-xs overflow-hidden break-normal">{brand}</p>
@@ -95,7 +100,7 @@ const CategoryPage = () => {
   };
 
   // Price Range
-  const [value, setValue] = React.useState([0, 1000]);
+  const [value, setValue] = React.useState([0, 10000]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -182,6 +187,7 @@ const CategoryPage = () => {
     setFilteredProducts(filtered);
 
   }, [search, products,value,checkboxValue]);
+  
   return (
     <div className="bg-light">
         <div className="text-4xl  border-b-2  h-[320px] overflow-hidden bg-[#27203b] mdrev:h-[160px] relative">
@@ -255,7 +261,7 @@ const CategoryPage = () => {
               <div className="w-[90%] m-auto mdrev:w-[100%]">
                 <Slider
                   min={0}
-                  max={5000}
+                  max={10000}
                   step={50}
                   value={value}
                   onChange={handleChange}
@@ -348,8 +354,19 @@ const CategoryPage = () => {
               </div>
             </div>
             <div className={`gap-4  ${currentLook.productParent}`}>
-              {
-                filteredProducts.length >0 ? filteredProducts.map((product, index) => {
+              {loading ?
+                 <>
+                <CardPlaceHolderSkelton/>
+                <CardPlaceHolderSkelton/>
+                <CardPlaceHolderSkelton/>
+                <CardPlaceHolderSkelton/>
+                <CardPlaceHolderSkelton/>
+                <CardPlaceHolderSkelton/>
+                <CardPlaceHolderSkelton/>
+                <CardPlaceHolderSkelton/>
+                </>
+                :
+                filteredProducts.length >0 && filteredProducts.map((product, index) => {
                   return (
                     <div
                       key={index}
@@ -365,13 +382,14 @@ const CategoryPage = () => {
                     </div>
                   );
                 }
-                ) : <div className="text-2xl font-bold">
-<h1>No Products Found</h1>
-                </div>
-
-
+                ) 
               }
             </div>
+
+            <div className='flex justify-center h-[400px] p-4 flex-col gap-2 '>
+              <h2 className='text-xl font-bold text-center'>No Products Found Senpai !</h2>
+                  <img src={assets.cutout_01} className='object-cover sm:object-contain h-[100%]'></img>
+              </div>
           </div>
         </div>
 

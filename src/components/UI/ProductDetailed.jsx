@@ -9,7 +9,6 @@
 
 // }
 
-import {useSelector} from 'react-redux'
 import {
   faAdd,
   faMinus,
@@ -32,11 +31,10 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import StarIcon from '@mui/icons-material/Star';
 import { assets } from '../../assets';
-import { addToCart } from '../../services/APIs';
+
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
-
 const timeAgo = (date) => {
   const seconds = Math.floor((new Date() - date) / 1000);
   let interval = Math.floor(seconds / 31536000);
@@ -70,16 +68,8 @@ const averageRating = (reviews) => {
   });
   return sum / reviews.length;
 };
-const addToCartHandler = (product, quantity, size,user) => {
-  addToCart({cart:{product, quantity, selectedSize:size},user:user.id}).then((res) => {
-    console.log(res)
-  })
-.catch((err) => {
-  console.log(err)
-})
 
-};
-const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews ,productId }) => {
+const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews }) => {
   const Review = ({review}) => {
     return (
       <div className="w-[100%] border-[1px] border-gray-400 p-2 flex flex-col gap-2">
@@ -105,7 +95,7 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews ,
 
 
   const [currentImage, SetCurrentImage] = useState(images[0]);
-  const [selectedSize_, setSelectedSize_] = useState('');
+
   const onImageTabButtonHandler = (item) => {
     SetCurrentImage(item);
   };
@@ -140,7 +130,7 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews ,
 
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
-    const user = useSelector(state => state.user.user)
+
     return (
       <div>
         <Button aria-describedby={id} variant="outlined" onClick={handleClick}>
@@ -161,24 +151,27 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews ,
           }}
         >
           <div className="w-[320px] p-4 rounded-lg flex flex-col gap-4">
-            <div className="flex justify-between h-10 ">
+            <div className="flex  flex-wrap ">
               {
                 sizes.map((item,index)=>{
                   return(
-                    <Button
+                    <>
+                    {item.countInStock>0 &&
+                  <Button
                 size="small"
                 variant="outlined"
-                onClick={() => {setSelectedSize(item)
-                setSelectedSize_(item.size)}}
-                  disabled={item.countInStock === 0}
+                onClick={() => setSelectedSize(item)}
                 sx={{
                   color: `${selectedSize === item ? '' : 'gray'}`,
                   border: `${selectedSize === item ? '' : 'gray'}`,
+                  height:40
                 }}
                 disableElevation
               >
                 {item.size}
               </Button>
+                }
+              </>
                   )
                 })
               }
@@ -189,7 +182,6 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews ,
                 onClick={() => {
                   setQuantity(1);
                   setSelectedSize('');
-                  setSelectedSize_('');
                 }}
               >
                 <RestartAltIcon color="primary" size="small" />
@@ -218,10 +210,6 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews ,
                 variant="contained"
                 color="primary"
                 disabled={!selectedSize}
-                onClick={() => {
-                  addToCartHandler(productId,quantity,selectedSize_,user);
-                  handleClose();
-                }}
               >
                 Add to Bag
               </Button>
@@ -231,6 +219,7 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews ,
       </div>
     );
   };
+
   return (
     <div className={`relative flex flex-col bg-light pb-20 `}>
       <div
@@ -307,19 +296,15 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews ,
           {description.map((element, i) => {
             return <h2 key={i}>{element}</h2>;
           })}
-          <h2 className="text-lg text-black font-bold">Size</h2>
+          <h2 className="text-lg text-black font-bold">Sizes Available</h2>
           <div className="flex space-x-2">
         {
           sizes.map((element, i) => {
             return (
               <div
                 key={i}
-                className={ `
-                  flex items-center justify-center w-8 h-8 rounded-full  border-black border-[1px]
-                    ${element.countInStock === 0 && 'bg-gray-300 text-gray-500 border-[2px] border-gray-300'}
-                    ${selectedSize_ === element.size && 'bg-blue-500 text-white border-[2px] border-blue-500'}
-                  `}
-                // onClick={() => onSizeButtonHandler(element)}
+                className={ `bg-gray-100'
+                  flex items-center justify-center w-10 h-10 rounded-full  border-[1px] ${element.countInStock<=0 ? 'border-red-500 text-red-500':'border-green-500 text-green-500'}`}
               >
                 {element.size}
               </div>
@@ -330,6 +315,9 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews ,
 
      {reviews.length > 0 &&     <div className="flex flex-col gap-4">
             <h2 className="text-xl font-bold">Rating and Reviews</h2>
+            {/* <Box width={300}>
+              <Rating name="text-feedback" value={5} readOnly precision={0.5} emptyIcon={<StarIcon  style={{ opacity: 0.55 }} fontSize="inherit" />} />
+              </Box> */}
             <div className="flex flex-col space-y-2">
               {reviews.map((element, i) => {
                 return (
@@ -339,7 +327,6 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews ,
 
             </div>
           </div>
-
      }
         </div>
 
