@@ -21,7 +21,7 @@ import AuthContext from '../store/AuthContext';
 const AddProduct = () => {
   const navigate=useNavigate();
   const authCtx=useContext(AuthContext);
-  
+
 
   const initialValues={
     name:'',

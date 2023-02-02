@@ -37,7 +37,6 @@ const SellerDashboard = () => {
 
   const user=useSelector(state=>state.user.user);
   const authCtx=useContext(AuthContext);
-
   const [highlightIndex,setHighlightIndex]=useState(-1)
 
   const PAGES=[
@@ -53,17 +52,17 @@ const SellerDashboard = () => {
   return (
     <div className='flex flex-row md:h-[calc(100vh_-_110px)]  bg-background p-4 gap-4'>
 
-    <div className='min-w-[300px]  h-[calc(100vh_-_142px)] mdrev:hidden bg-white rounded-2xl'> 
+    <div className='min-w-[300px]  h-[calc(100vh_-_142px)] mdrev:hidden bg-white rounded-2xl'>
     <div className='flex flex-col items-center my-8'>
         <div className='bg-green-100 w-28 h-28  rounded-full relative overflow-hidden shadow-lg'>
-          <img src={assets.person} className='object-fit'/>
+          <img src={`${user.profilePicture}`} className='object-fit'/>
         </div>
         <h1 className='font-bold  mt-4'>{`${user.firstName} ${user.lastName}`}</h1>
         <h1 className='font-semibold'>{`${user.mobileNo}`}</h1>
       </div>
 
       <List className='flex flex-col items-center gap-2'>
-        {SellerMenu.map((item, index) => 
+        {SellerMenu.map((item, index) =>
           <NavLink  to={item.pageLink} key={index} className={({isActive})=>`${isActive ? setHighlightIndex(index) : ''} ${index===highlightIndex ? 'bg-black text-white font-bold rounded-lg':''}`}>
             <ListItemButton sx={{width:200}}>
               <ListItemIcon sx={{color:`${index===highlightIndex ? 'white' :''} `}} >
@@ -84,7 +83,7 @@ const SellerDashboard = () => {
 
       </List>
      </div>
-     
+
      <Routes>
      {PAGES.map((item,i)=>(
         <Route key={i} path={item.pageLink}  element={<item.view/>} />

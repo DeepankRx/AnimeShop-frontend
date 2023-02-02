@@ -6,6 +6,8 @@ const BASE_URL={
   userApi :BASE_MAIN_URL+ '/api/user',
   addressApi :BASE_MAIN_URL+ '/api/address',
   productApi :BASE_MAIN_URL+ '/api/product',
+  sellerApi :BASE_MAIN_URL+ '/api/seller',
+  cartApi :BASE_MAIN_URL+ '/api/cart',
 }
 
 const TOP_PRODUCTS_LIMIT=4;
@@ -26,6 +28,8 @@ const userModule={
   getTopProducts:BASE_URL.productApi+`/top-products/?limit=${TOP_PRODUCTS_LIMIT}`,
   getCategories:BASE_URL.productApi+'/categories',
   getFilters  :BASE_URL.productApi+'/filters',
+  getSellerProducts:BASE_URL.sellerApi+'/products/',
+  addToCart:BASE_URL.cartApi+'/add-to-cart',
 }
 
 let token='';
@@ -110,4 +114,11 @@ export function getAProductFromEachCategory() {
   return http.get(userModule.getAProductFromEachCategory);
 }
 
+export function getSellerProducts(id) {
+  return http.get(userModule.getSellerProducts + id);
+}
 
+export function addToCart(cart) {
+  retrieveStoredToken();
+  return http.post(userModule.addToCart, cart,{ headers: {"Authorization" : `Bearer ${token}`}});
+}
