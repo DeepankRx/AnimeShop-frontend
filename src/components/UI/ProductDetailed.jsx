@@ -313,7 +313,7 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews }
         }
           </div>
 
-     {reviews.length > 0 &&     <div className="flex flex-col gap-4">
+          {reviews.length > 0 &&     <div className="flex flex-col gap-4">
             <h2 className="text-xl font-bold">Rating and Reviews</h2>
             {/* <Box width={300}>
               <Rating name="text-feedback" value={5} readOnly precision={0.5} emptyIcon={<StarIcon  style={{ opacity: 0.55 }} fontSize="inherit" />} />

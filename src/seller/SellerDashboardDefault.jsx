@@ -55,8 +55,6 @@ const SellerDashboardDefault = () => {
     <div className='flex flex-col gap-4 overflow-y-auto  '>
       <TopCustomer/>
       <TopCustomer/>
-      <TopCustomer/>
-      <TopCustomer/>
 
     </div>
     </div>

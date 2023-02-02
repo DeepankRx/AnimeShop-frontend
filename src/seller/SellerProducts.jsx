@@ -2,7 +2,7 @@ import { Button, Popover } from "@mui/material";
 import React from "react";
 import LeftPane from "../components/menu/LeftPane";
 import AddIcon from "@mui/icons-material/Add";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ALL_LINKS, SELLER_LINKS } from "../constant";
 import { useEffect } from "react";
 import { deleteProduct } from "../services/APIs";
@@ -18,7 +18,9 @@ import { useContext } from "react";
 import AuthContext from "../store/AuthContext";
 import Spinner from "../components/UI/Spinner";
 import CardPlaceHolderSkelton from "../components/skeltons/CardPlaceHolderSkelton";
+import NoList from "../components/UI/NoList";
 const SellerProducts = () => {
+  const navigate=useNavigate();
   const authCtx=useContext(AuthContext);
   const [products, setProducts] = useState([]);
   const [loading ,setLoading] =useState(true);
@@ -92,6 +94,9 @@ const SellerProducts = () => {
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
 
+    let edit_link=SELLER_LINKS.EditProduct.pageLink;
+    // edit_link=edit_link.substring(0,edit_link.length-4);
+
     return (
       <div>
         <div className="flex justify-center items-center w-8 h-8 cursor-pointer" onClick={handleClick}>
@@ -113,7 +118,7 @@ const SellerProducts = () => {
           }}
         >
           <div className="rounded-lg flex flex-col">
-            <Button size="medium">Edit</Button>
+            <Button onClick={()=>navigate(`/dashboard/${edit_link}?productId=${productId}&edit=true`)} size="medium">Edit</Button>
             <Button size="medium">View</Button>
             <Button size="medium"
               onClick={() => {
@@ -129,12 +134,12 @@ const SellerProducts = () => {
 
   const ProductCard=({product})=>{
     return(
-      <div className="col-span-1 bg-white  rounded-xl overflow-hidden relative">
+      <div className="col-span-1 bg-white  rounded-xl overflow-hidden relative border-2 border-black">
         <div className="w-[100%] max-h-[200px] flex justify-center items-center overflow-hidden relative">
           <img src={product.images[0]} className='w-[100%]  object-cover' />
           <h2 className="absolute right-2 bottom-2 text-white bg-transparent px-2 py-1 backdrop-blur-sm rounded-lg text-xl font-bold">₹ {product.price}</h2>
         </div>
-        <div className="p-2 border-[1px] border-black border-t-0 rounded-xl rounded-t-none">
+        <div className="p-2 rounded-xl">
         <h2 className=" font-semibold">{product.name}</h2>
         {product.variants.map((item,i)=>(
           <h2 key={i} className=" text-sm">{item.size} - <span className="font-bold text-lg">{item.countInStock}</span></h2>
@@ -198,7 +203,7 @@ const SellerProducts = () => {
             </div>
 
           <div>
-          <div className='p-2 bg-blue-100 rounded-xl shadow-xl flex items-center'>
+          <div className='p-2 bg-blue-100 rounded-md shadow-xl flex items-center'>
           <SearchIcon className='' fontSize='small' color='primary'/>
           <input placeholder='Search' className='appearance-none bg-blue-100 text-sm  w-[100%] !outline-none  ' type='text' name='search'
           value={search}
@@ -224,16 +229,14 @@ const SellerProducts = () => {
             <CardPlaceHolderSkelton/>
             <CardPlaceHolderSkelton/>
             </>:
-            filteredProducts.length>0 ?
+            filteredProducts.length>0 &&
             filteredProducts.map((product,i)=>(
               <ProductCard key={i} product={product}/>
-            ))  :
-            <div className="flex justify-center items-center">
-              <h2 className="text-2xl font-semibold">No Products Found</h2>
-            </div>
-
+            )) 
             }
             </div>
+
+            {filteredProducts.length===0 && !loading && <NoList message="No Products Found , Let Add Together !"/>}
           </div>
         </div>
       </div>

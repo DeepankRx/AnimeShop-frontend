@@ -75,6 +75,11 @@ export const SELLER_LINKS={
     view: AddProduct,
     loginRequire: true,
   },
+  EditProduct: {
+    pageLink: "edit_product",
+    view: AddProduct,
+    loginRequire: true,
+  },
 }
 
 export const DATA = {

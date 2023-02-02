@@ -43,6 +43,7 @@ const SellerDashboard = () => {
     SELLER_LINKS.SellerDashboardDefault,
     SELLER_LINKS.AddProduct,
     SELLER_LINKS.SellerProducts,
+    SELLER_LINKS.EditProduct
   ];
 
 
@@ -50,12 +51,12 @@ const SellerDashboard = () => {
 
 
   return (
-    <div className='flex flex-row md:h-[calc(100vh_-_110px)]  bg-background p-4 gap-4'>
+    <div className='flex flex-row min-h-[calc(100vh_-_110px)] max-w-[100%] md:h-[calc(100vh_-_110px)]  bg-background p-4 gap-4'>
 
     <div className='min-w-[300px]  h-[calc(100vh_-_142px)] mdrev:hidden bg-white rounded-2xl'>
     <div className='flex flex-col items-center my-8'>
         <div className='bg-green-100 w-28 h-28  rounded-full relative overflow-hidden shadow-lg'>
-          <img src={`${user.profilePicture}`} className='object-fit'/>
+          <img src={`${user.profilePicture}`} className='w-[100%] h-[100%]'/>
         </div>
         <h1 className='font-bold  mt-4'>{`${user.firstName} ${user.lastName}`}</h1>
         <h1 className='font-semibold'>{`${user.mobileNo}`}</h1>
