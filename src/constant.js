@@ -1,6 +1,4 @@
 import { lazy } from "react";
-
-
 const ProductsPage = lazy(() => import("./pages/ProductsPage"));
 const HomePage = lazy(() => import("./pages/HomePage"));
 const LoginPage = lazy(() => import("./pages/LoginPage"));
@@ -8,6 +6,7 @@ const SignupPage = lazy(() => import("./pages/SignupPage"));
 const CategoryPage = lazy(() => import("./pages/CategoryPage"));
 const ProductPage = lazy(() => import("./pages/ProductPage"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Cart = lazy(() => import("./pages/Cart"));
 const SellerProducts = lazy(() => import("./seller/SellerProducts"));
 const AddProduct = lazy(() => import("./seller/AddProduct"));
 const SizingGuide = lazy(() => import("./pages/SizingGuide"));
@@ -53,6 +52,11 @@ export const ALL_LINKS = {
   SizingGuide: {
     pageLink: "/size_guide",
     view: SizingGuide,
+    loginRequire: false,
+  },
+  Cart: {
+    pageLink: "/cart",
+    view: Cart,
     loginRequire: false,
   },
 

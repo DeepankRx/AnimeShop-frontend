@@ -22,7 +22,8 @@ const App = () => {
     ALL_LINKS.Category,
     ALL_LINKS.Product,
     ALL_LINKS.Dashboard,
-    ALL_LINKS.SizingGuide
+    ALL_LINKS.SizingGuide,
+    ALL_LINKS.Cart
   ]
   const [loading, setLoading] = useState(true);
   useEffect(() => {
