@@ -35,6 +35,8 @@ import { assets } from '../../assets';
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import { useDispatch } from 'react-redux';
+import { cartActions } from '../../store/cartSlice';
 const timeAgo = (date) => {
   const seconds = Math.floor((new Date() - date) / 1000);
   let interval = Math.floor(seconds / 31536000);
@@ -69,7 +71,8 @@ const averageRating = (reviews) => {
   return sum / reviews.length;
 };
 
-const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews }) => {
+const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews,productId }) => {
+  const dispatch=useDispatch();
   const Review = ({review}) => {
     return (
       <div className="w-[100%] border-[1px] border-gray-400 p-2 flex flex-col gap-2">
@@ -105,7 +108,7 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews }
     SetCurrentImage(images[0]);
   }, [images]);
 
-  const PopoverCard = () => {
+  const PopoverCard = ({item}) => {
     const [quantity, setQuantity] = useState(1);
     const [selectedSize, setSelectedSize] = useState('');
 
@@ -155,7 +158,7 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews }
               {
                 sizes.map((item,index)=>{
                   return(
-                    <>
+                    <div key={index}>
                     {item.countInStock>0 &&
                   <Button
                 size="small"
@@ -171,7 +174,7 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews }
                 {item.size}
               </Button>
                 }
-              </>
+              </div>
                   )
                 })
               }
@@ -210,6 +213,17 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews }
                 variant="contained"
                 color="primary"
                 disabled={!selectedSize}
+                onClick={()=>addToCartHandler({
+                  price: item.price,
+                  name: item.name,
+                  description: item.description,
+                  images: item.images,
+                  brand: item.brand,
+                  _id: item.productId,
+                },
+                quantity,
+                selectedSize.size
+                )}
               >
                 Add to Bag
               </Button>
@@ -219,6 +233,11 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews }
       </div>
     );
   };
+
+  const addToCartHandler=(item,amount,size)=>{
+    dispatch(cartActions.addItemToCart({item:{...item,amount,size},
+}))
+  }
 
   return (
     <div className={`relative flex flex-col bg-light pb-20 `}>
@@ -236,7 +255,7 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews }
           </div>
           <div className=" my-2 flex space-x-4">
             {images.map((element, i) => (
-              <div className="w-[80px]  cursor-pointer shadow-lg ">
+              <div key={i} className="w-[80px]  cursor-pointer shadow-lg ">
                 <img
                   className="object-cover"
                   alt={i + 'Image'}
@@ -342,7 +361,7 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews }
           </div>
           <div className="flex items-center gap-2"></div>
           <a className='text-blue-50'>Size Chart</a>
-          <PopoverCard />
+          <PopoverCard item={{ price, name, description,images,brand,reviews,_id:productId }} />
         </div>
       </div>
     </div>

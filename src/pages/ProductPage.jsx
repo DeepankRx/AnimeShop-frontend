@@ -3,24 +3,21 @@ import { assets } from '../assets';
 import ProductDetailed from '../components/UI/ProductDetailed';
 import { useParams } from 'react-router-dom';
 import { getProduct } from '../services/APIs';
+import ProductPageSkelton from '../components/skeltons/ProductPageSkelton';
 const ProductPage = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
+  const [loading,setLoading]=useState(true);
   useEffect(() => {
     getProduct(id).then((res) => {
       setProduct(res.data.data);
+      setLoading(false);
     });
   }, [id]);
-  const dataToSend = {
-    pName: 'Zerox Brand Shirt',
-    pImages: [assets.bg_01, assets.bg_02],
-    pDescription: ['test'],
-    pID: 'test',
-    pPrice: `789`,
-    pTags: 'test',
-  };
+
   return (
     <div>
+      {!loading ? 
       <ProductDetailed
         price={product.price ? product.price : 0}
         name={product.name ? product.name : ''}
@@ -30,7 +27,9 @@ const ProductPage = () => {
         sizes={product.variants ? product.variants : []}
         productId={product._id ? product._id : ''}
         reviews={product.reviews ? product.reviews : []}
-      />
+      />:
+      <ProductPageSkelton/>
+      }
     </div>
   );
 };
