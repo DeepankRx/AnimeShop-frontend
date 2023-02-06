@@ -13,7 +13,7 @@ import { useState } from 'react';
 import { Button } from "@mui/material";
 import React from "react";
 import {toast} from 'react-toastify';
-import { createProduct, getProduct, updateProduct } from '../services/APIs';
+import { createProduct, getProduct, updateProduct,deleteProductImage } from '../services/APIs';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ALL_LINKS, SELLER_LINKS } from '../constant';
 import { useContext } from 'react';
@@ -25,6 +25,7 @@ const AddProduct = () => {
   const location=useLocation();
   const authCtx=useContext(AuthContext);
   const [image,setImage]=useState([]);
+  const [productId,setProductId]=useState('');
   const [preview,setPreview]=useState([]);
   const [editingMode,setEditingMode]=useState(false);
   const queryParams=new URLSearchParams(location.search);
@@ -47,7 +48,7 @@ const AddProduct = () => {
       getProduct(queryParams.get('productId'))
       .then((res)=>{
         const data=res.data.data;
-        console.log(data)
+        setProductId(data._id)
         setFetchedValues({
           name:data.name,
           brand:data.brand,
@@ -67,7 +68,7 @@ const AddProduct = () => {
     }
 
   }, [])
-  
+
 
 
   const initialValues={
@@ -93,7 +94,7 @@ const AddProduct = () => {
         formData.append('createdBy',authCtx.userid);
         values.subCategories.forEach((sub)=>formData.append('subCategories',sub));
         values.hashtags.forEach((hashtag)=>formData.append('hashtags',hashtag));
-        values.descriptions.forEach((desc)=>formData.append('descriptionss',desc));
+        values.descriptions.forEach((desc)=>formData.append('descriptions',desc));
         formData.append('variants',JSON.stringify(values.variants));
         formData.append('price',values.price);
         image.forEach((img)=>formData.append('images',img));
@@ -114,7 +115,7 @@ const AddProduct = () => {
         formData.append('createdBy',authCtx.userid);
         values.subCategories.forEach((sub)=>formData.append('subCategories',sub));
         values.hashtags.forEach((hashtag)=>formData.append('hashtags',hashtag));
-        values.descriptions.forEach((desc)=>formData.append('descriptionss',desc));
+        values.descriptions.forEach((desc)=>formData.append('descriptions',desc));
         formData.append('variants',JSON.stringify(values.variants));
         formData.append('price',values.price);
         image.forEach((img)=>formData.append('images',img));
@@ -131,7 +132,7 @@ const AddProduct = () => {
 
 
     }
-      
+
   }
 
   const validationSchema=Yup.object({

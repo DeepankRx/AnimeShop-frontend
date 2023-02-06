@@ -1,6 +1,7 @@
 import http from './http_service';
 
-const BASE_MAIN_URL='https://anime-shop-9r2x.vercel.app'
+// const BASE_MAIN_URL='https://anime-shop-9r2x.vercel.app'
+const BASE_MAIN_URL='http://localhost:5001'
 
 const BASE_URL={
   userApi :BASE_MAIN_URL+ '/api/user',
@@ -30,6 +31,7 @@ const userModule={
   getFilters  :BASE_URL.productApi+'/filters',
   getSellerProducts:BASE_URL.sellerApi+'/products/',
   addToCart:BASE_URL.cartApi+'/add-to-cart',
+  deleteProductImage:BASE_URL.productApi+'/delete-image/',
 }
 
 let token='';
@@ -121,4 +123,8 @@ export function getSellerProducts(id) {
 export function addToCart(cart) {
   retrieveStoredToken();
   return http.post(userModule.addToCart, cart,{ headers: {"Authorization" : `Bearer ${token}`}});
+}
+
+export function deleteProductImage(productId, imageId) {
+  return http.delete(`${userModule.deleteProductImage}/${productId}/${imageId}`);
 }
