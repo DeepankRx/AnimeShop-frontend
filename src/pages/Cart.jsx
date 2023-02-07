@@ -23,7 +23,7 @@ const Cart = () => {
 
     const Product=({product})=>{
         return(
-        <div className='flex items-center justify-between gap-4 mdrev:flex-col  mdrev:items-start shadow-lg p-8 rounded-lg'>
+        <div className='flex items-center justify-between gap-4 mdrev:flex-col  mdrev:items-start shadow-lg p-8 mdrev:p-4 rounded-lg'>
         <div className='flex  gap-2 items-center mdrev:w-[100%] '>
             <div className='w-[100px] mdrev:w-[50%]'><img src={product.images[0]}/> </div>
         </div>
@@ -49,7 +49,7 @@ const Cart = () => {
                 )}
                 />
             </div>
-            <FontAwesomeIcon onClick={()=>cartRemoveHandler(product._id,product.size,product.amount)} icon={faTrash} color='red' size='2x' className='cursor-pointer mdrev:self-end hover:opacity-50 bg-gray-200 p-2 rounded-full '/>
+            <FontAwesomeIcon onClick={()=>cartRemoveHandler(product._id,product.size,product.amount)} icon={faTrash} color='red' size='xl' className='cursor-pointer mdrev:self-end hover:opacity-50 bg-gray-200 p-2 rounded-full '/>
         </div>
         )
     }
@@ -60,7 +60,7 @@ const Cart = () => {
 
         <div className='flex flex-col gap-4'>
             {items.map((item,i)=><Product key={i} product={item}/>)}
-            {items.length===0 && <NoList message="No Items Found Senpai , Let's Add Together ?"/>}
+            {items.length===0 && <NoList message="No Products Found Senpai , Let's Add Together ?"/>}
         </div>
         
     </div>
@@ -96,7 +96,7 @@ const Cart = () => {
     </div>
 
     <div className='bg-white rounded-xl p-4 gap-2 flex flex-col'>
-        <Button sx={{backgroundColor:'orange'}} variant='contained'>Proceed</Button>
+        <Button sx={{backgroundColor:'orange'}} variant='contained' disabled={items.length===0}>Proceed</Button>
     </div>
 
     </div>

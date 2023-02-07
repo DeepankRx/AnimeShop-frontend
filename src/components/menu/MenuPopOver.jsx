@@ -32,7 +32,7 @@ export default function MenuPopOver() {
   return (
     <div>
       <Button variant='text' sx={{color:'black'}} onClick={handleClick}>
-      <div className="flex justify-center items-center  space-x-2 "><PersonIcon sx={{':hover':{color:'#D61355'}}} fontSize='small'/><span className="font-bold  smrev:hidden"></span></div>
+      <div className="flex justify-center items-center  space-x-2 "><PersonIcon sx={{':hover':{color:'#D61355'}}} fontSize='medium'/><span className="font-bold  smrev:hidden"></span></div>
       </Button>
       <Popover
         id={id}
@@ -44,23 +44,18 @@ export default function MenuPopOver() {
           horizontal: 'left',
         }}
       >
-        {authCtx.isLoggedIn ? 
+        
         <div className='p-4 flex flex-col w-[300px] gap-2'>
             <div className='flex flex-col items-center gap-2'>
-            <p>Hello 👋 {user.firstName} {user.lastName}</p>
-            <Button onClick={()=>authCtx.logout()} variant='contained' endIcon={<PersonIcon/>}>logout</Button>
+            {authCtx.isLoggedIn && <p>Hello 👋 {user.firstName} {user.lastName}</p> }
+            {authCtx.isLoggedIn && <Button onClick={()=>{navigate(ALL_LINKS.UserProfile.pageLink);handleClose();}}>Profile</Button> }
+            {authCtx.isLoggedIn && <Button onClick={()=>authCtx.logout()} variant='contained' endIcon={<PersonIcon/>}>logout</Button>}
+            {!authCtx .isLoggedIn && <Button onClick={()=>navigate(ALL_LINKS.LoginPage.pageLink)} variant='contained' endIcon={<PersonIcon/>}>Login</Button>}
+            {!authCtx .isLoggedIn && <p>New Customer ? <Link className='text-blue-500' to={ALL_LINKS.SignupPage.pageLink}>Sign up</Link></p>}
             </div>
             {/* <div className='h-[1px] bg-black'></div> */}
 
-
-        </div>:
-        <div className='p-4 flex flex-col w-[300px]'>
-            <div className='flex items-center flex-col'>
-            <Button onClick={()=>navigate(ALL_LINKS.LoginPage.pageLink)} variant='contained' endIcon={<PersonIcon/>}>Login</Button>
-            <p>New Customer ? <Link className='text-blue-500' to={ALL_LINKS.SignupPage.pageLink}>Sign up</Link></p>
-            </div>
         </div>
-        }
       </Popover>
     </div>
   );

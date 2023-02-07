@@ -11,6 +11,8 @@ const SellerProducts = lazy(() => import("./seller/SellerProducts"));
 const AddProduct = lazy(() => import("./seller/AddProduct"));
 const SizingGuide = lazy(() => import("./pages/SizingGuide"));
 const SellerDashboardDefault = lazy(() => import("./seller/SellerDashboardDefault"));
+const CheckoutPage = lazy(() => import("./pages/CheckoutPage"));
+const UserProfile = lazy(() => import("./pages/UserProfile"));
 
 
 export const ALL_LINKS = {
@@ -59,6 +61,17 @@ export const ALL_LINKS = {
     view: Cart,
     loginRequire: false,
   },
+  Checkout: {
+    pageLink: "/checkout",
+    view: CheckoutPage,
+    loginRequire: true,
+  },
+  UserProfile: {
+    pageLink: "/userprofile",
+    view: UserProfile,
+    loginRequire: true,
+  },
+
 
 };
 

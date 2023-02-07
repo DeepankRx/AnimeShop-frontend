@@ -7,7 +7,7 @@ const ProductPageSkelton = () => {
         <div className="h-6 bg-gray-200 rounded-full dark:bg-gray-700 w-[90%] mb-4"></div>
         <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
         <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
-        <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+        <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 mb-4"></div>
         </>
         )
     }
@@ -35,7 +35,6 @@ const ProductPageSkelton = () => {
       <div
         className="col-span-1 p-4 border border-gray-200 rounded shadow animate-pulse md:p-6 dark:border-gray-700 w-[100%]"
       >
-        <TextSkelton/>
         <TextSkelton/>
         <TextSkelton/>
         <TextSkelton/>

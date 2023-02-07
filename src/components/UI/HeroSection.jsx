@@ -10,8 +10,8 @@ const HeroSection = () => {
             image:assets.anime_bg_3,
             no:0,
             text:{
-                para1:'New From Zerox',
-                para2:'Store',
+                para1:'New From ',
+                para2:'ANIMART',
                 para3:'Decorative Merchandise will bring you to life.'
             },
             order:'flex-row-reverse'
@@ -42,11 +42,11 @@ const HeroSection = () => {
 
 
   return (
-    <div className={`md:h-[600px] flex  mdrev:flex-col text-white relative ${currentHero.order}`}>
+    <div className={`md:h-[720px] flex  mdrev:flex-col text-white relative ${currentHero.order}`}>
         <div className={` md:w-[60%] bg-purple-400 flex flex-col justify-center px-10 smrev:px-2 mdrev:h-[400px] gap-4 ${styles.bg_flash}`}>
-            <div className='text-6xl font-semibold'>{currentHero.text.para1}</div>
-            <div className='text-6xl font-semibold'>{currentHero.text.para2}</div>
-            <div className='font-semibold text-lg'>{currentHero.text.para3}</div>
+            <div className='text-6xl font-semibold' id='Monton'>{currentHero.text.para1}</div>
+            <div className='text-6xl font-semibold' id='RubyVinyl'>{currentHero.text.para2}</div>
+            <div className='font-semibold text-lg' id='Poppins'>{currentHero.text.para3}</div>
             <Button classname='bg-[#fff] w-[160px] text-[#000]'>Buy now</Button>
         </div>
         <div className='md:w-[40%] bg-slate-400 overflow-hidden'>

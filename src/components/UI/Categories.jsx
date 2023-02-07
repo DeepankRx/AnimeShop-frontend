@@ -21,8 +21,8 @@ const Categories = () => {
         return (
             <Link to={ALL_LINKS.Category.pageLink} >
             <div className='space-y-2 text-xl'>
-            <div className='w-[240px] h-[240px] smrev:w-[320px] smrev:h-[320px] rounded-full bg-white hover:translate-y-[-8px] transition-all ease-in duration-200 hover:bg-white shadow-lg cursor-pointer flex justify-center items-center'>
-                <img src={image} className='w-[60%] h-auto hover:scale-125 ease-linear duration-200 rounded-full'/>
+            <div className='w-[240px] h-[240px] smrev:w-[320px] smrev:h-[320px] rounded-full bg-white hover:translate-y-[-8px] transition-all ease-in duration-200 hover:bg-white shadow-lg cursor-pointer flex justify-center items-center p-6'>
+                <img src={image} className='w-[60%] h-auto hover:scale-125 ease-linear duration-200 '/>
             </div>
             <div className='text-center font-semibold'>{category}</div>
             </div>

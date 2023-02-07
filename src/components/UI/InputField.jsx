@@ -16,7 +16,8 @@ const InputField = ({
   fieldRequired,
   as,
   override,
-  children
+  children,
+  disabled
 }) => {
 
   const [passVisibility,setPassVisibility]=useState(false);
@@ -30,12 +31,13 @@ const showPass=()=>{
 
   return (
     <div className={className}>
-        <label className=" text-slate-600 col-span-1 flex items-center" htmlFor={uni}>
+        <label className=" text-slate-600  flex items-center" htmlFor={uni}>
           {labelName} {fieldRequired && <span className="text-red-500 ">*</span>}
         </label>
-        <div className={`flex items-center space-x-2   rounded-lg bg-blue-100`}>
+        <div className={`flex items-center space-x-2  rounded-lg  ${disabled ? 'bg-red-100': 'bg-blue-100'}`}>
         <Field
-          className={`p-2 w-[100%] bg-blue-100 rounded-lg ${inputClass}`}
+          disabled={disabled}
+          className={`p-2 w-[100%]  rounded-lg ${inputClass} ${disabled ? 'bg-red-100': 'bg-blue-100'}`}
           placeholder={placeholder}
           type={type!=='password' || type===undefined ? type : type==='password' && passVisibility ? 'text' : 'password'}
           id={uni}

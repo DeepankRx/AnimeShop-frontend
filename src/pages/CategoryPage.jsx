@@ -195,8 +195,8 @@ const CategoryPage = () => {
         <div className="text-4xl  border-b-2  h-[320px] overflow-hidden bg-[#27203b] mdrev:h-[160px] relative">
         <img src={assets.art_01} className='w-[200%] h-[200%]  object-contain' />
         <div className='absolute top-0 flex flex-col justify-center items-center h-[100%]  text-white w-[100%] '>
-        <h1 className='text-4xl font-bold'>Limited Editions</h1>
-        <h1 className='text-xl font-bold text-center'>The Ultimate Collection !</h1>
+        <h1 className='text-6xl font-bold mdrev:text-3xl' id='Monton' >Limited Editions</h1>
+        <h1 className='text-3xl font-bold text-center mdrev:text-xl' >The Ultimate Collection !</h1>
         </div>
         </div>
         <div className='p-3 flex justify-center items-center translate-y-[-32px] bg-white rounded-xl shadow-xl w-[50%] m-auto smrev:w-[80%]  '>

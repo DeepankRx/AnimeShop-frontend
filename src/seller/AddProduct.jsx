@@ -130,7 +130,6 @@ const AddProduct = () => {
         )
       }
 
-
     }
 
   }
@@ -165,7 +164,7 @@ const AddProduct = () => {
                 <Form className='flex flex-col gap-4'>
                     <Gap>Basic Info</Gap>
                     <FormWrapper>
-                    <InputField labelName='Product Name' uni='name' placeholder='Shirt' fieldRequired={true} />
+                    <InputField labelName='Product Name' uni='name' placeholder='Shirt'  fieldRequired={true} />
                     <InputField labelName='Brand' uni='brand' placeholder='Zerox' fieldRequired={true} />
                     <InputField labelName='Price' uni='price'  type={'number'} placeholder='1000' fieldRequired={true} />
                     <InputField labelName='Category' uni='category' placeholder='Fashion' fieldRequired={true}/>

@@ -7,10 +7,14 @@ import { useNavigate } from 'react-router-dom';
 import { ALL_LINKS } from '../../constant';
 import { useDispatch, useSelector } from 'react-redux';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
-import ShoppingBagIcon from '@mui/icons-material/ShoppingBag'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { cartActions } from '../../store/cartSlice';
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import { Badge } from '@mui/material';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { clear } from '@testing-library/user-event/dist/clear';
 
 export default function CartPopOver() {
   const dispatch=useDispatch();
@@ -35,13 +39,28 @@ export default function CartPopOver() {
     dispatch(cartActions.removeItemFromCart({_id,size,amount}))
   }
 
-
+  const [itemAdded,setItemAdded]=useState(false);
   const items=useSelector(state=>state.cart.items);
+
+  useEffect(()=>{
+    setItemAdded(true);
+    const timer=setTimeout(() => {
+      setItemAdded(false);
+    }, 500);
+
+    return()=>{
+      clearTimeout(timer);
+    }
+  },[items])
 
   return (
     <div>
-      <Button variant='text' sx={{color:'black'}} onClick={handleClick}>
-      <div className="flex justify-center items-center  space-x-2 "><ShoppingCartIcon sx={{':hover':{color:'#D61355'}}} fontSize='small'/><span className="font-bold  smrev:hidden"></span></div>
+      <Button variant='text' sx={{color:'black'}}   onClick={handleClick}>
+      <div className={`flex justify-center items-center relative  space-x-2  ${itemAdded ? 'scale-110 duration-200  ease-linear' : ''}`}>
+      <Badge  badgeContent={items.length} color="secondary">
+        <ShoppingBagIcon sx={{':hover':{color:'#D61355'},color:`${itemAdded ? 'red': 'black'} `}} fontSize='medium' className=''/>
+      </Badge>
+        </div>
       </Button>
       <Popover
         id={id}
@@ -64,7 +83,7 @@ export default function CartPopOver() {
                 <FontAwesomeIcon onClick={()=>cartRemoveHandler(item._id,item.size,item.amount)} color='red' className='cursor-pointer' icon={faTrash}/>
                 </div>
                 </div>)}
-                {items.length===0 && <h2 className='text-center'>No Items Added</h2>}
+                {items.length===0 && <h2 className='text-center'>No Products Added</h2>}
               </div>
             </div>
             <Button  onClick={()=>{navigate(ALL_LINKS.Cart.pageLink);handleClose();}} variant='outlined' endIcon={<ShoppingBagIcon/>}>View Cart</Button>

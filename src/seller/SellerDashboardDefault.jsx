@@ -14,7 +14,7 @@ const SellerDashboardDefault = () => {
       const TopCustomer=()=>{
         return(
           <div className='flex justify-between items-center bg-yellow-500 p-2 rounded-xl shadow-lg'>
-          <div className='w-12 h-12 overflow-hidden rounded-full'><img src={assets.person}/></div>
+          <div className='w-12 h-12 overflow-hidden rounded-full'><img  src={assets.person}/></div>
           <h2>Deepank Pushpad</h2>
           <h2>@deepika</h2>
           <h2>$200</h2>

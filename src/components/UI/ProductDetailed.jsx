@@ -213,7 +213,7 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews,p
                 variant="contained"
                 color="primary"
                 disabled={!selectedSize}
-                onClick={()=>addToCartHandler({
+                onClick={()=>{addToCartHandler({
                   price: item.price,
                   name: item.name,
                   description: item.description,
@@ -223,9 +223,12 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews,p
                 },
                 quantity,
                 selectedSize.size
-                )}
+                );
+                setQuantity(1);
+                setSelectedSize('');
+              }}
               >
-                Add to Bag
+                Add to Cart
               </Button>
             </div>
           </div>

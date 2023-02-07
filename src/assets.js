@@ -10,6 +10,7 @@ import anime_bg_3 from './images/anime_bg_3.png'
 import cutout_01 from './images/cutout_01.png'
 import person from './images/person.jpg'
 import art_01 from './images/art_01.webp'
+import art_02 from './images/art_02.webp'
 import size_dummy_01 from './images/size_dummy_01.avif'
 import size_dummy_02 from './images/size_dummy_02.avif'
 import size_guide from './images/size_guide.avif'
@@ -25,6 +26,7 @@ export const assets={
     anime_bg_3,
     person,
     art_01,
+    art_02,
     size_guide,
     size_dummy_01,
     size_dummy_02,

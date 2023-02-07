@@ -63,6 +63,7 @@ const LeftPane = () => {
   
     const showMenu={
         'logout':[menu['Home'],menu['Login']],
+        '':[menu['Home'],menu['Login']],
         'seller':[menu['Home'],menu['Dashboard'],menu['MyProducts'],menu['AddProduct']],
       }
     
@@ -81,7 +82,7 @@ const LeftPane = () => {
       {authCtx.isLoggedIn &&
       <div className='flex flex-col items-center my-8'>
         <div className='bg-green-100 w-28 h-28  rounded-full relative overflow-hidden shadow-lg'>
-          <img src={assets.person} className='object-fit'/>
+          <img src={user.profilePicture} className='object-fit'/>
         </div>
         <h1 className='font-bold  mt-4'>{`${user.firstName} ${user.lastName}`}</h1>
         <h1 className='font-semibold'>{`${user.mobileNo}`}</h1>
