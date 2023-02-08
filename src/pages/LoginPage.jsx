@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom'
 import { ALL_LINKS } from '../constant'
 import { toast } from 'react-toastify';
-import { getUserProfile, login } from '../services/APIs';
+import { getUserProfile, login,loginWithGoogle } from '../services/APIs';
 import AuthContext from '../store/AuthContext'
 import { useDispatch } from 'react-redux'
 import { userActions } from '../store/userSlice'
@@ -75,8 +75,24 @@ useEffect(() => {
             shape='pill'
             size='large'
   onSuccess={credentialResponse => {
-    console.log(credentialResponse);
-    console.log(parseJwt(credentialResponse.credential))
+    const { email,family_name,given_name,picture } = parseJwt(credentialResponse.credential);
+    loginWithGoogle({email,family_name,given_name,picture})
+    .then((res)=>{
+      const data=res.data.data;
+      console.log(data.id)
+      authCtx.login(data.token,data.id,'seller');
+      getUserProfile(data.id)
+      .then(res=>{
+        console.log(res.data.data)
+        dispatch(userActions.setUserDetails(res.data.data))
+      })
+      .catch(err=>console.log(err));
+      navigate(ALL_LINKS.HomePage.pageLink);
+      toast.success('Login Successful');
+    })
+    .catch((err)=>{
+      toast.error(err.response.data.message);
+    })
   }}
   onError={() => {
     console.log('Login Failed');
