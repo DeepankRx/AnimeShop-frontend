@@ -1,7 +1,7 @@
 import http from './http_service';
 
 const BASE_MAIN_URL='https://anime-shop-9r2x.vercel.app'
-//const BASE_MAIN_URL='http://localhost:5001'
+// const BASE_MAIN_URL='http://localhost:5001'
 
 const BASE_URL={
   userApi :BASE_MAIN_URL+ '/api/user',
@@ -16,6 +16,7 @@ const TOP_PRODUCTS_LIMIT=4;
 const userModule={
   signup:BASE_URL.userApi+'/signup',
   login:BASE_URL.userApi+'/login',
+  loginWithGoogle:BASE_URL.userApi+'/login-with-google',
   postAddress:BASE_URL.addressApi+'/addAddress/',
   getUserAddress:BASE_URL.addressApi+'/get-user-address/',
   updateAddress:BASE_URL.addressApi+'/update-address/',
@@ -139,4 +140,8 @@ export function addToCart(cart) {
 
 export function deleteProductImage(productId, imageUrl) {
   return http.post(userModule.deleteProductImage + productId, {imageUrl});
+}
+
+export function loginWithGoogle(user) {
+  return http.post(userModule.loginWithGoogle, user);
 }
