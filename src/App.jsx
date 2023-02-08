@@ -1,6 +1,7 @@
 import { Suspense, useContext, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import MainDrawer from "./components/menu/Drawer";
 import { ALL_LINKS } from "./constant";
 import SplashScreen from "./pages/SplashScreen";
@@ -46,6 +47,10 @@ const App = () => {
   }, []);
 
   return (
+    <GoogleOAuthProvider
+    clientId="376399515469-1v98mimj9jmi1afthal23g84nln4q8uo.apps.googleusercontent.com"
+    >
+
     <BrowserRouter>
       <div id="page-container">
         <div id="content-wrap">
@@ -85,6 +90,7 @@ const App = () => {
         </div>
       </div>
     </BrowserRouter>
+                        </GoogleOAuthProvider>
   );
 };
 

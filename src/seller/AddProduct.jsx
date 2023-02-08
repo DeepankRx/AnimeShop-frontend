@@ -155,7 +155,7 @@ const AddProduct = () => {
   const addImages=(e)=>{
     setImage([...image,e.target.files[0]])
   }
-
+  console.log(preview)
   return (
     <div className="flex flex-col  bg-white w-[100%] rounded-2xl p-4 smrev:p-2">
       <div className='overflow-y-auto '>
@@ -293,7 +293,16 @@ const AddProduct = () => {
                     <div key={i} className=" w-full h-60 rounded-md flex justify-center items-center overflow-hidden">
                       <img className='object-contain w-[100%] h-[100%]' src={item}></img>
                     </div>
-                    <IconButton onClick={()=>{setPreview(preview.filter((item2=>item!==item2)))}}  sx={{position:'absolute',top:-16,right:-16,zIndex:10}}  aria-label="delete" size="small"><CancelIcon /></IconButton>
+                    <IconButton onClick={()=>{setPreview(preview.filter((item2=>{
+                        return item2!==item
+                    })))
+
+                    if(!item.includes('blob')){
+
+                    deleteProductImage(productId,item)
+                    }
+                    }
+                    }  sx={{position:'absolute',top:-16,right:-16,zIndex:10}}  aria-label="delete" size="small"><CancelIcon /></IconButton>
                     </div>
                     )
                     )}

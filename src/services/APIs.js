@@ -1,7 +1,7 @@
 import http from './http_service';
 
 const BASE_MAIN_URL='https://anime-shop-9r2x.vercel.app'
-// const BASE_MAIN_URL='http://localhost:5001'
+//const BASE_MAIN_URL='http://localhost:5001'
 
 const BASE_URL={
   userApi :BASE_MAIN_URL+ '/api/user',
@@ -16,7 +16,9 @@ const TOP_PRODUCTS_LIMIT=4;
 const userModule={
   signup:BASE_URL.userApi+'/signup',
   login:BASE_URL.userApi+'/login',
-  postAddress:BASE_URL.addressApi+'/address/addAddress',
+  postAddress:BASE_URL.addressApi+'/addAddress/',
+  getUserAddress:BASE_URL.addressApi+'/get-user-address/',
+  updateAddress:BASE_URL.addressApi+'/update-address/',
   getUserProfile:BASE_URL.userApi+'/userProfile/',
   createProduct:BASE_URL.productApi+'/create',
   updateProduct:BASE_URL.productApi+'/update/',
@@ -55,9 +57,19 @@ export function getUserProfile(id) {
   return http.get(userModule.getUserProfile + id,{ headers: {"Authorization" : `Bearer ${token}`}});
 }
 
-export function addAddress( address) {
+export function addAddress( userId,address) {
   retrieveStoredToken();
-  return http.post(userModule.postAddress + userid, address);
+  return http.post(userModule.postAddress + userId, address);
+}
+
+export function updateAddress(addressId, address,user) {
+  retrieveStoredToken();
+  return http.put(userModule.updateAddress + addressId, {address,user},{ headers: {"Authorization" : `Bearer ${token}`}});
+}
+
+export function getUserAddress(userId) {
+  retrieveStoredToken();
+  return http.get(userModule.getUserAddress + userId,{ headers: {"Authorization" : `Bearer ${token}`}});
 }
 
 export function createProduct(product) {
@@ -125,6 +137,6 @@ export function addToCart(cart) {
   return http.post(userModule.addToCart, cart,{ headers: {"Authorization" : `Bearer ${token}`}});
 }
 
-export function deleteProductImage(productId, imageId) {
-  return http.delete(`${userModule.deleteProductImage}/${productId}/${imageId}`);
+export function deleteProductImage(productId, imageUrl) {
+  return http.post(userModule.deleteProductImage + productId, {imageUrl});
 }

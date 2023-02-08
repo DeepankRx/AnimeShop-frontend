@@ -1,5 +1,6 @@
 import { Formik ,Form} from 'formik'
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect ,useState} from 'react'
+import { GoogleLogin } from '@react-oauth/google';
 import { assets } from '../assets'
 import Button from '../components/UI/Button'
 import InputField from '../components/UI/InputField'
@@ -11,10 +12,16 @@ import { getUserProfile, login } from '../services/APIs';
 import AuthContext from '../store/AuthContext'
 import { useDispatch } from 'react-redux'
 import { userActions } from '../store/userSlice'
+import { faJarWheat } from '@fortawesome/free-solid-svg-icons';
+function parseJwt (token) {
+  var base64Url = token.split('.')[1];
+  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+ var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+   return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+ }).join(''));
+ return JSON.parse(jsonPayload);
+};
 const LoginPage = () => {
-
-
-
   const dispatch=useDispatch();
   const navigate=useNavigate();
   const authCtx=useContext(AuthContext);
@@ -22,8 +29,7 @@ const LoginPage = () => {
     email:'',
     password:''
   }
-
-  useEffect(() => {
+useEffect(() => {
     if(authCtx.isLoggedIn)navigate(ALL_LINKS.HomePage.pageLink)
     }, [authCtx.isLoggedIn]);
 
@@ -63,8 +69,20 @@ const LoginPage = () => {
             <InputField labelName='Email' type='text' uni='email' placeholder='Email' />
             <InputField labelName='Password' type='password' uni='password' placeholder='Password' />
             <div>Don't have an account ? <Link to={ALL_LINKS.SignupPage.pageLink} className='text-blue-500'>Signup</Link></div>
-            <Button type='submit' classname=''>Login</Button>
+            <Button type='submit' >Login</Button>
             </div>
+            <GoogleLogin
+            shape='pill'
+            size='large'
+  onSuccess={credentialResponse => {
+    console.log(credentialResponse);
+    console.log(parseJwt(credentialResponse.credential))
+  }}
+  onError={() => {
+    console.log('Login Failed');
+  }}
+  useOneTap
+/>
         </Form>
         </Formik>
     </div>
