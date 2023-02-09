@@ -56,7 +56,7 @@ const Cart = () => {
   return (
     <div className=''>
     <div id='Poppins' className='p-8  flex flex-col gap-8 w-[80%] m-auto mdrev:w-[100%]'>
-        <h2 className='text-5xl ' id='Monton'><span className='border-b-4 border-black '>MY CART ({items.length})</span></h2>
+        <h2 className='text-5xl mdrev:text-4xl' id='Monton'><span className='border-b-4 border-black '>MY CART ({items.length})</span></h2>
 
         <div className='flex flex-col gap-4'>
             {items.map((item,i)=><Product key={i} product={item}/>)}
