@@ -19,10 +19,10 @@ export const cartSlice=createSlice({
           const existingCartItemIndex = state.items.findIndex(
             (item) => item._id === data.item._id && item.size===data.item.size
           );
-      
+
           const existingCartItem = state.items[existingCartItemIndex];
           let updatedItems;
-      
+
           if (existingCartItem) {
             const updatedItem = {
               ...existingCartItem,
@@ -44,7 +44,7 @@ export const cartSlice=createSlice({
           const existingCartItemIndex = state.items.findIndex(
             (item) => (item._id === data._id && item.size===data.size)
           );
-      
+
           const existingCartItem = state.items[existingCartItemIndex];
           const updatedAmount = state.totalAmount - existingCartItem.price*data.amount;
           let updatedItems=[];
@@ -60,7 +60,7 @@ export const cartSlice=createSlice({
             updatedItems = [...state.items];
             updatedItems[existingCartItemIndex] = updatedItem;
           }
-      
+
           return {
             items: updatedItems,
             totalAmount: updatedAmount,
@@ -68,7 +68,11 @@ export const cartSlice=createSlice({
           };
         },
         replaceCart:(state,action)=>{
-          const items=state.items
+          return {
+            items: action.payload.items,
+            totalAmount: action.payload.totalAmount,
+            changed: state.changed
+          };
         }
     }
 })
@@ -78,7 +82,7 @@ export const cartActions=cartSlice.actions;
 export const fetchCart=(id)=>{
   return async function fetchCartThunk(dispatch){
     const response=await getUsercart(id);
-    console.log(response.data)
+    dispatch(cartActions.replaceCart(response.data.data.cart));
   }
 }
 

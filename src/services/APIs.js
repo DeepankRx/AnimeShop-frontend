@@ -1,7 +1,7 @@
 import http from './http_service';
 
 const BASE_MAIN_URL='https://anime-shop-9r2x.vercel.app'
-// const BASE_MAIN_URL='http://localhost:5001'
+//const BASE_MAIN_URL='http://localhost:5001'
 
 const BASE_URL={
   userApi :BASE_MAIN_URL+ '/api/user',

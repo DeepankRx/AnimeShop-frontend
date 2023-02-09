@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "./store/userSlice";
 import { fetchCart, sendCartData } from "./store/cartSlice";
 const App = () => {
-
+  const [count,setCount] = useState(0);
   const authCtx=useContext(AuthContext);
   const dispatch=useDispatch();
   const user=useSelector((state)=>state.user.user);
@@ -50,7 +50,8 @@ const App = () => {
   }, []);
 
   useEffect(()=>{
-    if(authCtx.isLoggedIn)sendCartData(cartData)
+    if(authCtx.isLoggedIn && count)sendCartData(cartData)
+    setCount(count+1);
   },[cartData.changed])
 
   useEffect(()=>{
