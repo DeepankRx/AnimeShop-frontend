@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { addToCart, getUsercart } from "../services/APIs";
 
 const initialState={
     items: [],
     totalAmount: 0,
+    changed:false
 };
 
 export const cartSlice=createSlice({
@@ -10,7 +12,6 @@ export const cartSlice=createSlice({
     initialState:initialState,
     reducers:{
         addItemToCart:(state,action)=>{
-          console.log(action.payload.item);
           const data=action.payload;
         const updatedAmount =
         state.totalAmount + data.item.price * data.item.amount;
@@ -35,6 +36,7 @@ export const cartSlice=createSlice({
           return {
             items: updatedItems,
             totalAmount: updatedAmount,
+            changed: !state.changed
           };
         },
         removeItemFromCart:(state,action)=>{
@@ -62,9 +64,24 @@ export const cartSlice=createSlice({
           return {
             items: updatedItems,
             totalAmount: updatedAmount,
+            changed: !state.changed
           };
+        },
+        replaceCart:(state,action)=>{
+          const items=state.items
         }
     }
 })
 
 export const cartActions=cartSlice.actions;
+
+export const fetchCart=(id)=>{
+  return async function fetchCartThunk(dispatch){
+    const response=await getUsercart(id);
+    console.log(response.data)
+  }
+}
+
+export const sendCartData=(data)=>{
+  addToCart({cart:{items:data.items,totalAmount:data.totalAmount}});
+}

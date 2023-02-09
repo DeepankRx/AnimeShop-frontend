@@ -59,7 +59,7 @@ export default function MainDrawer() {
     </div>
     <div className="w-[100%]  bg-white text-black   py-4 px-2 flex  justify-between items-center m-auto">
       <Link to={ALL_LINKS.HomePage.pageLink} className="text-4xl font-semibold tracking-wide hover:scale-105 duration-200 hover:text-purple-500" id='RubyVinyl'>ANIMART</Link>
-      <div className="flex space-x-1 items-center">
+      <div className="flex space-x-4 items-center smrev:space-x-2">
         <MenuPopOver/>
         <CartPopOver/>
          {/* <Button variant='text' sx={{color:'black'}}> */}

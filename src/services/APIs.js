@@ -35,6 +35,7 @@ const userModule={
   getSellerProducts:BASE_URL.sellerApi+'/products/',
   addToCart:BASE_URL.cartApi+'/add-to-cart',
   deleteProductImage:BASE_URL.productApi+'/delete-image/',
+  getUsercart:BASE_URL.cartApi+'/get-cart-by-user/'
 }
 
 let token='';
@@ -68,9 +69,9 @@ export function updateAddress(addressId, address,user) {
   return http.put(userModule.updateAddress + addressId, {address,user},{ headers: {"Authorization" : `Bearer ${token}`}});
 }
 
-export function getUserAddress(userId) {
+export function getUserAddress() {
   retrieveStoredToken();
-  return http.get(userModule.getUserAddress + userId,{ headers: {"Authorization" : `Bearer ${token}`}});
+  return http.get(userModule.getUserAddress + userid,{ headers: {"Authorization" : `Bearer ${token}`}});
 }
 
 export function createProduct(product) {
@@ -133,9 +134,14 @@ export function getSellerProducts(id) {
   return http.get(userModule.getSellerProducts + id);
 }
 
+export function getUsercart(id) {
+  return http.get(userModule.getUsercart + id);
+}
+
+
 export function addToCart(cart) {
   retrieveStoredToken();
-  return http.post(userModule.addToCart, cart,{ headers: {"Authorization" : `Bearer ${token}`}});
+  return http.put(userModule.addToCart, {...cart,user:userid},{ headers: {"Authorization" : `Bearer ${token}`}});
 }
 
 export function deleteProductImage(productId, imageUrl) {

@@ -1,5 +1,4 @@
 import React from 'react'
-import { DATA } from '../constant'
 import styles from '../styles/css/loader.module.css'
 import backgrounds from '../styles/css/backgrounds.module.css'
 const SplashScreen = () => {
@@ -7,7 +6,7 @@ const SplashScreen = () => {
     <>
     <div className='w-[100vw] h-[40vh] flex justify-center items-center flex-col'>
       <div className={styles.loader}></div>
-      <div className='mt-4 uppercase text-2xl font-bold text-black'>Welcome to {DATA.site_name}</div>
+      <div className='mt-4 uppercase text-2xl font-bold text-black'>Welcome to Animart</div>
     </div>
     <div className={`${backgrounds.bg_1} h-[60vh]`}></div>
     </>

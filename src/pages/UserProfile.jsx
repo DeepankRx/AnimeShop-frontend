@@ -2,7 +2,7 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Button, IconButton } from '@mui/material'
 import { Container } from '@mui/system'
-import { addAddress } from '../services/APIs'
+import { addAddress, getUserAddress } from '../services/APIs'
 import { Field, FieldArray, Form, Formik } from 'formik'
 import React, { useState,useContext } from 'react'
 import AuthContext from '../store/AuthContext'
@@ -15,12 +15,20 @@ import Gap from '../components/UI/Gap'
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { useSelector } from 'react-redux'
 const UserProfile = () => {
+    const user=useSelector(state=>state.user.user);
     const authCtx=useContext(AuthContext);
     const {userid}=authCtx;
     const [image,setImage]=useState(null);
     const [preview,setPreview]=useState(null);
     const [isEditing,setIsEditing]=useState(false);
+    const [contactFetchedValues,setContactFetchedValues]=useState({
+      firstName:'',
+      lastName:'',
+      email:'',
+      mobileNo:'',
+    });
 
     const contactInitialValues={
         firstName:'',
@@ -95,6 +103,25 @@ const UserProfile = () => {
     setPreview(objectUrl);
   }, [image]);
 
+  useEffect(()=>{
+    
+    const fetchAddress=async()=>{
+      const response=await getUserAddress();
+      const data=response.data;
+      console.data(data)
+    }
+    
+    fetchAddress();
+    
+    setContactFetchedValues({
+      firstName:user.firstName,
+      lastName:user.lastName,
+      email:user.email,
+      mobileNo:user.mobileNo,
+    })
+    setPreview(user.profilePicture);
+  },[user])
+
   return (
     <div>
         <div className="text-4xl    h-[320px] overflow-hidden bg-[#2f015c] mdrev:h-[160px] relative">
@@ -114,7 +141,8 @@ const UserProfile = () => {
                 src={preview}
                 className='w-[100%] h-[100%] rounded-full p-1'
               />
-            <div className="absolute right-0 bottom-8">
+              {isEditing &&
+              <div className="absolute right-0 bottom-8">
               <label htmlFor="profile_pic">
                 <FontAwesomeIcon
                   className="text-2xl text-tertiary text-blue-800"
@@ -128,13 +156,14 @@ const UserProfile = () => {
                 onChange={(e) => setImage(e.target.files[0])}
                 accept="image/png, image/jpeg"
               ></input>
-            </div>
+              </div>
+            }
             </div>
           </div>
 
           <div className='flex flex-col justify-center ml-4 smrev:justify-end smrev:pb-4'>
-          <h2  className=' text-2xl font-bold'>Himanshu Chauhan</h2>
-          <h2 className=' text-sm font-bold'>@theeastwindz0</h2>
+          <h2  className=' text-2xl font-bold'>{`${user.firstName} ${user.lastName}`}</h2>
+          {user.mobileNo && <h2 className=' text-sm font-bold'>{user.mobileNo}</h2>}
 
           </div>
         </div>
@@ -144,22 +173,22 @@ const UserProfile = () => {
           <div className='self-end'>
             <Button onClick={()=>setIsEditing(!isEditing)} variant='contained' endIcon={ !isEditing ? <EditIcon/> : <CancelIcon/>}>{!isEditing ? 'Edit' :'Cancel'}</Button>
           </div>
-            <Formik initialValues={contactInitialValues}  onSubmit={contactSubmitHandler} validationSchema={contactValidationSchema}>
+            <Formik initialValues={contactFetchedValues || contactInitialValues}  onSubmit={contactSubmitHandler} validationSchema={contactValidationSchema} enableReinitialize>
                 <Form className='flex flex-col'>
                   <Gap>Contact Details</Gap>
                     <FormWrapper>
-                      <InputField  uni='firstName' placeholder="Alex" labelName='First Name' disabled={!isEditing}/>
-                      <InputField uni='lastName' placeholder="Jersey" labelName='Last Name' disabled={!isEditing}/>
-                      <InputField uni='mobileNo' placeholder="9876097261" labelName='Mobile No' disabled={!isEditing}/>
+                      <InputField  uni='firstName' placeholder="Alex" labelName='First Name' disabled={true}/>
+                      <InputField uni='lastName' placeholder="Jersey" labelName='Last Name' disabled={true}/>
+                      <InputField uni='mobileNo' placeholder="9876097261" labelName='Mobile No' disabled={true}/>
 
                     </FormWrapper>
 
                       <FormWrapper>
-                      <InputField className='col-span-2' uni='email' placeholder="alexjersey@gmail.com" labelName='Email' disabled={!isEditing}/>
+                      <InputField className='col-span-2' uni='email' placeholder="alexjersey@gmail.com" labelName='Email' disabled={true}/>
                       </FormWrapper>
 
                     <div className='flex justify-end my-4 mr-0'>
-                    {isEditing && <Button type='submit' variant='contained'>Save</Button>}
+                    {/* {isEditing && <Button type='submit' variant='contained'>Save</Button>} */}
                     </div>
                 </Form>
             </Formik>

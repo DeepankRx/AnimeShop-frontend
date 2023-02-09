@@ -8,12 +8,15 @@ import SplashScreen from "./pages/SplashScreen";
 import AuthContext from "./store/AuthContext";
 import "react-toastify/dist/ReactToastify.css";
 import { getUserProfile } from "./services/APIs";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "./store/userSlice";
+import { fetchCart, sendCartData } from "./store/cartSlice";
 const App = () => {
 
   const authCtx=useContext(AuthContext);
   const dispatch=useDispatch();
+  const user=useSelector((state)=>state.user.user);
+  const cartData=useSelector((state)=>state.cart)
 
   const PAGES=[
     ALL_LINKS.LoginPage,
@@ -45,6 +48,14 @@ const App = () => {
     }else{
     }
   }, []);
+
+  useEffect(()=>{
+    if(authCtx.isLoggedIn)sendCartData(cartData)
+  },[cartData.changed])
+
+  useEffect(()=>{
+    if(authCtx.isLoggedIn && user.id)dispatch(fetchCart(user.id))
+  },[user.id])
 
   return (
     <GoogleOAuthProvider

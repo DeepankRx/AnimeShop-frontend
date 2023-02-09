@@ -28,7 +28,7 @@ import {
 } from '@mui/material';
 import { Box, color } from '@mui/system';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import StarIcon from '@mui/icons-material/Star';
 import { assets } from '../../assets';
 
@@ -37,6 +37,7 @@ import Typography from '@mui/material/Typography';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import { useDispatch } from 'react-redux';
 import { cartActions } from '../../store/cartSlice';
+import { ALL_LINKS } from '../../constant';
 const timeAgo = (date) => {
   const seconds = Math.floor((new Date() - date) / 1000);
   let interval = Math.floor(seconds / 31536000);
@@ -73,6 +74,7 @@ const averageRating = (reviews) => {
 
 const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews,productId }) => {
   const dispatch=useDispatch();
+  const navigate=useNavigate();
   const Review = ({review}) => {
     return (
       <div className="w-[100%] border-[1px] border-gray-400 p-2 flex flex-col gap-2">
@@ -334,6 +336,11 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews,p
           })
         }
           </div>
+          <div className='flex gap-2'>
+            <h2>Confused about your size ? Check our</h2>
+          <a href={ALL_LINKS.SizingGuide.pageLink} target='_blank'  className='text-blue-600' variant='text' >Size Chart</a>
+          </div>
+
 
           {reviews.length > 0 &&     <div className="flex flex-col gap-4">
             <h2 className="text-xl font-bold">Rating and Reviews</h2>
@@ -363,8 +370,7 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews,p
             <h2 className="smrev:hidden">{name}</h2>
           </div>
           <div className="flex items-center gap-2"></div>
-          <a className='text-blue-50'>Size Chart</a>
-          <PopoverCard item={{ price, name, description,images,brand,reviews,_id:productId }} />
+          <PopoverCard item={{ price, name, description,images,brand,reviews,productId:productId }} />
         </div>
       </div>
     </div>
