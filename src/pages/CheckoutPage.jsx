@@ -1,6 +1,7 @@
 import { Button, Divider } from '@mui/material'
 import { Form, Formik } from 'formik';
 import React, { useState } from 'react'
+import http from '../services/http_service';
 import { createOrder } from '../services/APIs';
 import Gap from '../components/UI/Gap';
 import InputField from '../components/UI/InputField';
@@ -16,13 +17,86 @@ const CheckoutPage = () => {
 
   const items=useSelector(state=>state.cart.items)
   const user=useSelector(state=>state.user.user)
+  function isDate(val) {
+    // Cross realm comptatible
+    return Object.prototype.toString.call(val) === '[object Date]'
+  }
+
+  function isObj(val) {
+    return typeof val === 'object'
+  }
+
+   function stringifyValue(val) {
+    if (isObj(val) && !isDate(val)) {
+      return JSON.stringify(val)
+    } else {
+      return val
+    }
+  }
+
+  function buildForm({ action, params }) {
+    const form = document.createElement('form')
+    form.setAttribute('method', 'post')
+    form.setAttribute('action', action)
+
+    Object.keys(params).forEach(key => {
+      const input = document.createElement('input')
+      input.setAttribute('type', 'hidden')
+      input.setAttribute('name', key)
+      input.setAttribute('value', stringifyValue(params[key]))
+      form.appendChild(input)
+    })
+
+    return form
+  }
+
+   function post(details) {
+    const form = buildForm(details)
+    document.body.appendChild(form)
+    form.submit()
+    form.remove()
+  }
+
+  const handleOnlinePayment=async()=>{
+    const data = {
+      user:user.id,
+      order:{
+        address:user.address.address[addressChecked-1],
+        paymentType:'ONLINE',
+        paymentStatus:'pending',
+        orderStatus:'pending',
+        items:items,
+        totalAmount:items.reduce((acc,item)=>acc+item.amount*item.price,0)
+      },
+    }
+    http.post('http://localhost:5001/api/payment',{
+      amount:data.order.totalAmount,
+      email:user.email,
+      mobileNo:user.address.address[addressChecked-1].mobileNo,
+      order:data.order,
+      user:user.id
+    })
+    .then((response)=>{
+      console.log(response.data);
+     const information={
+        action:'https://securegw-stage.paytm.in/order/process',
+        params:response.data
+      }
+      post(information);
+      http.post("https://securegw-stage.paytm.in/order/process",response.data)
+    })
+    .catch((error)=>{
+      console.log(error);
+    })
+  }
+
   const handleCreateOrder=async(values,actions)=>{
     dispatch(cartActions.replaceCart({items:[],totalAmount:0,changed:!user.changed}))
     const order={
       user:user.id,
       order:{
         address:user.address.address[addressChecked-1],
-        paymentType:paymentChecked===1 ? 'COD' : 'CARD',
+        paymentType:paymentChecked===1 ? 'ONLINE' : 'COD',
         paymentStatus:'pending',
         orderStatus:'pending',
         items:items,
@@ -30,7 +104,6 @@ const CheckoutPage = () => {
       }
     }
     const response=await createOrder(order);
-    console.log(response);
   }
 
   const Address=({name,address})=>{
@@ -67,6 +140,7 @@ const CheckoutPage = () => {
 const addToCartHandler=(item,amount,size)=>{
     dispatch(cartActions.addItemToCart({item:{...item,amount,size}}))
 }
+console.log(user)
   return (
     <div className=' gap-4 flex flex-col'>
         <h2 id='Monton' className='text-4xl p-4'>CHECKOUT DETAILS</h2>
@@ -106,18 +180,8 @@ const addToCartHandler=(item,amount,size)=>{
             <div className='flex flex-col gap-4'>
             <div className='flex  gap-4 items-center'>
             <input name='payment1' onClick={()=>setPaymentChecked(1)} checked={paymentChecked===1 ? true : false} className='w-5 h-5 ring-0 rounded' type='radio' />
-            <label for='payment1' className='text-lg font-bold'>Credit Card</label>
+            <label for='payment1' className='text-lg font-bold'>Online</label>
             </div>
-            { paymentChecked===1 &&
-            <Formik  initialValues={initialValues} validationSchema={validationSchema} >
-            <Form className='grid grid-cols-1 bg-white p-2  rounded-lg '>
-              <InputField uni='cardNo' labelName='Card Number' placeholder='XXXX XXXX XXXX XXXX'/>
-              <InputField uni='expirationDate' labelName='Expiration Date' placeholder='MM/YY'/>
-              <InputField uni='cvv' labelName='CVV' placeholder='XXX'/>
-            </Form>
-            </Formik>
-          }
-
             <div className='flex  gap-4 items-center'>
             <input name='payment2' onClick={()=>setPaymentChecked(2)} checked={paymentChecked===2 ? true : false} className='w-5 h-5 ring-0 rounded' type='radio' />
             <label for='payment2' className='text-lg font-bold'>Cash on Delivery</label>
@@ -166,7 +230,9 @@ const addToCartHandler=(item,amount,size)=>{
 
               )}
                 <Button variant='contained' className='bg-black text-white'
-                onClick={()=>handleCreateOrder()}
+                onClick={()=>
+                  paymentChecked===1 ? handleOnlinePayment() : handleCreateOrder()
+                }
                 disabled={items.length===0 ? true : false}
                 >Place Order</Button>
             </div>
