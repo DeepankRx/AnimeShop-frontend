@@ -1,6 +1,7 @@
 import { Button, Divider } from '@mui/material'
 import { Form, Formik } from 'formik';
 import React, { useState } from 'react'
+import { createOrder } from '../services/APIs';
 import Gap from '../components/UI/Gap';
 import InputField from '../components/UI/InputField';
 import * as Yup from 'yup'
@@ -14,16 +15,33 @@ const CheckoutPage = () => {
   const [addressChecked,setAddressChecked]=useState(1);
 
   const items=useSelector(state=>state.cart.items)
+  const user=useSelector(state=>state.user.user)
+  const handleCreateOrder=async(values,actions)=>{
+    dispatch(cartActions.replaceCart({items:[],totalAmount:0,changed:!user.changed}))
+    const order={
+      user:user.id,
+      order:{
+        address:user.address.address[addressChecked-1],
+        paymentType:paymentChecked===1 ? 'COD' : 'CARD',
+        paymentStatus:'pending',
+        orderStatus:'pending',
+        items:items,
+        totalAmount:items.reduce((acc,item)=>acc+item.amount*item.price,0)
+      }
+    }
+    const response=await createOrder(order);
+    console.log(response);
+  }
 
-  const Address=({name})=>{
+  const Address=({name,address})=>{
     return(
-      <div className='flex items-center gap-4 shadow-lg rounded-xl p-2 bg-white'>
-      <input onClick={()=>setAddressChecked(name)} checked={addressChecked===name ? true : false} name={name} className='w-8 h-8 ring-0 rounded' type='radio'/>
+      <div className='flex items-center gap-4 shadow-lg rounded-xl p-2 bg-white cursor-pointer hover:opacity-75' onClick={()=>setAddressChecked(name)}>
+      <input  checked={addressChecked===name ? true : false} name={name} className='w-8 h-8 ring-0 rounded' type='radio'/>
       <div>
-      <h3 className='text-xl font-semibold'>Himanshu Chauhan</h3>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti pariatur magnam doloribus </p>
-      <p className='font-semibold'>Dehradun , Uttarakhand , India</p>
-      <p className='font-semibold'>8941983289</p>
+      <h3 className='text-xl font-semibold'>{address.customerName}</h3>
+      <p>{address.addressLine1} {address.addressLine2} {address.landmark} {address.pincode}</p>
+      <p className='font-semibold'>{address.city} , {address.state} , India</p>
+      <p className='font-semibold'>{address.mobileNo}</p>
     </div>
     </div>
     )
@@ -49,7 +67,6 @@ const CheckoutPage = () => {
 const addToCartHandler=(item,amount,size)=>{
     dispatch(cartActions.addItemToCart({item:{...item,amount,size}}))
 }
-
   return (
     <div className=' gap-4 flex flex-col'>
         <h2 id='Monton' className='text-4xl p-4'>CHECKOUT DETAILS</h2>
@@ -57,12 +74,15 @@ const addToCartHandler=(item,amount,size)=>{
           <div className='col-span-1 flex flex-col bg-slate-100 p-4 rounded-xl  gap-4'>
             <Gap>Shipping Address</Gap>
             <form className='flex flex-col gap-4'>
-              <Address name={1} />
-              <Address name={2} />
-              <Address name={3} />
+              {
+                user.address.address.map((item,i)=>{
+
+                 return <Address name={i} address={item}/>
+                })
+              }
             </form>
             <div className='flex'><Button variant='contained'>Add Other Address</Button></div>
-            
+
             <Gap>Billing Address</Gap>
             <div className='flex  gap-4 items-center
             '>
@@ -141,8 +161,14 @@ const addToCartHandler=(item,amount,size)=>{
                 <h2>SubTotal</h2>
                 <h2>{(+item.price) * (+item.amount)}</h2>
               </div>
+
               </div>
+
               )}
+                <Button variant='contained' className='bg-black text-white'
+                onClick={()=>handleCreateOrder()}
+                disabled={items.length===0 ? true : false}
+                >Place Order</Button>
             </div>
           </div>
         </div>

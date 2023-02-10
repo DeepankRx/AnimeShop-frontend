@@ -51,7 +51,6 @@ export const cartSlice=createSlice({
           if (existingCartItem.amount === 1 || existingCartItem.amount===data.amount) {
             // updatedItems = state.items.filter((item) =>  {return (item.size!==data.size && item._id !== data._id)} );
             state.items.map((item,index)=>{if(index!==existingCartItemIndex)updatedItems.push(item)});
-            console.log(updatedItems)
           } else {
             const updatedItem = {
               ...existingCartItem,
@@ -68,11 +67,14 @@ export const cartSlice=createSlice({
           };
         },
         replaceCart:(state,action)=>{
+          let changed = state.changed ;
+          if(action.payload.changed) changed = action.payload.changed;
           return {
             items: action.payload.items,
             totalAmount: action.payload.totalAmount,
-            changed: state.changed
+            changed: changed
           };
+
         }
     }
 })
