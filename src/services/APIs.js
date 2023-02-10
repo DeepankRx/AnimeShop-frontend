@@ -1,7 +1,7 @@
 import http from './http_service';
 
 const BASE_MAIN_URL='https://anime-shop-9r2x.vercel.app'
-//const BASE_MAIN_URL='http://localhost:5001'
+// const BASE_MAIN_URL='http://localhost:5001'
 
 const BASE_URL={
   userApi :BASE_MAIN_URL+ '/api/user',
@@ -9,6 +9,7 @@ const BASE_URL={
   productApi :BASE_MAIN_URL+ '/api/product',
   sellerApi :BASE_MAIN_URL+ '/api/seller',
   cartApi :BASE_MAIN_URL+ '/api/cart',
+  orderApi :BASE_MAIN_URL+ '/api/order',
 }
 
 const TOP_PRODUCTS_LIMIT=4;
@@ -35,7 +36,8 @@ const userModule={
   getSellerProducts:BASE_URL.sellerApi+'/products/',
   addToCart:BASE_URL.cartApi+'/add-to-cart',
   deleteProductImage:BASE_URL.productApi+'/delete-image/',
-  getUsercart:BASE_URL.cartApi+'/get-cart-by-user/'
+  getUsercart:BASE_URL.cartApi+'/get-cart-by-user/',
+  createOrder:BASE_URL.orderApi+'/create-order',
 }
 
 let token='';
@@ -150,4 +152,8 @@ export function deleteProductImage(productId, imageUrl) {
 
 export function loginWithGoogle(user) {
   return http.post(userModule.loginWithGoogle, user);
+}
+
+export function createOrder(order) {
+  return http.post(userModule.createOrder, order);
 }

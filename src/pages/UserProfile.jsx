@@ -56,7 +56,7 @@ const UserProfile = () => {
       firstName:Yup.string().required('Required'),
       lastName: Yup.string().required('Required'),
       email: Yup.string().email('Invalid Email Format').required('Required'),
-      mobileNo: Yup.string().required('Required').max(10),
+      mobileNo: Yup.number().required('Required').max(10000000000),
     })
 
     const addressValidationSchema=Yup.object({
@@ -69,7 +69,7 @@ const UserProfile = () => {
           pinCode:Yup.number().required('Required'),
           city:Yup.string().required('Required'),
           state:Yup.string().required('Required'),
-          mobileNo:Yup.number().required('Required').max(10),
+          mobileNo:Yup.number().required('Required').max(10000000000),
         })
       )
     })
@@ -104,15 +104,15 @@ const UserProfile = () => {
   }, [image]);
 
   useEffect(()=>{
-    
+
     const fetchAddress=async()=>{
       const response=await getUserAddress();
       const data=response.data;
       console.data(data)
     }
-    
+
     fetchAddress();
-    
+
     setContactFetchedValues({
       firstName:user.firstName,
       lastName:user.lastName,
@@ -210,7 +210,9 @@ const UserProfile = () => {
                         </div>
                         <FormWrapper>
                         <InputField placeholder='Alex Jersey' uni={`address.${i}.customerName`} labelName='Customer Name' disabled={!isEditing}/>
-                        <InputField placeholder='9876543210' uni={`address.${i}.mobileNo`} labelName='Customer Mobile No' disabled={!isEditing}/>
+                        <InputField placeholder='9876543210' uni={`address.${i}.mobileNo`} labelName='Customer Mobile No' disabled={!isEditing}
+                          type='number'
+                        />
                         </FormWrapper>
 
                         <FormWrapper>
@@ -220,7 +222,9 @@ const UserProfile = () => {
                         </FormWrapper>
 
                         <FormWrapper>
-                        <InputField placeholder='240991' uni={`address.${i}.pinCode`} labelName='Pincode' disabled={!isEditing}/>
+                        <InputField placeholder='240991' uni={`address.${i}.pinCode`} labelName='Pincode' disabled={!isEditing}
+                          type='number'
+                        />
                         <InputField placeholder='Bangalore' uni={`address.${i}.city`} labelName='City' disabled={!isEditing}/>
                         <InputField placeholder='Karnataka' uni={`address.${i}.state`} labelName='State' disabled={!isEditing}/>
                         </FormWrapper>
