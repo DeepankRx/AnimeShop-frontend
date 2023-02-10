@@ -63,7 +63,7 @@ useEffect(() => {
             <img src={assets.bg_01} />
         </div>
         <Formik initialValues={initialValues} validationSchema={validateSchema} onSubmit={onSubmit}>
-        <Form className='translate-y-[-200px] bg-white w-[600px] p-8 shadow-lg  rounded-lg flex flex-col items-center smrev:w-[90%]'>
+        <Form className='translate-y-[-200px] bg-white w-[600px] p-8 shadow-lg  rounded-lg flex flex-col gap-4 items-center smrev:w-[90%]'>
             <div className='text-center text-2xl font-bold'>Login</div>
             <div className='w-[100%] space-y-4'>
             <InputField labelName='Email' type='text' uni='email' placeholder='Email' />
@@ -71,21 +71,22 @@ useEffect(() => {
             <div>Don't have an account ? <Link to={ALL_LINKS.SignupPage.pageLink} className='text-blue-500'>Signup</Link></div>
             <Button type='submit' >Login</Button>
             </div>
+            <div className='mt-4'>
             <GoogleLogin
-            shape='pill'
+            shape='rectangular'
             size='large'
-  onSuccess={credentialResponse => {
-    const { email,family_name,given_name,picture } = parseJwt(credentialResponse.credential);
-    loginWithGoogle({email,family_name,given_name,picture})
-    .then((res)=>{
-      const data=res.data.data;
-      console.log(data.id)
-      authCtx.login(data.token,data.id,'seller');
-      getUserProfile(data.id)
-      .then(res=>{
-        console.log(res.data.data)
-        dispatch(userActions.setUserDetails(res.data.data))
-      })
+            onSuccess={credentialResponse => {
+            const { email,family_name,given_name,picture } = parseJwt(credentialResponse.credential);
+            loginWithGoogle({email,family_name,given_name,picture})
+            .then((res)=>{
+            const data=res.data.data;
+            console.log(data.id)
+            authCtx.login(data.token,data.id,'seller');
+            getUserProfile(data.id)
+            .then(res=>{
+            console.log(res.data.data)
+            dispatch(userActions.setUserDetails(res.data.data))
+            })
       .catch(err=>console.log(err));
       navigate(ALL_LINKS.HomePage.pageLink);
       toast.success('Login Successful');
@@ -98,7 +99,8 @@ useEffect(() => {
     console.log('Login Failed');
   }}
   useOneTap
-/>
+            />
+            </div>
         </Form>
         </Formik>
     </div>

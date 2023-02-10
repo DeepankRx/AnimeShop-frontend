@@ -7,6 +7,7 @@ import { Button } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import NoList from '../components/UI/NoList'
 import {cartActions} from '../store/cartSlice'
+import { ALL_LINKS } from '../constant'
 const Cart = () => {
     const dispatch=useDispatch();
     const items=useSelector(state=>state.cart.items);
@@ -96,7 +97,7 @@ const Cart = () => {
     </div>
 
     <div className='bg-white rounded-xl p-4 gap-2 flex flex-col'>
-        <Button sx={{backgroundColor:'orange'}} variant='contained' disabled={items.length===0}>Proceed</Button>
+        <Button href={ALL_LINKS.Checkout.pageLink} sx={{backgroundColor:'orange'}} variant='contained' disabled={items.length===0}>Proceed</Button>
     </div>
 
     </div>

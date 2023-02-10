@@ -6,10 +6,10 @@ const Gap = (props) => {
      <div
         className={`flex-none flex items-center justify-center text-white font-semibold ${className} my-4`}
       >
-        <div className="rounded-lg bg-primary px-6 py-1.5 w-64 text-center ">
+        <div className="rounded-lg bg-primary px-6 py-1.5 flex text-center ">
           {props.children}
         </div>
-        <div className="w-[100%] bg-primary h-1"></div>
+        <div className=" flex-1 bg-primary h-1"></div>
       </div>
     );
   };
