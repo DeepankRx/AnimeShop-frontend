@@ -42,24 +42,23 @@ export default function MainDrawer() {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-
       <LeftPane/>
     </Box>
   )};
 
   return (
     <div className="text-white">
-    <div className="bg-black py-[5px] border-b-2  px-2 border-b-white flex justify-between">
+    {/* <div className="bg-black py-[5px] border-b-2  px-2 border-b-white flex justify-between">
       <p>Hassle free returns within a week</p>
       <div className="space-x-2">
         <InstagramIcon fontSize="small"/>
         <FacebookIcon fontSize="small"/>
         <WhatsAppIcon fontSize="small"/>
       </div>
-    </div>
+    </div> */}
     <div className="w-[100%]  bg-white text-black   py-4 px-2 flex  justify-between items-center m-auto">
       <Link to={ALL_LINKS.HomePage.pageLink} className="text-4xl font-semibold tracking-wide hover:scale-105 duration-200 hover:text-purple-500" id='RubyVinyl'>ANIMART</Link>
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center space-x-4 smrev:space-x-2">
         <MenuPopOver/>
         <CartPopOver/>
          {/* <Button variant='text' sx={{color:'black'}}> */}

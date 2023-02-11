@@ -82,10 +82,10 @@ const LeftPane = () => {
       {authCtx.isLoggedIn &&
       <div className='flex flex-col items-center my-8'>
         <div className='bg-green-100 w-28 h-28  rounded-full relative overflow-hidden shadow-lg'>
-          <img src={user.profilePicture} className='object-fit'/>
+          <img src={user.profilePicture} className='w-[100%] h-[100%]'/>
         </div>
         <h1 className='font-bold  mt-4'>{`${user.firstName} ${user.lastName}`}</h1>
-        <h1 className='font-semibold'>{`${user.mobileNo}`}</h1>
+        {user.mobileNo && <h1 className='font-semibold'>{`${user.mobileNo}`}</h1>}
       </div>
       }
       {/* <NavLink 

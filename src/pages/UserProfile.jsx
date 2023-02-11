@@ -15,14 +15,28 @@ import Gap from '../components/UI/Gap'
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import {userActions} from '../store/userSlice'
 const UserProfile = () => {
     const user=useSelector(state=>state.user.user);
+    const dispatch=useDispatch();
     const authCtx=useContext(AuthContext);
     const {userid}=authCtx;
     const [image,setImage]=useState(null);
     const [preview,setPreview]=useState(null);
     const [isEditing,setIsEditing]=useState(false);
+    const [addressFetchedValues,setAddressFetchedValues]=useState({
+      address:[{
+        customerName:'',
+        addressLine1:'',
+        addressLine2:'',
+        landmark:'',
+        pinCode:'',
+        city:'',
+        state:'',
+        mobileNo:'',  
+    }]})
     const [contactFetchedValues,setContactFetchedValues]=useState({
       firstName:'',
       lastName:'',
@@ -66,7 +80,7 @@ const UserProfile = () => {
           addressLine1:Yup.string().required('Required'),
           addressLine2:Yup.string().required('Required'),
           landmark:Yup.string().required('Required'),
-          pinCode:Yup.number().required('Required'),
+          pinCode:Yup.number().required('Required').max(100000000),
           city:Yup.string().required('Required'),
           state:Yup.string().required('Required'),
           mobileNo:Yup.number().required('Required').max(10000000000),
@@ -85,7 +99,9 @@ const UserProfile = () => {
         address:values.address
       })
       .then((res)=>{
-        console.log(res);
+        toast.success("Added Address Successfully !");
+        setIsEditing(false);
+        dispatch(userActions.setUpdated());
       }
       )
       .catch((err)=>{
@@ -104,23 +120,20 @@ const UserProfile = () => {
   }, [image]);
 
   useEffect(()=>{
+    if(authCtx.isLoggedIn){
 
-    const fetchAddress=async()=>{
-      const response=await getUserAddress();
-      const data=response.data;
-      console.data(data)
+      setContactFetchedValues({
+        firstName:user.firstName,
+        lastName:user.lastName,
+        email:user.email,
+        mobileNo:user.mobileNo,
+      })
+      setPreview(user.profilePicture);
+      setAddressFetchedValues({address:user.address.address});
     }
-
-    fetchAddress();
-
-    setContactFetchedValues({
-      firstName:user.firstName,
-      lastName:user.lastName,
-      email:user.email,
-      mobileNo:user.mobileNo,
-    })
-    setPreview(user.profilePicture);
   },[user])
+
+
 
   return (
     <div>
@@ -179,7 +192,7 @@ const UserProfile = () => {
                     <FormWrapper>
                       <InputField  uni='firstName' placeholder="Alex" labelName='First Name' disabled={true}/>
                       <InputField uni='lastName' placeholder="Jersey" labelName='Last Name' disabled={true}/>
-                      <InputField uni='mobileNo' placeholder="9876097261" labelName='Mobile No' disabled={true}/>
+                      <InputField uni='mobileNo' type='number' placeholder="9876097261" labelName='Mobile No' disabled={true}/>
 
                     </FormWrapper>
 
@@ -193,7 +206,7 @@ const UserProfile = () => {
                 </Form>
             </Formik>
 
-            <Formik initialValues={addressInitialValues} onSubmit={addressSubmitHandler} validationSchema={addressValidationSchema}>
+            <Formik initialValues={addressFetchedValues || addressInitialValues} onSubmit={addressSubmitHandler} validationSchema={addressValidationSchema} enableReinitialize>
               <Form className='flex flex-col'>
                   <FieldArray name='address'>
                     {fielArrayProps=>{
@@ -206,25 +219,21 @@ const UserProfile = () => {
                         <div key={i} className='flex flex-col '>
                         <Gap>Address {i+1} Details</Gap>
                         <div  className='self-end'>
-                        {i>0 && <Button onClick={()=>remove(i)} color='error' variant='contained' endIcon={<DeleteIcon/>}>Delete</Button>}
+                        {i>0 && isEditing && <Button onClick={()=>remove(i)} color='error' variant='contained' endIcon={<DeleteIcon/>}>Delete</Button>}
                         </div>
                         <FormWrapper>
                         <InputField placeholder='Alex Jersey' uni={`address.${i}.customerName`} labelName='Customer Name' disabled={!isEditing}/>
-                        <InputField placeholder='9876543210' uni={`address.${i}.mobileNo`} labelName='Customer Mobile No' disabled={!isEditing}
-                          type='number'
-                        />
+                        <InputField type='number' placeholder='9876543210' uni={`address.${i}.mobileNo`} labelName='Customer Mobile No' disabled={!isEditing}/>
                         </FormWrapper>
 
                         <FormWrapper>
-                        <InputField className='col-span-2' placeholder='Alex Jersey' uni={`address.${i}.addressLine1`} labelName='Address Line 1' disabled={!isEditing}/>
-                        <InputField className='col-span-2' placeholder='Alex Jersey' uni={`address.${i}.addressLine2`} labelName='Address Line 2' disabled={!isEditing}/>
-                        <InputField className='col-span-2' placeholder='Alex Jersey' uni={`address.${i}.landmark`} labelName='Landmark' disabled={!isEditing}/>
+                        <InputField className='col-span-2' placeholder='Bangla Estate' uni={`address.${i}.addressLine1`} labelName='Address Line 1' disabled={!isEditing}/>
+                        <InputField className='col-span-2' placeholder='Street no 3' uni={`address.${i}.addressLine2`} labelName='Address Line 2' disabled={!isEditing}/>
+                        <InputField className='col-span-2' placeholder='Near Maharaja hotel' uni={`address.${i}.landmark`} labelName='Landmark' disabled={!isEditing}/>
                         </FormWrapper>
 
                         <FormWrapper>
-                        <InputField placeholder='240991' uni={`address.${i}.pinCode`} labelName='Pincode' disabled={!isEditing}
-                          type='number'
-                        />
+                        <InputField type='number' placeholder='240991' uni={`address.${i}.pinCode`} labelName='Pincode' disabled={!isEditing}/>
                         <InputField placeholder='Bangalore' uni={`address.${i}.city`} labelName='City' disabled={!isEditing}/>
                         <InputField placeholder='Karnataka' uni={`address.${i}.state`} labelName='State' disabled={!isEditing}/>
                         </FormWrapper>

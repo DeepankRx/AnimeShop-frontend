@@ -13,6 +13,8 @@ const SizingGuide = lazy(() => import("./pages/SizingGuide"));
 const SellerDashboardDefault = lazy(() => import("./seller/SellerDashboardDefault"));
 const CheckoutPage = lazy(() => import("./pages/CheckoutPage"));
 const UserProfile = lazy(() => import("./pages/UserProfile"));
+const OrderHistory = lazy(() => import("./pages/OrderHistory"));
+const Wishlist = lazy(() => import("./pages/Wishlist"));
 
 
 export const ALL_LINKS = {
@@ -69,6 +71,16 @@ export const ALL_LINKS = {
   UserProfile: {
     pageLink: "/userprofile",
     view: UserProfile,
+    loginRequire: true,
+  },
+  OrderHistory: {
+    pageLink: "/orderhistory",
+    view: OrderHistory,
+    loginRequire: true,
+  },
+  Wishlist: {
+    pageLink: "/wishlist",
+    view: Wishlist,
     loginRequire: true,
   },
 

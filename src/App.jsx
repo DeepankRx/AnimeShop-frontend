@@ -30,6 +30,8 @@ const App = () => {
     ALL_LINKS.Cart,
     ALL_LINKS.Checkout,
     ALL_LINKS.UserProfile,
+    ALL_LINKS.OrderHistory,
+    ALL_LINKS.Wishlist
   ]
   const [loading, setLoading] = useState(true);
   useEffect(() => {

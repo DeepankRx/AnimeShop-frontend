@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import { useContext } from 'react';
 import AuthContext from '../../store/AuthContext';
 import PersonIcon from '@mui/icons-material/Person';
-import { Divider } from '@mui/material';
+import { Divider, IconButton } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { ALL_LINKS } from '../../constant';
 import { useSelector } from 'react-redux';
@@ -30,9 +30,9 @@ export default function MenuPopOver() {
 
   return (
     <div>
-      <Button variant='text' sx={{color:'black'}} onClick={handleClick}>
-      <div className="flex justify-center items-center  space-x-2 "><PersonIcon sx={{':hover':{color:'#D61355'}}} fontSize='medium'/><span className="font-bold  smrev:hidden"></span></div>
-      </Button>
+      <IconButton variant='text' sx={{color:'black'}} onClick={handleClick}>
+        <PersonIcon sx={{':hover':{color:'#D61355'}}} fontSize='medium'/>
+      </IconButton>
       <Popover
         id={id}
         open={open}
@@ -47,9 +47,12 @@ export default function MenuPopOver() {
         <div className='p-4 flex flex-col w-[300px] gap-2'>
             <div className='flex flex-col items-center gap-2'>
             {authCtx.isLoggedIn && <p>Hello 👋 {user.firstName} {user.lastName}</p> }
-            {authCtx.isLoggedIn && <Button onClick={()=>{navigate(ALL_LINKS.UserProfile.pageLink);handleClose();}}>Profile</Button> }
-            {authCtx.isLoggedIn && <Button onClick={()=>authCtx.logout()} variant='contained' endIcon={<PersonIcon/>}>logout</Button>}
-            {!authCtx .isLoggedIn && <Button onClick={()=>navigate(ALL_LINKS.LoginPage.pageLink)} variant='contained' endIcon={<PersonIcon/>}>Login</Button>}
+
+            {authCtx.isLoggedIn && <div className='w-[100%]'><Button variant='outlined' className='w-[100%]'  onClick={()=>{navigate(ALL_LINKS.UserProfile.pageLink);{handleClose();}}}>Profile</Button></div> }
+            {authCtx.isLoggedIn && <div className='w-[100%]'><Button variant='outlined' className='w-[100%]'  onClick={()=>{navigate(ALL_LINKS.Wishlist.pageLink);{handleClose();}}}>Wishlist</Button></div> }
+            {authCtx.isLoggedIn && <div className='w-[100%]'><Button variant='outlined' className='w-[100%]'  onClick={()=>{navigate(ALL_LINKS.OrderHistory.pageLink);{handleClose();}}}>Order History</Button></div> }
+            {authCtx.isLoggedIn && <div className='w-[100%]'><Button className='w-[100%]' onClick={()=>authCtx.logout()} variant='contained' endIcon={<PersonIcon/>}>logout</Button></div>}
+            {!authCtx .isLoggedIn && <Button className='w-[100%]' onClick={()=>navigate(ALL_LINKS.LoginPage.pageLink)} variant='contained' endIcon={<PersonIcon/>}>Login</Button>}
             {!authCtx .isLoggedIn && <p>New Customer ? <Link className='text-blue-500' to={ALL_LINKS.SignupPage.pageLink}>Sign up</Link></p>}
             </div>
             {/* <div className='h-[1px] bg-black'></div> */}

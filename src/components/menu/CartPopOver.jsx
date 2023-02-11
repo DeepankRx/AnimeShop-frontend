@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { cartActions } from '../../store/cartSlice';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
-import { Badge } from '@mui/material';
+import { Badge, IconButton } from '@mui/material';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { clear } from '@testing-library/user-event/dist/clear';
@@ -55,13 +55,13 @@ export default function CartPopOver() {
 
   return (
     <div>
-      <Button variant='text' sx={{color:'black'}}   onClick={handleClick}>
-      <div className={`flex justify-center items-center relative  space-x-2  ${itemAdded ? 'scale-110 duration-200  ease-linear' : ''}`}>
+      <IconButton  sx={{color:'black'}}   onClick={handleClick}>
+      {/* <div className={`flex justify-center items-center relative  space-x-2  ${itemAdded ? 'scale-110 duration-200  ease-linear' : ''}`}> */}
       <Badge  badgeContent={items.length} color="secondary">
         <ShoppingBagIcon sx={{':hover':{color:'#D61355'},color:`${itemAdded ? 'red': 'black'} `}} fontSize='medium' className=''/>
       </Badge>
-        </div>
-      </Button>
+        {/* </div> */}
+      </IconButton>
       <Popover
         id={id}
         open={open}

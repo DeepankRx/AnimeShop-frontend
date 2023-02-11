@@ -47,9 +47,6 @@ const SellerDashboard = () => {
   ];
 
 
-
-
-
   return (
     <div className='flex flex-row min-h-[calc(100vh_-_110px)] max-w-[100%] md:h-[calc(100vh_-_110px)]  bg-background p-4 gap-4'>
 
@@ -59,13 +56,13 @@ const SellerDashboard = () => {
           <img src={`${user.profilePicture}`} className='w-[100%] h-[100%] object-cover'/>
         </div>
         <h1 className='font-bold  mt-4'>{`${user.firstName} ${user.lastName}`}</h1>
-        <h1 className='font-semibold'>{`${user.mobileNo}`}</h1>
+        {user.mobileNo && <h1 className='font-semibold'>{`${user.mobileNo}`}</h1>}
       </div>
 
       <List className='flex flex-col items-center gap-2'>
         {SellerMenu.map((item, index) =>
           <NavLink  to={item.pageLink} key={index} className={({isActive})=>`${isActive ? setHighlightIndex(index) : ''} ${index===highlightIndex ? 'bg-black text-white font-bold rounded-lg':''}`}>
-            <ListItemButton sx={{width:200}}>
+            <ListItemButton sx={{width:240}}>
               <ListItemIcon sx={{color:`${index===highlightIndex ? 'white' :''} `}} >
                 {item.icon}
               </ListItemIcon>
@@ -75,7 +72,7 @@ const SellerDashboard = () => {
           </NavLink>
         )}
 
-            <ListItemButton sx={{width:200}} onClick={()=>authCtx.logout()}>
+            <ListItemButton sx={{width:240}} onClick={()=>authCtx.logout()}>
               <ListItemIcon>
                 <LogoutIcon/>
               </ListItemIcon>

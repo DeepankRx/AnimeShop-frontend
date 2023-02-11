@@ -8,8 +8,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import NoList from '../components/UI/NoList'
 import {cartActions} from '../store/cartSlice'
 import { ALL_LINKS } from '../constant'
+import { Link, useNavigate } from 'react-router-dom'
 const Cart = () => {
     const dispatch=useDispatch();
+    const navigate=useNavigate();
     const items=useSelector(state=>state.cart.items);
     const totalAmount=useSelector(state=>state.cart.totalAmount);
 
@@ -97,7 +99,7 @@ const Cart = () => {
     </div>
 
     <div className='bg-white rounded-xl p-4 gap-2 flex flex-col'>
-        <Button href={ALL_LINKS.Checkout.pageLink} sx={{backgroundColor:'orange'}} variant='contained' disabled={items.length===0}>Proceed</Button>
+    <Button onClick={()=>navigate(ALL_LINKS.Checkout.pageLink)} className='w-[100%]' sx={{backgroundColor:'orange'}} variant='contained' disabled={items.length===0}>Proceed</Button>
     </div>
 
     </div>
