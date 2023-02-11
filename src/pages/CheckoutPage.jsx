@@ -1,24 +1,21 @@
 import { Button, Divider } from '@mui/material'
 import { Form, Formik } from 'formik';
 import React, { useState } from 'react'
-import http from '../services/http_service';
-import { createOrder } from '../services/APIs';
+import { createOrder,payment,BASE_MAIN_URL } from '../services/APIs';
 import Gap from '../components/UI/Gap';
-import InputField from '../components/UI/InputField';
 import * as Yup from 'yup'
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretLeft, faCaretRight, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { cartActions } from '../store/cartSlice';
+import {toast} from 'react-toastify'
 const CheckoutPage = () => {
   const dispatch=useDispatch()
   const [paymentChecked,setPaymentChecked]=useState(1);
-  const [addressChecked,setAddressChecked]=useState(1);
-
+  const [addressChecked,setAddressChecked]=useState(0);
   const items=useSelector(state=>state.cart.items)
   const user=useSelector(state=>state.user.user)
   function isDate(val) {
-    // Cross realm comptatible
     return Object.prototype.toString.call(val) === '[object Date]'
   }
 
@@ -58,24 +55,30 @@ const CheckoutPage = () => {
   }
 
   const handleOnlinePayment=async()=>{
+    if(!user.address)
+    {
+        toast.warn('Select an address');
+        return ;
+    }
     const data = {
       user:user.id,
       order:{
-        address:user.address.address[addressChecked-1],
+        address:user.address.address[addressChecked],
         paymentType:'ONLINE',
         paymentStatus:'pending',
         orderStatus:'pending',
         items:items,
-        totalAmount:items.reduce((acc,item)=>acc+item.amount*item.price,0)
+        totalAmount:items.reduce((acc,item)=>acc+item.amount*item.price,0),
       },
     }
-    http.post('http://localhost:5001/api/payment',{
-      amount:data.order.totalAmount,
-      email:user.email,
-      mobileNo:user.address.address[addressChecked-1].mobileNo,
-      order:data.order,
-      user:user.id
-    })
+    payment({
+        amount:data.order.totalAmount,
+        email:user.email,
+        mobileNo:user.address.address[addressChecked].mobileNo,
+        order:data.order,
+        user:user.id,
+        baseUrl:BASE_MAIN_URL
+      })
     .then((response)=>{
       console.log(response.data);
      const information={
@@ -83,19 +86,22 @@ const CheckoutPage = () => {
         params:response.data
       }
       post(information);
-      http.post("https://securegw-stage.paytm.in/order/process",response.data)
     })
     .catch((error)=>{
       console.log(error);
     })
   }
-
-  const handleCreateOrder=async(values,actions)=>{
+  const handleCreateOrder=async()=>{
+    if(!user.address)
+    {
+        toast.warn('Select an address');
+        return ;
+    }
     dispatch(cartActions.replaceCart({items:[],totalAmount:0,changed:!user.changed}))
     const order={
       user:user.id,
       order:{
-        address:user.address.address[addressChecked-1],
+        address:user.address.address[addressChecked],
         paymentType:paymentChecked===1 ? 'ONLINE' : 'COD',
         paymentStatus:'pending',
         orderStatus:'pending',
@@ -140,7 +146,6 @@ const CheckoutPage = () => {
 const addToCartHandler=(item,amount,size)=>{
     dispatch(cartActions.addItemToCart({item:{...item,amount,size}}))
 }
-console.log(user)
   return (
     <div className=' gap-4 flex flex-col'>
         <h2 id='Monton' className='text-4xl p-4'>CHECKOUT DETAILS</h2>
@@ -149,9 +154,9 @@ console.log(user)
             <Gap>Shipping Address</Gap>
             <form className='flex flex-col gap-4'>
               {
-                user.address.address.map((item,i)=>{
+                user?.address?.address.map((item,i)=>{
 
-                 return <Address name={i} address={item}/>
+                 return <Address name={i} address={item} key={i}/>
                 })
               }
             </form>
@@ -193,7 +198,7 @@ console.log(user)
             <Gap>Review Order</Gap>
             <div className='flex flex-col gap-2'>
               {items.map((item,i)=>
-              <div className='bg-white  rounded-lg divide-y-[1px] divide-black'>
+              <div className='bg-white  rounded-lg divide-y-[1px] divide-black' key={i}>
               <div key={i} className=' flex justify-between items-center relative py-2 px-4'>
                 <div className='space-y-2 w-32'>
                   <img className='' src={item.images[0]} />
