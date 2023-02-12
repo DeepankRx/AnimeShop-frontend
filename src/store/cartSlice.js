@@ -12,7 +12,7 @@ export const cartSlice=createSlice({
     initialState:initialState,
     reducers:{
         addItemToCart:(state,action)=>{
-          const data=action.payload;
+        const data=action.payload;
         const updatedAmount =
         state.totalAmount + data.item.price * data.item.amount;
 

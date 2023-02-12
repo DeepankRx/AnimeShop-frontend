@@ -105,7 +105,7 @@ const UserProfile = () => {
       }
       )
       .catch((err)=>{
-        console.log(err);
+        toast.error(err.response.data.message)
       }
       )
     }
@@ -129,7 +129,7 @@ const UserProfile = () => {
         mobileNo:user.mobileNo,
       })
       setPreview(user.profilePicture);
-      setAddressFetchedValues({address:user.address.address});
+      if(user?.address)setAddressFetchedValues({address:user.address.address});
     }
   },[user])
 

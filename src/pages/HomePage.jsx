@@ -25,7 +25,7 @@ const HomePage = () => {
   ]
   const Testimonial=({tagline,icon})=>{
     return (
-      <div className=' flex justify-center flex-col py-4 px-10 space-y-4'>
+      <div className='py-4 px-10 space-y-4 lgrev:px-4 flex flex-col items-center '>
         <FontAwesomeIcon icon={icon} size='5x' className='text-pink-600'/>
         <p className='text-lg  text-center'>{tagline}</p>
       </div>
@@ -39,7 +39,7 @@ const HomePage = () => {
     <ShopByAnime/>
 
     {/* <Categories/> */}
-    <div className={`grid grid-cols-3 mdrev:grid-cols-1 px-20 py-20  items-center smrev:p-6`}>
+    <div className={`grid grid-cols-3 mdrev:grid-cols-1 px-20 py-20   smrev:p-6`}>
      {
         testimonial.map((item,i)=>{
           return (
@@ -52,14 +52,14 @@ const HomePage = () => {
 
     <div className={`relative h-[400px] sm:bg-fixed bg-cover ${parallex.para2}`}>
       <div className='absolute w-[100%] h-[100%] flex justify-center items-center'>
-        <div className='w-[600px] h-[240px] bg-white mdrev:w-[90%] p-8 space-y-4 '>
+        <div className='w-[600px]  bg-white mdrev:w-[90%] p-8 space-y-4 '>
           <h2 className='text-xl uppercase mb-4'>Subscribe to our Newsletter</h2>
           <div>
           <p>Promotions products ,discounts and sales</p>
           <p> Directly to your inbox!</p>
           </div>
           <div className='flex gap-2'>
-          <input placeholder='alexjersey@gmail.com' type='text' className='w-[100%] bg-blue-100 p-4' />
+          <input placeholder='alexjersey@gmail.com' type='text' className='w-[100%] bg-blue-100 p-4 mdrev:p-2 ' />
           <button className='uppercase bg-black text-white p-2'>Subscribe</button>
           </div>
         </div>
