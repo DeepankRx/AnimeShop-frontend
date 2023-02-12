@@ -40,7 +40,9 @@ const userModule={
   deleteProductImage:BASE_URL.productApi+'/delete-image/',
   getUsercart:BASE_URL.cartApi+'/get-cart-by-user/',
   createOrder:BASE_URL.orderApi+'/create-order',
-  payment:BASE_URL.paymentApi
+  payment:BASE_URL.paymentApi,
+  razorpayCreateOrder:BASE_URL.paymentApi+'/razorpay-create-order',
+  capturePayment:BASE_URL.paymentApi+'/capture-payment',
 }
 
 let token='';
@@ -164,4 +166,14 @@ export function createOrder(order) {
 export function payment(data)
 {
   return http.post(userModule.payment,data)
+}
+
+export function razorpayCreateOrder(data)
+{
+  return http.post(userModule.razorpayCreateOrder,data)
+}
+
+export function capturePayment(data)
+{
+  return http.post(userModule.capturePayment,data)
 }
