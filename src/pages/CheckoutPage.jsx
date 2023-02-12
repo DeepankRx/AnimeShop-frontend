@@ -1,7 +1,7 @@
 import { Button, Divider } from '@mui/material'
 import { Form, Formik } from 'formik';
 import React, { useState } from 'react'
-import { createOrder,payment,BASE_MAIN_URL } from '../services/APIs';
+import { createOrder,BASE_MAIN_URL ,razorpayCreateOrder,capturePayment} from '../services/APIs';
 import Gap from '../components/UI/Gap';
 import * as Yup from 'yup'
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,48 +13,11 @@ const CheckoutPage = () => {
   const dispatch=useDispatch()
   const [paymentChecked,setPaymentChecked]=useState(1);
   const [addressChecked,setAddressChecked]=useState(0);
+  const [loading,setLoading]=useState(false);
   const items=useSelector(state=>state.cart.items)
   const user=useSelector(state=>state.user.user)
-  function isDate(val) {
-    return Object.prototype.toString.call(val) === '[object Date]'
-  }
 
-  function isObj(val) {
-    return typeof val === 'object'
-  }
-
-   function stringifyValue(val) {
-    if (isObj(val) && !isDate(val)) {
-      return JSON.stringify(val)
-    } else {
-      return val
-    }
-  }
-
-  function buildForm({ action, params }) {
-    const form = document.createElement('form')
-    form.setAttribute('method', 'post')
-    form.setAttribute('action', action)
-
-    Object.keys(params).forEach(key => {
-      const input = document.createElement('input')
-      input.setAttribute('type', 'hidden')
-      input.setAttribute('name', key)
-      input.setAttribute('value', stringifyValue(params[key]))
-      form.appendChild(input)
-    })
-
-    return form
-  }
-
-   function post(details) {
-    const form = buildForm(details)
-    document.body.appendChild(form)
-    form.submit()
-    form.remove()
-  }
-
-  const handleOnlinePayment=async()=>{
+  const createRazorpayOrder=async()=>{
     if(!user.address)
     {
         toast.warn('Select an address');
@@ -71,26 +34,53 @@ const CheckoutPage = () => {
         totalAmount:items.reduce((acc,item)=>acc+item.amount*item.price,0),
       },
     }
-    payment({
-        amount:data.order.totalAmount,
-        email:user.email,
-        mobileNo:user.address.address[addressChecked].mobileNo,
-        order:data.order,
-        user:user.id,
-        baseUrl:BASE_MAIN_URL
-      })
-    .then((response)=>{
-      console.log(response.data);
-     const information={
-        action:'https://securegw-stage.paytm.in/order/process',
-        params:response.data
+    try{
+      setLoading(true);
+   const response=await razorpayCreateOrder({
+      user,
+      order:data.order
+   });
+   if(response.data.status=="success")
+   {
+    const options = {
+      key: "rzp_test_5OlxwMLgAS3BGQ", // Enter the Key ID generated from the Dashboard
+      amount: data.order.totalAmount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      currency: "INR",
+      name: "Animart",
+      description: "Test Transaction",
+      image: "https://zeroxsoftwares.co.in/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.7b69e523.png&w=640&q=75",
+      method: {
+        "netbanking": true,
+        "card": true,
+        "wallet": true,
+        "upi": true
+      },
+      order_id: response.data.order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      callback_url:`${BASE_MAIN_URL}/api/payment/capture-payment`,
+      prefill: {
+          "name": user.address.address[addressChecked].customerName,
+          // "email": "gaurav.kumar@example.com",
+          "contact": user.address.address[addressChecked].mobileNo,
+      },
+      notes: {
+          "address": "Animart Dehradun"
+      },
+      theme: {
+          "color": "#3399cc"
       }
-      post(information);
-    })
-    .catch((error)=>{
-      console.log(error);
-    })
+  };
+  setLoading(false);
+  const  razor = new window.Razorpay(options);
+  razor.open();
+   }
+
   }
+  catch(e){
+    alert(e.message)
+  }
+  }
+
+
   const handleCreateOrder=async()=>{
     if(!user.address)
     {
@@ -236,10 +226,13 @@ const addToCartHandler=(item,amount,size)=>{
               )}
                 <Button variant='contained' className='bg-black text-white'
                 onClick={()=>
-                  paymentChecked===1 ? handleOnlinePayment() : handleCreateOrder()
+                  paymentChecked===1 ?  createRazorpayOrder() : handleCreateOrder()
                 }
                 disabled={items.length===0 ? true : false}
-                >Place Order</Button>
+                >{
+                  paymentChecked===1 ? loading ? 'Loading...' : 'Pay Now' : loading ? 'Loading...' : 'Place Order'
+                }</Button>
+
             </div>
           </div>
         </div>
