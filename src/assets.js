@@ -3,6 +3,7 @@ import hero_1 from "./images/hero_1.webp";
 import hero_2 from "./images/hero_2.jpg";
 import subject from "./images/subject.png";
 import bg_02 from "./images/bg_02.webp";
+import bg_03 from "./images/bg_03.jpg";
 import dummy from "./images/dummy.webp";
 import anime_bg_1 from "./images/anime_bg_1.png";
 import anime_bg_2 from "./images/anime_bg_2.png";
@@ -26,12 +27,14 @@ import my_hero_academia from "./images/anime_categories/my_hero_academia.png";
 import naruto from "./images/anime_categories/naruto.png";
 import shirt from'./images/collections/shirt.webp'
 import accessories from'./images/collections/accessories.webp'
+import online_shop from'./images/online_shop.svg'
 export const assets = {
   bg_01,
   hero_1,
   hero_2,
   subject,
   bg_02,
+  bg_03,
   dummy,
   anime_bg_1,
   anime_bg_2,
@@ -43,6 +46,7 @@ export const assets = {
   size_dummy_01,
   size_dummy_02,
   cutout_01,
+  online_shop,
   anime_cat: {
     attack_on_titan,
     black_clover,

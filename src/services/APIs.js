@@ -11,7 +11,8 @@ const BASE_URL={
   sellerApi :BASE_MAIN_URL+ '/api/seller',
   cartApi :BASE_MAIN_URL+ '/api/cart',
   orderApi :BASE_MAIN_URL+ '/api/order',
-  paymentApi:BASE_MAIN_URL+'/api/payment'
+  paymentApi:BASE_MAIN_URL+'/api/payment',
+  wishlistApi :BASE_MAIN_URL+ '/api/wishlist',
 }
 
 const TOP_PRODUCTS_LIMIT=4;
@@ -43,6 +44,9 @@ const userModule={
   payment:BASE_URL.paymentApi,
   razorpayCreateOrder:BASE_URL.paymentApi+'/razorpay-create-order',
   capturePayment:BASE_URL.paymentApi+'/capture-payment',
+  addToWishlist:BASE_URL.wishlistApi+'/add',
+  removeFromWishlist:BASE_URL.wishlistApi+'/remove',
+  getWishlistByUser:BASE_URL.wishlistApi+'/get-by-user/',
 }
 
 let token='';
@@ -68,7 +72,7 @@ export function getUserProfile(id) {
 
 export function addAddress( userId,address) {
   retrieveStoredToken();
-  return http.post(userModule.postAddress + userId, address);
+  return http.post(userModule.postAddress + userId, address,{ headers: {"Authorization" : `Bearer ${token}`}});
 }
 
 export function updateAddress(addressId, address,user) {
@@ -82,23 +86,28 @@ export function getUserAddress() {
 }
 
 export function createProduct(product) {
+  retrieveStoredToken();
   return http.post(userModule.createProduct, product,{
     headers: {
-      'Content-Type': 'multipart/form-data'
+      'Content-Type': 'multipart/form-data',
+      "Authorization" : `Bearer ${token}`
     }
   });
 }
 
 export function updateProduct(id,product) {
+  retrieveStoredToken();
   return http.put(userModule.updateProduct + id, product,{
     headers: {
-      'Content-Type': 'multipart/form-data'
+      'Content-Type': 'multipart/form-data',
+      "Authorization" : `Bearer ${token}`
     }
   });
 }
 
 export function deleteProduct(id) {
-  return http.delete(userModule.deleteProduct + id);
+  retrieveStoredToken();
+  return http.delete(userModule.deleteProduct + id,{ headers: {"Authorization" : `Bearer ${token}`}});
 }
 
 export function getProducts() {
@@ -138,11 +147,17 @@ export function getAProductFromEachCategory() {
 }
 
 export function getSellerProducts(id) {
-  return http.get(userModule.getSellerProducts + id);
+  retrieveStoredToken();
+  return http.get(userModule.getSellerProducts + id,{ headers: {"Authorization" : `Bearer ${token}`}});
 }
 
 export function getUsercart(id) {
-  return http.get(userModule.getUsercart + id);
+  retrieveStoredToken();
+  return http.get(userModule.getUsercart + id,{
+    headers: {
+      "Authorization" : `Bearer ${token}`
+    }
+  });
 }
 
 
@@ -152,7 +167,8 @@ export function addToCart(cart) {
 }
 
 export function deleteProductImage(productId, imageUrl) {
-  return http.post(userModule.deleteProductImage + productId, {imageUrl});
+  retrieveStoredToken();
+  return http.post(userModule.deleteProductImage + productId, {imageUrl},{ headers: {"Authorization" : `Bearer ${token}`}});
 }
 
 export function loginWithGoogle(user) {
@@ -160,7 +176,8 @@ export function loginWithGoogle(user) {
 }
 
 export function createOrder(order) {
-  return http.post(userModule.createOrder, order);
+  retrieveStoredToken();
+  return http.post(userModule.createOrder, order,{ headers: {"Authorization" : `Bearer ${token}`}});
 }
 
 export function payment(data)
@@ -170,10 +187,30 @@ export function payment(data)
 
 export function razorpayCreateOrder(data)
 {
-  return http.post(userModule.razorpayCreateOrder,data)
+  retrieveStoredToken();
+  return http.post(userModule.razorpayCreateOrder,data,{ headers: {"Authorization" : `Bearer ${token}`}})
 }
 
 export function capturePayment(data)
 {
-  return http.post(userModule.capturePayment,data)
+  retrieveStoredToken();
+  return http.post(userModule.capturePayment,data,{ headers: {"Authorization" : `Bearer ${token}`}} )
+}
+
+
+// Wishlist
+
+export function addToWishlist(id) {
+  retrieveStoredToken();
+  return http.put(userModule.addToWishlist, {productId:id,user:userid},{ headers: {"Authorization" : `Bearer ${token}`}});
+}
+
+export function removeFromWishlist(id) {
+  retrieveStoredToken();
+  return http.post(userModule.removeFromWishlist, {productId:id,user:userid},{ headers: {"Authorization" : `Bearer ${token}`}});
+}
+
+export function getWishlistByUser() {
+  retrieveStoredToken();
+  return http.get(userModule.getWishlistByUser+userid ,{ headers: {"Authorization" : `Bearer ${token}`}});
 }

@@ -47,7 +47,7 @@ export default function MainDrawer() {
   )};
 
   return (
-    <div className="text-white">
+    <div className="text-white shadow-xl">
     {/* <div className="bg-black py-[5px] border-b-2  px-2 border-b-white flex justify-between">
       <p>Hassle free returns within a week</p>
       <div className="space-x-2">
@@ -60,7 +60,7 @@ export default function MainDrawer() {
       <Link to={ALL_LINKS.HomePage.pageLink} className="text-4xl font-semibold tracking-wide hover:scale-105 duration-200 hover:text-purple-500" id='RubyVinyl'>ANIMART</Link>
       <div className="flex items-center space-x-4 smrev:space-x-2">
         <MenuPopOver/>
-        <CartPopOver/>
+        {authCtx.role!=='seller' && <CartPopOver/>}
          {/* <Button variant='text' sx={{color:'black'}}> */}
        {/* <div className="flex justify-center items-center  space-x-2 "><ShoppingCartIcon sx={{':hover':{color:'#D61355'}}} fontSize='small'/><span className="font-bold  smrev:hidden"></span></div> */}
        {/* </Button> */}

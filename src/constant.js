@@ -15,73 +15,149 @@ const CheckoutPage = lazy(() => import("./pages/CheckoutPage"));
 const UserProfile = lazy(() => import("./pages/UserProfile"));
 const OrderHistory = lazy(() => import("./pages/OrderHistory"));
 const Wishlist = lazy(() => import("./pages/Wishlist"));
+const PageNotFound = lazy(() => import("./pages/PageNotFound"));
 
 
 export const ALL_LINKS = {
+  PageNotFound: {
+    pageLink: "*",
+    view: PageNotFound,
+    loginRequire: false,
+    show:{
+      null:true,
+      'seller':true,
+      'customer':true
+    }
+  },
   LoginPage: {
     pageLink: "/login",
     view: LoginPage,
     loginRequire: false,
+    show:{
+      null:true,
+      'seller':true,
+      'customer':true
+    }
   },
   SignupPage: {
     pageLink: "/signup",
     view: SignupPage,
     loginRequire: false,
+    show:{
+      null:true,
+      'seller':true,
+      'customer':true
+    }
   },
   ProductsPage: {
     pageLink: "/products",
     view: ProductsPage,
     loginRequire: false,
+    show:{
+      null:true,
+      'seller':true,
+      'customer':true
+    }
   },
   HomePage: {
     pageLink: "/",
     view: HomePage,
     loginRequire: false,
+    show:{
+      null:true,
+      'seller':true,
+      'customer':true
+    }
   },
   Category: {
     pageLink: "/category",
     view: CategoryPage,
     loginRequire: false,
+    show:{
+      null:true,
+      'seller':true,
+      'customer':true
+    }
   },
   Product: {
     pageLink: "/product/:id",
     view: ProductPage,
     loginRequire: false,
+    show:{
+      null:true,
+      'seller':true,
+      'customer':true
+    }
   },
   Dashboard: {
     pageLink: "/dashboard/*",
     view: Dashboard,
     loginRequire: true,
+    show:{
+      null:true,
+      'seller':true,
+      'customer':false
+    }
   },
   SizingGuide: {
     pageLink: "/size_guide",
     view: SizingGuide,
     loginRequire: false,
+    show:{
+      null:true,
+      'seller':true,
+      'customer':true
+    }
   },
   Cart: {
     pageLink: "/cart",
     view: Cart,
-    loginRequire: false,
+    loginRequire: true,
+    show:{
+      null:true,
+      'seller':false,
+      'customer':true
+    }
   },
   Checkout: {
     pageLink: "/checkout",
     view: CheckoutPage,
     loginRequire: true,
+    show:{
+      null:true,
+      'seller':false,
+      'customer':true
+    }
   },
   UserProfile: {
     pageLink: "/userprofile",
     view: UserProfile,
     loginRequire: true,
+    show:{
+      null:true,
+      'seller':false,
+      'customer':true
+    }
   },
   OrderHistory: {
     pageLink: "/orderhistory",
     view: OrderHistory,
     loginRequire: true,
+    show:{
+      null:true,
+      'seller':false,
+      'customer':true
+    }
   },
   Wishlist: {
     pageLink: "/wishlist",
     view: Wishlist,
     loginRequire: true,
+    show:{
+      null:true,
+      'seller':false,
+      'customer':true
+    }
   },
 
 

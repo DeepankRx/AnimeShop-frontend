@@ -11,10 +11,8 @@
 
 import {
   faAdd,
+  faHeart,
   faMinus,
-  faStar,
-  faStarAndCrescent,
-  faStarHalfStroke,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -38,6 +36,10 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import { useDispatch } from 'react-redux';
 import { cartActions } from '../../store/cartSlice';
 import { ALL_LINKS } from '../../constant';
+import { addToWishlist } from '../../services/APIs';
+import { toast } from 'react-toastify';
+import { useContext } from 'react';
+import AuthContext from '../../store/AuthContext';
 const timeAgo = (date) => {
   const seconds = Math.floor((new Date() - date) / 1000);
   let interval = Math.floor(seconds / 31536000);
@@ -73,6 +75,7 @@ const averageRating = (reviews) => {
 };
 
 const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews,productId }) => {
+  const authCtx=useContext(AuthContext);
   const dispatch=useDispatch();
   const navigate=useNavigate();
   const Review = ({review}) => {
@@ -136,11 +139,23 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews,p
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
 
+    const addToCartHandler=(item,amount,size)=>{
+      if(authCtx.isLoggedIn){
+      dispatch(cartActions.addItemToCart({item:{...item,amount,size}}))
+      setQuantity(1);
+      setSelectedSize('');
+      }else{
+        navigate(ALL_LINKS.LoginPage.pageLink+'?redirect=-1')
+      }
+    }
+
     return (
       <div>
+        {authCtx.role!=='seller' &&
         <Button aria-describedby={id} variant="outlined" onClick={handleClick}>
           Select Size
         </Button>
+        }
         <Popover
           id={id}
           open={open}
@@ -215,7 +230,8 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews,p
                 variant="contained"
                 color="primary"
                 disabled={!selectedSize}
-                onClick={()=>{addToCartHandler({
+                onClick={()=>{
+                  addToCartHandler({
                   price: item.price,
                   name: item.name,
                   description: item.description,
@@ -226,8 +242,6 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews,p
                 quantity,
                 selectedSize.size
                 );
-                setQuantity(1);
-                setSelectedSize('');
               }}
               >
                 Add to Cart
@@ -239,9 +253,13 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews,p
     );
   };
 
-  const addToCartHandler=(item,amount,size)=>{
-    dispatch(cartActions.addItemToCart({item:{...item,amount,size},
-}))
+
+
+  const addToWishlistHandler=(productId)=>{
+    addToWishlist(productId)
+    .then(()=>{
+      toast.success("Added to wishlist")
+    })
   }
 
   return (
@@ -249,16 +267,21 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews,p
       <div
         className={`flex justify-center p-8  lgrev:flex-col gap-8 lgrev:gap-4 lgrev:p-4`}
       >
-        <div className="flex flex-col w-[600px]  gap-4 lgrev:w-[100%] bg-white p-4 rounded-lg ">
-          <div className=" w-[100%] h-[400px]   lgrev:h-auto overflow-hidden">
+        <div className="flex flex-col w-[600px]  gap-4 lgrev:w-[100%] bg-white p-4 rounded-lg relative">
+          <div className=" w-[100%] h-[400px]   lgrev:h-auto overflow-hidden ">
             <img
               id="productImage"
               alt={currentImage + 'Image'}
               src={currentImage}
               className="object-contain"
             />
+        {authCtx.role!=='seller' &&
+            <div onClick={()=>{addToWishlistHandler(productId)}} className='absolute top-2 right-2'>
+              <FontAwesomeIcon className='p-2 bg-gray-200 rounded-full text-red-500 hover:opacity-80 cursor-pointer' size='xl' icon={faHeart} />
+            </div>
+        }
           </div>
-          <div className=" my-2 flex space-x-4">
+          <div className=" my-2 flex space-x-4 ">
             {images.map((element, i) => (
               <div key={i} className="w-[80px]  cursor-pointer shadow-lg ">
                 <img

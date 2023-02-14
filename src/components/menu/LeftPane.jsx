@@ -62,8 +62,8 @@ const LeftPane = () => {
     }
   
     const showMenu={
-        'logout':[menu['Home'],menu['Login']],
         '':[menu['Home'],menu['Login']],
+        'customer':[menu['Home']],
         'seller':[menu['Home'],menu['Dashboard'],menu['MyProducts'],menu['AddProduct']],
       }
     
@@ -72,7 +72,7 @@ const LeftPane = () => {
       if(authCtx.isLoggedIn){
         loadMenu=showMenu[authCtx.role]
       }else{
-        loadMenu=showMenu.logout;
+        loadMenu=showMenu[''];
       }
 
     return (

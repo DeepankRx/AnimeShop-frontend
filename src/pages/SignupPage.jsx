@@ -48,17 +48,18 @@ const SignupPage = () => {
     repeatedPassword: Yup.string().required('Required'),
   });
   return (
-    <div className="flex flex-col items-center">
-      <div className="h-[400px] overflow-hidden">
-        <img className="" src={assets.bg_01} />
-      </div>
+    <div className='lg:flex h-[calc(100vh_-_73px)]'>
+    <div className='w-[50%] lgrev:hidden bg-gradient-to-tr from-[#FCEE21] to-[#009245]'>
+      <img src={assets.online_shop} className='w-[100%] h-[100%] object-contain'/>
+    </div>
+    <div className="lg:w-[50%] h-[100%] flex flex-col items-center justify-center">
       <Formik
         initialValues={initialValues}
         validationSchema={validateSchema}
         onSubmit={onSubmit}
       >
         <Form
-          className="translate-y-[-300px] smrev:translate-y-[-300px] bg-white w-[600px] p-8 shadow-lg  rounded-lg flex flex-col gap-2 smrev:w-[90%]"
+          className=" bg-white w-[80%] p-8 shadow-lg  rounded-lg flex flex-col gap-2 smrev:w-[90%]"
         >
           <div className="text-center text-2xl font-bold">Signup</div>
           <div className="w-[100%] gap-4 grid grid-cols-2">
@@ -114,6 +115,7 @@ const SignupPage = () => {
           <Button type="submit">Signup</Button>
         </Form>
       </Formik>
+    </div>
     </div>
   );
 };

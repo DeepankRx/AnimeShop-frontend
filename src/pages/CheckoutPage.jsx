@@ -105,7 +105,7 @@ const CheckoutPage = () => {
   const Address=({name,address})=>{
     return(
       <div className='flex items-center gap-4 shadow-lg rounded-xl p-2 bg-white cursor-pointer hover:opacity-75' onClick={()=>setAddressChecked(name)}>
-      <input  checked={addressChecked===name ? true : false} name={name} className='w-8 h-8 ring-0 rounded' type='radio'/>
+      <input  checked={addressChecked===name ? true : false} name={name} className='w-6 h-6 ring-0 rounded' type='radio'/>
       <div>
       <h3 className='text-xl font-semibold'>{address.customerName}</h3>
       <p>{address.addressLine1} {address.addressLine2} {address.landmark} {address.pincode}</p>

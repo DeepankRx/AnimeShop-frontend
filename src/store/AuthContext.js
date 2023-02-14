@@ -1,6 +1,8 @@
 import { useState } from "react";
 import React from "react";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { cartActions } from "./cartSlice";
 const AuthContext=React.createContext({
     role:"",
     token:"",
@@ -21,7 +23,7 @@ const retrieveStoredToken = () => {
 
 export const AuthContextProvider=(props)=>
 {
-
+    const dispatch=useDispatch({items:[],totalAmount:0});
     const tokenData = retrieveStoredToken();
     let initialToken;
     let initialUserid;
@@ -30,7 +32,6 @@ export const AuthContextProvider=(props)=>
       initialToken = tokenData.token;
       initialUserid=tokenData.userid;
       initialRole=tokenData.role;
-
     }
     const [token, setToken] = useState(initialToken);
     const [role, setRole] = useState(initialRole);
@@ -42,9 +43,11 @@ export const AuthContextProvider=(props)=>
       setRole(role);
     }
     const logoutHandler = () => {
+        dispatch(cartActions.replaceCart({items:[],totalAmount:0}))
         setToken(null);
         setIsLoggedIn(false);
         setUserId(null);
+        setRole(null)
         localStorage.removeItem("token");
         localStorage.removeItem("userid");
         localStorage.removeItem("role");

@@ -1,4 +1,4 @@
-import { Suspense, useContext, useEffect, useState } from "react";
+import { Suspense, useContext, useEffect, useLayoutEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { GoogleOAuthProvider } from '@react-oauth/google';
@@ -11,14 +11,17 @@ import { getUserProfile } from "./services/APIs";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "./store/userSlice";
 import { fetchCart, sendCartData } from "./store/cartSlice";
+import PageNotFound from "./pages/PageNotFound";
 const App = () => {
   const [count,setCount] = useState(0);
   const authCtx=useContext(AuthContext);
   const dispatch=useDispatch();
   const user=useSelector((state)=>state.user.user);
+  const isUpdated=useSelector((state)=>state.user.isUpdated);
   const cartData=useSelector((state)=>state.cart)
 
   const PAGES=[
+    ALL_LINKS.PageNotFound,
     ALL_LINKS.LoginPage,
     ALL_LINKS.SignupPage,
     ALL_LINKS.HomePage,
@@ -31,7 +34,7 @@ const App = () => {
     ALL_LINKS.Checkout,
     ALL_LINKS.UserProfile,
     ALL_LINKS.OrderHistory,
-    ALL_LINKS.Wishlist
+    ALL_LINKS.Wishlist,
   ]
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -49,9 +52,10 @@ const App = () => {
       })
     }else{
     }
-  }, []);
+  }, [isUpdated]);
+  console.log(isUpdated)
 
-  useEffect(()=>{
+  useEffect(()=>{ 
     if(authCtx.isLoggedIn && count)sendCartData(cartData)
     setCount(count+1);
   },[cartData.changed])
@@ -59,24 +63,23 @@ const App = () => {
   useEffect(()=>{
     if(authCtx.isLoggedIn && user.id)dispatch(fetchCart(user.id))
   },[user.id])
-
+  console.log(authCtx.role)
   return (
     <GoogleOAuthProvider
-    clientId="376399515469-1v98mimj9jmi1afthal23g84nln4q8uo.apps.googleusercontent.com"
-    >
-
+    clientId="376399515469-1v98mimj9jmi1afthal23g84nln4q8uo.apps.googleusercontent.com">
     <BrowserRouter>
       <div id="page-container">
         <div id="content-wrap">
           {loading ? (
             <SplashScreen />
           ) : (
-            <>
+            <> 
               <MainDrawer />
               <Suspense fallback={<div />}>
             <Routes>
               {PAGES.map((item, i) => {
-                return (item.loginRequire  ? (
+                // console.log(authCtx.role + ' '+ item.pageLink + ' '+ item.show[authCtx.role])
+                return ((item.loginRequire && item.show[authCtx.role]) ? (
                   <Route
                     key={i}
                     path={item.pageLink}
@@ -88,13 +91,8 @@ const App = () => {
                       )
                     }
                   />
-                ) : (
-                  <Route
-                    key={i}
-                    path={item.pageLink}
-                    element={<item.view />}
-                  />
-                ));
+                ):
+                item.show[authCtx.role] && <Route key={i} path={item.pageLink} element={<item.view/>} />)
               })}
             </Routes>
           </Suspense>
@@ -104,7 +102,7 @@ const App = () => {
         </div>
       </div>
     </BrowserRouter>
-                        </GoogleOAuthProvider>
+    </GoogleOAuthProvider>
   );
 };
 

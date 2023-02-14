@@ -5,7 +5,7 @@ import { assets } from '../assets'
 import Button from '../components/UI/Button'
 import InputField from '../components/UI/InputField'
 import * as Yup from 'yup';
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { ALL_LINKS } from '../constant'
 import { toast } from 'react-toastify';
 import { getUserProfile, login,loginWithGoogle } from '../services/APIs';
@@ -24,6 +24,7 @@ function parseJwt (token) {
 const LoginPage = () => {
   const dispatch=useDispatch();
   const navigate=useNavigate();
+  const location=useLocation()
   const authCtx=useContext(AuthContext);
   const initialValues={
     email:'',
@@ -31,39 +32,48 @@ const LoginPage = () => {
   }
 useEffect(() => {
     if(authCtx.isLoggedIn)navigate(ALL_LINKS.HomePage.pageLink)
-    }, [authCtx.isLoggedIn]);
-
+    }, []);
+  
+  const queryParameters=new URLSearchParams(location.search);
+  
   const onSubmit=(values)=>{
     login(values)
     .then((res)=>{
       const data=res.data.data;
-      authCtx.login(data.token,data.id,'seller');
+      authCtx.login(data.token,data.id,data.role);
       getUserProfile(data.id)
       .then(res=>{
         console.log(res.data.data)
         dispatch(userActions.setUserDetails(res.data.data))
       })
       .catch(err=>console.log(err));
-      navigate(ALL_LINKS.HomePage.pageLink);
       toast.success('Login Successful');
+      if(queryParameters.get('redirect')===null){
+        navigate(ALL_LINKS.HomePage.pageLink);
+      }
+      else{
+        navigate(+queryParameters.get('redirect'))
+      }
     })
     .catch((err)=>{
       toast.error(err.response.data.message);
     })
   }
 
+  console.log(queryParameters);
   const validateSchema=Yup.object({
     email:Yup.string().required('Required'),
     password:Yup.string().required('Required'),
 
   })
   return (
-    <div className={`flex flex-col items-center`}>
-        <div className='h-[400px] overflow-hidden'>
-            <img src={assets.bg_01} />
-        </div>
+    <div className='lg:flex h-[calc(100vh_-_73px)]'>
+    <div className='w-[50%] lgrev:hidden bg-gradient-to-tr from-[#FCEE21] to-[#009245]'>
+      <img src={assets.online_shop} className='w-[100%] h-[100%] object-contain'/>
+    </div>
+    <div className={`lg:w-[50%] flex flex-col items-center justify-center h-[100%] `}>
         <Formik initialValues={initialValues} validationSchema={validateSchema} onSubmit={onSubmit}>
-        <Form className='translate-y-[-200px] bg-white w-[600px] p-8 shadow-lg  rounded-lg flex flex-col gap-4 items-center smrev:w-[90%]'>
+        <Form className=' bg-white w-[80%] p-8 shadow-lg  rounded-lg flex flex-col gap-4 items-center smrev:w-[90%]'>
             <div className='text-center text-2xl font-bold'>Login</div>
             <div className='w-[100%] space-y-4'>
             <InputField labelName='Email' type='text' uni='email' placeholder='Email' />
@@ -103,6 +113,7 @@ useEffect(() => {
             </div>
         </Form>
         </Formik>
+    </div>
     </div>
   )
 }

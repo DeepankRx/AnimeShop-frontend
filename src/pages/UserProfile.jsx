@@ -2,9 +2,9 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Button, IconButton } from '@mui/material'
 import { Container } from '@mui/system'
-import { addAddress, getUserAddress } from '../services/APIs'
-import { Field, FieldArray, Form, Formik } from 'formik'
-import React, { useState,useContext } from 'react'
+import { addAddress } from '../services/APIs'
+import { FieldArray, Form, Formik } from 'formik'
+import React, { useState,useContext, useRef } from 'react'
 import AuthContext from '../store/AuthContext'
 import { useEffect } from 'react'
 import { assets } from '../assets'
@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import {userActions} from '../store/userSlice'
 const UserProfile = () => {
+    const formikRef=useRef();
     const user=useSelector(state=>state.user.user);
     const dispatch=useDispatch();
     const authCtx=useContext(AuthContext);
@@ -89,12 +90,10 @@ const UserProfile = () => {
     })
 
     const contactSubmitHandler=(values)=>{
-        console.log(values);
 
     }
 
     const addressSubmitHandler=(values)=>{
-      console.log(values)
       addAddress(userid,{
         address:values.address
       })
@@ -132,6 +131,24 @@ const UserProfile = () => {
       if(user?.address)setAddressFetchedValues({address:user.address.address});
     }
   },[user])
+
+  const deleteHandler=()=>{
+    setTimeout(()=>{
+      addAddress(userid,{
+        address:formikRef.current.values.address
+      })
+      .then((res)=>{
+        toast.success("Deleted Address Successfully !");
+        dispatch(userActions.setUpdated());
+      }
+      )
+      .catch((err)=>{
+        toast.error(err.response.data.message)
+      }
+      )
+    },[500])
+  }
+
 
 
 
@@ -206,7 +223,7 @@ const UserProfile = () => {
                 </Form>
             </Formik>
 
-            <Formik initialValues={addressFetchedValues || addressInitialValues} onSubmit={addressSubmitHandler} validationSchema={addressValidationSchema} enableReinitialize>
+            <Formik innerRef={formikRef} initialValues={addressFetchedValues || addressInitialValues} onSubmit={addressSubmitHandler} validationSchema={addressValidationSchema} enableReinitialize>
               <Form className='flex flex-col'>
                   <FieldArray name='address'>
                     {fielArrayProps=>{
@@ -219,7 +236,7 @@ const UserProfile = () => {
                         <div key={i} className='flex flex-col '>
                         <Gap>Address {i+1} Details</Gap>
                         <div  className='self-end'>
-                        {i>0 && isEditing && <Button onClick={()=>remove(i)} color='error' variant='contained' endIcon={<DeleteIcon/>}>Delete</Button>}
+                        {i>0 && isEditing && <Button onClick={()=>{remove(i);deleteHandler();}} color='error' variant='contained' endIcon={<DeleteIcon/>}>Delete</Button>}
                         </div>
                         <FormWrapper>
                         <InputField placeholder='Alex Jersey' uni={`address.${i}.customerName`} labelName='Customer Name' disabled={!isEditing}/>
