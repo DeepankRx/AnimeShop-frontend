@@ -40,6 +40,7 @@ useEffect(() => {
     login(values)
     .then((res)=>{
       const data=res.data.data;
+      console.log(data.role)
       authCtx.login(data.token,data.id,data.role);
       getUserProfile(data.id)
       .then(res=>{
@@ -90,8 +91,7 @@ useEffect(() => {
             loginWithGoogle({email,family_name,given_name,picture})
             .then((res)=>{
             const data=res.data.data;
-            console.log(data.id)
-            authCtx.login(data.token,data.id,'seller');
+            authCtx.login(data.token,data.id,data.role);
             getUserProfile(data.id)
             .then(res=>{
             console.log(res.data.data)

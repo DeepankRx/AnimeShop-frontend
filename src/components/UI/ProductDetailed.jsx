@@ -273,7 +273,7 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews,p
               id="productImage"
               alt={currentImage + 'Image'}
               src={currentImage}
-              className="object-contain"
+              className="object-contain w-[100%] h-[100%]"
             />
         {authCtx.role!=='seller' &&
             <div onClick={()=>{addToWishlistHandler(productId)}} className='absolute top-2 right-2'>
@@ -283,9 +283,9 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews,p
           </div>
           <div className=" my-2 flex space-x-4 ">
             {images.map((element, i) => (
-              <div key={i} className="w-[80px]  cursor-pointer shadow-lg ">
+              <div key={i} className="w-[100px] h-[60px]  cursor-pointer shadow-lg ">
                 <img
-                  className="object-cover"
+                  className="object-contain w-[100%] h-[100%]"
                   alt={i + 'Image'}
                   key={i}
                   onClick={() => onImageTabButtonHandler(element)}
