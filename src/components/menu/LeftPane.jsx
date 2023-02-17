@@ -81,14 +81,15 @@ const LeftPane = () => {
           showAlways:false
         },
     }
-  
+
     const showMenu={
         '':[menu['Home'],menu['Login']],
         'customer':[menu['Home'],menu['Profile'],menu['Wishlist'],menu['History']],
         'seller':[menu['Home'],menu['Dashboard'],menu['MyProducts'],menu['AddProduct']],
+        'admin':[menu['Home'],menu['Dashboard'],menu['MyProducts'],menu['AddProduct']]
       }
-    
-    
+
+
       let loadMenu=[];
       if(authCtx.isLoggedIn){
         loadMenu=showMenu[authCtx.role]
@@ -97,7 +98,7 @@ const LeftPane = () => {
       }
 
     return (
-    
+
     <>
 
       {authCtx.isLoggedIn &&
@@ -109,7 +110,7 @@ const LeftPane = () => {
         {user.mobileNo && <h1 className='font-semibold'>{`${user.mobileNo}`}</h1>}
       </div>
       }
-      {/* <NavLink 
+      {/* <NavLink
           to={menuSections[item].pageLink}
           className={({ isActive }) =>
           isActive && menuSections[item].pageLink
@@ -118,7 +119,7 @@ const LeftPane = () => {
         }
            key={index} ></NavLink> */}
       <List className='flex flex-col items-center gap-2'>
-        {loadMenu.map((item, index) => 
+        {loadMenu.map((item, index) =>
           <NavLink  to={item.pageLink} key={index} className={({isActive})=>`${isActive ? setHighlightIndex(index) : ''} ${index===highlightIndex ? 'bg-black text-white font-bold rounded-lg':''}`}>
             <ListItemButton sx={{width:200}}>
               <ListItemIcon sx={{color:`${index===highlightIndex ? 'white' :''} `}} >

@@ -13,6 +13,7 @@ const BASE_URL={
   orderApi :BASE_MAIN_URL+ '/api/order',
   paymentApi:BASE_MAIN_URL+'/api/payment',
   wishlistApi :BASE_MAIN_URL+ '/api/wishlist',
+  orderHistoryApi :BASE_MAIN_URL+ '/api/order-history',
 }
 
 const TOP_PRODUCTS_LIMIT=4;
@@ -47,6 +48,8 @@ const userModule={
   addToWishlist:BASE_URL.wishlistApi+'/add',
   removeFromWishlist:BASE_URL.wishlistApi+'/remove',
   getWishlistByUser:BASE_URL.wishlistApi+'/get-by-user/',
+  getUserOrders:BASE_URL.orderApi+'/user-order/',
+  getUserOrderHistory:BASE_URL.orderHistoryApi+'/user/',
 }
 
 let token='';
@@ -213,4 +216,14 @@ export function removeFromWishlist(id) {
 export function getWishlistByUser() {
   retrieveStoredToken();
   return http.get(userModule.getWishlistByUser+userid ,{ headers: {"Authorization" : `Bearer ${token}`}});
+}
+
+export function getUserOrders() {
+  retrieveStoredToken();
+  return http.get(userModule.getUserOrders+userid ,{ headers: {"Authorization" : `Bearer ${token}`}});
+}
+
+export function getUserOrderHistory() {
+  retrieveStoredToken();
+  return http.get(userModule.getUserOrderHistory+userid ,{ headers: {"Authorization" : `Bearer ${token}`}});
 }
