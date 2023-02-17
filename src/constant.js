@@ -15,6 +15,7 @@ const CheckoutPage = lazy(() => import("./pages/CheckoutPage"));
 const UserProfile = lazy(() => import("./pages/UserProfile"));
 const OrderHistory = lazy(() => import("./pages/OrderHistory"));
 const Wishlist = lazy(() => import("./pages/Wishlist"));
+const Order = lazy(() => import("./pages/Order"));
 const PageNotFound = lazy(() => import("./pages/PageNotFound"));
 
 
@@ -26,7 +27,8 @@ export const ALL_LINKS = {
     show:{
       null:true,
       'seller':true,
-      'customer':true
+      'customer':true,
+      'admin':true
     }
   },
   LoginPage: {
@@ -36,7 +38,8 @@ export const ALL_LINKS = {
     show:{
       null:true,
       'seller':true,
-      'customer':true
+      'customer':true,
+      'admin':true
     }
   },
   SignupPage: {
@@ -46,7 +49,8 @@ export const ALL_LINKS = {
     show:{
       null:true,
       'seller':true,
-      'customer':true
+      'customer':true,
+      'admin':true
     }
   },
   ProductsPage: {
@@ -56,7 +60,8 @@ export const ALL_LINKS = {
     show:{
       null:true,
       'seller':true,
-      'customer':true
+      'customer':true,
+      'admin':true
     }
   },
   HomePage: {
@@ -66,7 +71,8 @@ export const ALL_LINKS = {
     show:{
       null:true,
       'seller':true,
-      'customer':true
+      'customer':true,
+      'admin':true
     }
   },
   Category: {
@@ -76,7 +82,8 @@ export const ALL_LINKS = {
     show:{
       null:true,
       'seller':true,
-      'customer':true
+      'customer':true,
+      'admin':true
     }
   },
   Product: {
@@ -86,7 +93,8 @@ export const ALL_LINKS = {
     show:{
       null:true,
       'seller':true,
-      'customer':true
+      'customer':true,
+      'admin':true
     }
   },
   Dashboard: {
@@ -96,7 +104,8 @@ export const ALL_LINKS = {
     show:{
       null:true,
       'seller':true,
-      'customer':false
+      'customer':false,
+      'admin':true
     }
   },
   SizingGuide: {
@@ -106,7 +115,8 @@ export const ALL_LINKS = {
     show:{
       null:true,
       'seller':true,
-      'customer':true
+      'customer':true,
+      'admin':true
     }
   },
   Cart: {
@@ -116,7 +126,8 @@ export const ALL_LINKS = {
     show:{
       null:true,
       'seller':false,
-      'customer':true
+      'customer':true,
+      'admin':false
     }
   },
   Checkout: {
@@ -126,7 +137,8 @@ export const ALL_LINKS = {
     show:{
       null:true,
       'seller':false,
-      'customer':true
+      'customer':true,
+      'admin':true
     }
   },
   UserProfile: {
@@ -136,7 +148,8 @@ export const ALL_LINKS = {
     show:{
       null:true,
       'seller':false,
-      'customer':true
+      'customer':true,
+      'admin':false
     }
   },
   OrderHistory: {
@@ -146,7 +159,8 @@ export const ALL_LINKS = {
     show:{
       null:true,
       'seller':false,
-      'customer':true
+      'customer':true,
+      'admin':false
     }
   },
   Wishlist: {
@@ -156,11 +170,21 @@ export const ALL_LINKS = {
     show:{
       null:true,
       'seller':false,
-      'customer':true
+      'customer':true,
+      'admin':false
     }
   },
-
-
+  Order: {
+    pageLink: "/order",
+    view: Order,
+    loginRequire: true,
+    show:{
+      null:true,
+      'seller':false,
+      'customer':true,
+      'admin':false
+    }
+  },
 };
 
 export const SELLER_LINKS={

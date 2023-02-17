@@ -1,10 +1,21 @@
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { assets } from '../assets'
-
+import { getUserOrderHistory } from '../services/APIs';
 const OrderHistory = () => {
+  const [orderHistory,setOrderHistory]=useState([]);
+  useEffect(() => {
+    getUserOrderHistory()
+      .then((res) => {
+        console.log(res.data.orderHistories);
+        setOrderHistory(res.data.orderHistories);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   const status=[
     {
       title:''

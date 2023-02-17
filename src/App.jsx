@@ -36,6 +36,7 @@ const App = () => {
     ALL_LINKS.UserProfile,
     ALL_LINKS.OrderHistory,
     ALL_LINKS.Wishlist,
+    ALL_LINKS.Order,
   ]
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -56,7 +57,7 @@ const App = () => {
   }, [isUpdated]);
 
 
-  useEffect(()=>{ 
+  useEffect(()=>{
     if(authCtx.isLoggedIn && count)sendCartData(cartData)
     setCount(count+1);
   },[cartData.changed])
@@ -74,7 +75,7 @@ const App = () => {
           {loading ? (
             <SplashScreen />
           ) : (
-            <> 
+            <>
               <MainDrawer />
               <Suspense fallback={<div />}>
             <Routes>

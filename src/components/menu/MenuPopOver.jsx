@@ -43,15 +43,16 @@ export default function MenuPopOver() {
           horizontal: 'left',
         }}
       >
-        
+
         <div className='p-4 flex flex-col w-[300px] gap-2'>
             <div className='flex flex-col items-center gap-2'>
             {authCtx.isLoggedIn && <p>Hello 👋 {user.firstName} {user.lastName}</p> }
             {authCtx.role==='customer' && authCtx.isLoggedIn &&
             <>
-            <div className='w-[100%]'><Button variant='outlined' className='w-[100%]'  onClick={()=>{navigate(ALL_LINKS.UserProfile.pageLink);{handleClose();}}}>Profile</Button></div> 
-            <div className='w-[100%]'><Button variant='outlined' className='w-[100%]'  onClick={()=>{navigate(ALL_LINKS.Wishlist.pageLink);{handleClose();}}}>Wishlist</Button></div> 
-            <div className='w-[100%]'><Button variant='outlined' className='w-[100%]'  onClick={()=>{navigate(ALL_LINKS.OrderHistory.pageLink);{handleClose();}}}>Order History</Button></div> 
+            <div className='w-[100%]'><Button variant='outlined' className='w-[100%]'  onClick={()=>{navigate(ALL_LINKS.Order.pageLink);{handleClose();}}}>Order</Button></div>
+            <div className='w-[100%]'><Button variant='outlined' className='w-[100%]'  onClick={()=>{navigate(ALL_LINKS.UserProfile.pageLink);{handleClose();}}}>Profile</Button></div>
+            <div className='w-[100%]'><Button variant='outlined' className='w-[100%]'  onClick={()=>{navigate(ALL_LINKS.Wishlist.pageLink);{handleClose();}}}>Wishlist</Button></div>
+            <div className='w-[100%]'><Button variant='outlined' className='w-[100%]'  onClick={()=>{navigate(ALL_LINKS.OrderHistory.pageLink);{handleClose();}}}>Order History</Button></div>
             </>
             }
 
