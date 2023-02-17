@@ -17,6 +17,9 @@ import { useSelector } from 'react-redux';
 import { assets } from '../../assets';
 import { useState } from 'react';
 import { SellerMenu } from '../../seller/SellerDashboard';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import HistoryIcon from '@mui/icons-material/History';
 const LeftPane = () => {
     const authCtx=useContext(AuthContext);
     const user=useSelector(state=>state.user.user)
@@ -59,11 +62,29 @@ const LeftPane = () => {
           icon:<AddIcon/>,
           showAlways:false
         },
+        Profile:{
+          name:'Profile',
+          pageLink:ALL_LINKS.UserProfile.pageLink,
+          icon:<AccountCircleIcon/>,
+          showAlways:false
+        },
+        Wishlist:{
+          name:'Wishlist',
+          pageLink:ALL_LINKS.Wishlist.pageLink,
+          icon:<FavoriteIcon/>,
+          showAlways:false
+        },
+        History:{
+          name:'Orders',
+          pageLink:ALL_LINKS.OrderHistory.pageLink,
+          icon:<HistoryIcon/>,
+          showAlways:false
+        },
     }
   
     const showMenu={
         '':[menu['Home'],menu['Login']],
-        'customer':[menu['Home']],
+        'customer':[menu['Home'],menu['Profile'],menu['Wishlist'],menu['History']],
         'seller':[menu['Home'],menu['Dashboard'],menu['MyProducts'],menu['AddProduct']],
       }
     

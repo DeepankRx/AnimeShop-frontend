@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "./store/userSlice";
 import { fetchCart, sendCartData } from "./store/cartSlice";
 import PageNotFound from "./pages/PageNotFound";
+import Footer from "./components/menu/Footer";
 const App = () => {
   const [count,setCount] = useState(0);
   const authCtx=useContext(AuthContext);
@@ -53,7 +54,7 @@ const App = () => {
     }else{
     }
   }, [isUpdated]);
-  console.log(isUpdated)
+
 
   useEffect(()=>{ 
     if(authCtx.isLoggedIn && count)sendCartData(cartData)
@@ -63,13 +64,13 @@ const App = () => {
   useEffect(()=>{
     if(authCtx.isLoggedIn && user.id)dispatch(fetchCart(user.id))
   },[user.id])
-  console.log(authCtx.role)
+
   return (
     <GoogleOAuthProvider
     clientId="376399515469-1v98mimj9jmi1afthal23g84nln4q8uo.apps.googleusercontent.com">
     <BrowserRouter>
-      <div id="page-container">
-        <div id="content-wrap">
+      <div id="" className="relative min-h-[100vh]">
+        <div className="">
           {loading ? (
             <SplashScreen />
           ) : (
@@ -100,6 +101,7 @@ const App = () => {
           )}
           <ToastContainer/>
         </div>
+        {/* <Footer/> */}
       </div>
     </BrowserRouter>
     </GoogleOAuthProvider>

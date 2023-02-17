@@ -41,10 +41,10 @@ const AddProduct = () => {
 });
 
   useEffect(() => {
-    console.log(queryParams)
+
     if(queryParams.get('edit')==='true'){
       setEditingMode(true);
-      console.log('test')
+
       getProduct(queryParams.get('productId'))
       .then((res)=>{
         const data=res.data.data;
@@ -155,7 +155,7 @@ const AddProduct = () => {
   const addImages=(e)=>{
     setImage([...image,e.target.files[0]])
   }
-  console.log(preview)
+
   return (
     <div className="flex flex-col  bg-white w-[100%] rounded-2xl p-4 smrev:p-2">
       <div className='overflow-y-auto '>

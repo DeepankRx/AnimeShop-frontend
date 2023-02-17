@@ -51,7 +51,6 @@ const Wishlist = () => {
         )
     }
   return (
-    <div className=''>
     <div id='Poppins' className='p-8  flex flex-col gap-8 w-[80%] m-auto mdrev:w-[100%]'>
         <h2 className='text-5xl mdrev:text-4xl' id='Monton'><span className='border-b-4 border-black '>MY Wishlist ({products.length})</span></h2>
 
@@ -69,7 +68,6 @@ const Wishlist = () => {
             }
         </div>
             {!loading && products.length===0 && <NoList message="No Wishlist Products Found Senpai , Let's Add Together ?"/>}
-        </div>
         </div>
   )
 }

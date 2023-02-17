@@ -40,7 +40,7 @@ useEffect(() => {
     login(values)
     .then((res)=>{
       const data=res.data.data;
-      console.log(data.role)
+
       authCtx.login(data.token,data.id,data.role);
       getUserProfile(data.id)
       .then(res=>{
@@ -61,7 +61,7 @@ useEffect(() => {
     })
   }
 
-  console.log(queryParameters);
+
   const validateSchema=Yup.object({
     email:Yup.string().required('Required'),
     password:Yup.string().required('Required'),
@@ -94,7 +94,7 @@ useEffect(() => {
             authCtx.login(data.token,data.id,data.role);
             getUserProfile(data.id)
             .then(res=>{
-            console.log(res.data.data)
+
             dispatch(userActions.setUserDetails(res.data.data))
             })
       .catch(err=>console.log(err));

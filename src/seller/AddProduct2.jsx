@@ -45,7 +45,7 @@ export default function AddProduct2() {
   }
 
   const onSubmit=(values)=>{
-    console.log(values)
+
 
   }
 
