@@ -2,7 +2,7 @@ import http from './http_service';
 
 
 export const BASE_MAIN_URL='https://anime-shop-9r2x.vercel.app'
-// export const BASE_MAIN_URL='http://localhost:5001'
+//export const BASE_MAIN_URL='http://localhost:5001'
 
 const BASE_URL={
   userApi :BASE_MAIN_URL+ '/api/user',
@@ -50,6 +50,11 @@ const userModule={
   getWishlistByUser:BASE_URL.wishlistApi+'/get-by-user/',
   getUserOrders:BASE_URL.orderApi+'/user-order/',
   getUserOrderHistory:BASE_URL.orderHistoryApi+'/user/',
+  getAllOrdersOfAllUsers:BASE_URL.orderApi+'/all-orders-of-all-users',
+  getAllUsers :BASE_URL.userApi+'/all-users',
+  getAllCarts :BASE_URL.cartApi+'/get-all-carts',
+  getAllOrderHistory :BASE_URL.orderHistoryApi+'/all',
+  getAllWishlists :BASE_URL.wishlistApi+'/all',
 }
 
 let token='';
@@ -226,4 +231,29 @@ export function getUserOrders() {
 export function getUserOrderHistory() {
   retrieveStoredToken();
   return http.get(userModule.getUserOrderHistory+userid ,{ headers: {"Authorization" : `Bearer ${token}`}});
+}
+
+export function getAllOrdersOfAllUsers() {
+  retrieveStoredToken();
+  return http.get(userModule.getAllOrdersOfAllUsers ,{ headers: {"Authorization" : `Bearer ${token}`}});
+}
+
+export function getAllUsers() {
+  retrieveStoredToken();
+  return http.get(userModule.getAllUsers ,{ headers: {"Authorization" : `Bearer ${token}`}});
+}
+
+export function getAllCarts() {
+  retrieveStoredToken();
+  return http.get(userModule.getAllCarts ,{ headers: {"Authorization" : `Bearer ${token}`}});
+}
+
+export function getAllOrderHistory() {
+  retrieveStoredToken();
+  return http.get(userModule.getAllOrderHistory ,{ headers: {"Authorization" : `Bearer ${token}`}});
+}
+
+export function getAllWishlist() {
+  retrieveStoredToken();
+  return http.get(userModule.getAllWishlists ,{ headers: {"Authorization" : `Bearer ${token}`}});
 }

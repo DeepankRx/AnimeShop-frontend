@@ -5,7 +5,7 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { useContext } from 'react';
 import AuthContext from '../../store/AuthContext';
-import { ALL_LINKS, SELLER_LINKS } from '../../constant';
+import { ALL_LINKS, SELLER_LINKS,ADMIN_LINKS } from '../../constant';
 import PersonIcon from '@mui/icons-material/Person'
 import LoginIcon from '@mui/icons-material/Login'
 import HomeIcon  from "@mui/icons-material/Home";
@@ -80,13 +80,50 @@ const LeftPane = () => {
           icon:<HistoryIcon/>,
           showAlways:false
         },
+        AllProducts:{
+          name:'All Products',
+          pageLink:'dashboard/'+ADMIN_LINKS.AllProducts.pageLink,
+          icon:<ProductionQuantityLimitsIcon/>,
+          showAlways:false
+        },
+        AllCarts:{
+          name:'All Carts',
+          pageLink:'dashboard/'+ADMIN_LINKS.AllCarts.pageLink,
+          icon:<ProductionQuantityLimitsIcon/>,
+          showAlways:false
+        },
+        AllOrders:{
+          name:'All Orders',
+          pageLink:'dashboard/'+ADMIN_LINKS.AllOrders.pageLink,
+          icon:<ProductionQuantityLimitsIcon/>,
+          showAlways:false
+        },
+        AllUsers:{
+          name:'All Users',
+          pageLink:'dashboard/'+ADMIN_LINKS.AllUsers.pageLink,
+          icon:<ProductionQuantityLimitsIcon/>,
+          showAlways:false
+        },
+        AllOrderHistory:{
+          name:'All Order History',
+          pageLink:'dashboard/'+ADMIN_LINKS.AllOrderHistory.pageLink,
+          icon:<ProductionQuantityLimitsIcon/>,
+          showAlways:false
+        },
+        AllWishlist:{
+          name:'All Wishlist',
+          pageLink:'dashboard/'+ADMIN_LINKS.AllWishlist.pageLink,
+          icon:<ProductionQuantityLimitsIcon/>,
+          showAlways:false
+        },
     }
 
     const showMenu={
         '':[menu['Home'],menu['Login']],
         'customer':[menu['Home'],menu['Profile'],menu['Wishlist'],menu['History']],
         'seller':[menu['Home'],menu['Dashboard'],menu['MyProducts'],menu['AddProduct']],
-        'admin':[menu['Home'],menu['Dashboard'],menu['MyProducts'],menu['AddProduct']]
+        'admin':[menu['Home'],menu['Dashboard'],menu['AllProducts'],menu['AllCarts'],menu['AllOrders'],menu['AllUsers'],menu['AllOrderHistory'],
+        menu['AllWishlist']]
       }
 
 

@@ -36,7 +36,7 @@ const App = () => {
     ALL_LINKS.UserProfile,
     ALL_LINKS.OrderHistory,
     ALL_LINKS.Wishlist,
-    ALL_LINKS.Order,
+    ALL_LINKS.Order
   ]
   const [loading, setLoading] = useState(true);
   useEffect(() => {

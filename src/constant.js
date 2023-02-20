@@ -17,8 +17,14 @@ const OrderHistory = lazy(() => import("./pages/OrderHistory"));
 const Wishlist = lazy(() => import("./pages/Wishlist"));
 const Order = lazy(() => import("./pages/Order"));
 const PageNotFound = lazy(() => import("./pages/PageNotFound"));
-
-
+const AllProducts = lazy(()=>import("./admin/AllProducts"))
+const AllCarts = lazy(()=>import("./admin/AllCarts"))
+const AllOrders = lazy(()=>import("./admin/AllOrders"))
+const AllUsers = lazy(()=>import("./admin/AllUsers"))
+const AllOrderHistories = lazy(()=>import("./admin/AllOrderHistory"))
+const AllWishlist = lazy(()=>import("./admin/AllWishlist"))
+const AdminDashboardDefault = lazy(()=>import("./admin/AdminDashboardDefault"))
+const AdminDashboard = lazy(()=>import("./admin/AdminDashboard"))
 export const ALL_LINKS = {
   PageNotFound: {
     pageLink: "*",
@@ -184,7 +190,8 @@ export const ALL_LINKS = {
       'customer':true,
       'admin':false
     }
-  },
+  }
+
 };
 
 export const SELLER_LINKS={
@@ -208,6 +215,38 @@ export const SELLER_LINKS={
     pageLink: "edit_product",
     view: AddProduct,
     loginRequire: true,
+  },
+}
+
+export const ADMIN_LINKS={
+  AdminDashboardDefault: {
+    pageLink: "",
+    view: AdminDashboardDefault,
+    loginRequire: true,
+  },
+  AllProducts: {
+    pageLink: "products",
+    view: AllProducts,
+  },
+  AllCarts: {
+    pageLink: "carts",
+    view: AllCarts,
+  },
+  AllOrders: {
+    pageLink: "orders",
+    view: AllOrders,
+  },
+  AllUsers: {
+    pageLink: "users",
+    view: AllUsers,
+  },
+  AllOrderHistory: {
+    pageLink: "order-history",
+    view: AllOrderHistories,
+  },
+  AllWishlist: {
+    pageLink: "wishlist",
+    view: AllWishlist,
   },
 }
 

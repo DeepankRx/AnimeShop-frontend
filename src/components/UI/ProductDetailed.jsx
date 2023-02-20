@@ -257,8 +257,11 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews,p
 
   const addToWishlistHandler=(productId)=>{
     addToWishlist(productId)
-    .then(()=>{
-      toast.success("Added to wishlist")
+    .then((res)=>{
+      res.data.message === "Product added to wishlist" ? toast.success(res.data.message) : toast.error(res.data.message)
+    })
+    .catch((err)=>{
+      toast.error(err.response.data.message)
     })
   }
 
