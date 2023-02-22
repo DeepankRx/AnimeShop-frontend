@@ -1,6 +1,7 @@
 import { faCrown, faHeadset, faRankingStar, faTag } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react'
+import { addNewsletter,isTokenValid } from '../services/APIs'
+import React,{useState,useEffect} from 'react'
 import { assets } from '../assets'
 import Categories from '../components/UI/Categories'
 import Collections from '../components/UI/Collections'
@@ -8,7 +9,27 @@ import HeroSection from '../components/UI/HeroSection'
 import ShopByAnime from '../components/UI/ShopByAnime'
 import styles from '../styles/css/backgrounds.module.css'
 import parallex from '../styles/css/parallex.module.css'
+import { toast } from 'react-toastify'
 const HomePage = () => {
+  const [email,setEmail] = useState('')
+  const handleAddNewsletter = async (e)=>{
+    try{
+    e.preventDefault()
+    if(!email){
+      return toast.error('Email is required')
+    }
+    const re = /\S+@\S+\.\S+/;
+    if(!re.test(email)){
+      return toast.error('Email is invalid')
+    }
+    const res = await addNewsletter(email)
+    toast.success(res.data.message)
+    setEmail('')
+    }catch(err){
+      toast.error(err.response.data.message)
+    }
+  }
+
   const testimonial = [
     {
       icon:faRankingStar,
@@ -59,13 +80,18 @@ const HomePage = () => {
           <p> Directly to your inbox!</p>
           </div>
           <div className='flex gap-2'>
-          <input placeholder='alexjersey@gmail.com' type='text' className='w-[100%] bg-blue-100 p-4 mdrev:p-2 ' />
-          <button className='uppercase bg-black text-white p-2'>Subscribe</button>
+          <input placeholder='alexjersey@gmail.com' type='text' className='w-[100%] bg-blue-100 p-4 mdrev:p-2 '
+          value={email}
+          onChange={(e)=>setEmail(e.target.value)}
+           />
+          <button className='uppercase bg-black text-white p-2'
+          onClick={handleAddNewsletter}
+          >Subscribe</button>
           </div>
         </div>
       </div>
     </div>
-    
+
     </>
   )
 }

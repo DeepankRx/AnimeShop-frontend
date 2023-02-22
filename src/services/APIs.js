@@ -14,6 +14,8 @@ const BASE_URL={
   paymentApi:BASE_MAIN_URL+'/api/payment',
   wishlistApi :BASE_MAIN_URL+ '/api/wishlist',
   orderHistoryApi :BASE_MAIN_URL+ '/api/order-history',
+  newsletterApi :BASE_MAIN_URL+ '/api/newsletter',
+  tokenApi :BASE_MAIN_URL+ '/api/token',
 }
 
 const TOP_PRODUCTS_LIMIT=4;
@@ -55,6 +57,8 @@ const userModule={
   getAllCarts :BASE_URL.cartApi+'/get-all-carts',
   getAllOrderHistory :BASE_URL.orderHistoryApi+'/all',
   getAllWishlists :BASE_URL.wishlistApi+'/all',
+  addNewsletter:BASE_URL.newsletterApi+'/add',
+  isTokenValid:BASE_URL.tokenApi+'/is-valid/',
 }
 
 let token='';
@@ -256,4 +260,16 @@ export function getAllOrderHistory() {
 export function getAllWishlist() {
   retrieveStoredToken();
   return http.get(userModule.getAllWishlists ,{ headers: {"Authorization" : `Bearer ${token}`}});
+}
+export function addNewsletter(email) {
+  return http.post(userModule.addNewsletter, {email},{
+    headers: {
+      "Authorization" : `Bearer ${token}`
+    }
+  });
+}
+
+export function isTokenValid() {
+  retrieveStoredToken();
+  return http.get(userModule.isTokenValid + userid,{ headers: {"Authorization" : `Bearer ${token}`}});
 }

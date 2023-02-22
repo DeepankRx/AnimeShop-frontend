@@ -82,7 +82,7 @@ export const ALL_LINKS = {
     }
   },
   Category: {
-    pageLink: "/category",
+    pageLink: "/category/:category",
     view: CategoryPage,
     loginRequire: false,
     show:{

@@ -3,7 +3,7 @@ import { assets } from '../assets';
 import Grid4x4Icon from '@mui/icons-material/Grid4x4';
 import GridViewIcon from '@mui/icons-material/GridView';
 import TableRowsIcon from '@mui/icons-material/TableRows';
-import { Link } from 'react-router-dom';
+import { Link,useParams } from 'react-router-dom';
 import { ALL_LINKS } from '../constant';
 import { Checkbox, FormControlLabel, FormGroup, Slider } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,6 +15,7 @@ import styles from '../styles/css/Premium.module.css'
 import CardPlaceHolderSkelton from '../components/skeltons/CardPlaceHolderSkelton';
 import NoList from '../components/UI/NoList';
 const CategoryPage = () => {
+  const { category } = useParams();
   const [products, setProducts] = useState([]);
   const [productsType, setProductsType] = useState([]);
   const [productsBrand, setProductsBrand] = useState([]);
@@ -63,7 +64,7 @@ const CategoryPage = () => {
 
   const [currentLook, setCurrentLook] = useState(looks[0]);
   const [filteredProducts, setFilteredProducts] = useState(products);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState(category === 'all' ? '' : category);
   const ProductDetailLink = ALL_LINKS.Product.pageLink.substring(0,ALL_LINKS.Product.pageLink.length-3);
 
   const Product = ({ image, name, brand, price,id }) => {

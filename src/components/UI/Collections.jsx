@@ -11,7 +11,8 @@ const Collections = () => {
         <img src={image} className='object-cover w-[100%] h-[100%]'/>
         <div className='absolute top-0 w-[100%] h-[100%] backdrop-brightness-[.60] hover:backdrop-brightness-[.50]  text-white flex justify-center items-center flex-col gap-4'>
           <h2 className='text-4xl font-bold uppercase px-8'>{title}</h2>
-          <button onClick={()=>navigate(ALL_LINKS.Category.pageLink)} className='w-28 bg-white text-black h-12'>SHOP ALL</button>
+          <button onClick={()=>navigate(ALL_LINKS.Category.pageLink
+          .slice(0,ALL_LINKS.Category.pageLink.length-9)+'all')} className='w-28 bg-white text-black h-12'>SHOP ALL</button>
         </div>
       </div>
     )

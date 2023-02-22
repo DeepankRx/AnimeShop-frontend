@@ -119,7 +119,9 @@ const SellerProducts = () => {
         >
           <div className="rounded-lg flex flex-col">
             <Button onClick={()=>navigate(`/dashboard/${edit_link}?productId=${productId}&edit=true`)} size="medium">Edit</Button>
-            <Button size="medium">View</Button>
+            <Button size="medium"
+            onClick={() => {navigate(`/product/${productId}`)}}
+            >View</Button>
             <Button size="medium"
               onClick={() => {
                 handleDelete(productId);
@@ -232,7 +234,7 @@ const SellerProducts = () => {
             filteredProducts.length>0 &&
             filteredProducts.map((product,i)=>(
               <ProductCard key={i} product={product}/>
-            )) 
+            ))
             }
             </div>
 
