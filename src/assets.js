@@ -1,7 +1,6 @@
 import bg_01 from "./images/bg_01.jpg";
 import hero_1 from "./images/hero_1.webp";
 import hero_2 from "./images/hero_2.jpg";
-import subject from "./images/subject.png";
 import bg_02 from "./images/bg_02.webp";
 import bg_03 from "./images/bg_03.jpg";
 import dummy from "./images/dummy.webp";
@@ -26,13 +25,14 @@ import jojos_bizzare from "./images/anime_categories/jojos_bizzare.png";
 import my_hero_academia from "./images/anime_categories/my_hero_academia.png";
 import naruto from "./images/anime_categories/naruto.png";
 import shirt from'./images/collections/shirt.webp'
+import trending from'./images/collections/trending.webp'
+import fleece from'./images/collections/fleece.webp'
 import accessories from'./images/collections/accessories.webp'
 import online_shop from'./images/online_shop.svg'
 export const assets = {
   bg_01,
   hero_1,
   hero_2,
-  subject,
   bg_02,
   bg_03,
   dummy,
@@ -62,5 +62,7 @@ export const assets = {
   collections: {
     shirt,
     accessories,
+    fleece,
+    trending
   },
 };

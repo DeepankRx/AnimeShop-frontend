@@ -18,15 +18,20 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import {userActions} from '../store/userSlice'
+import { useLocation, useNavigate } from 'react-router-dom'
 const UserProfile = () => {
     const formikRef=useRef();
     const user=useSelector(state=>state.user.user);
     const dispatch=useDispatch();
+    const navigate=useNavigate();
     const authCtx=useContext(AuthContext);
+    const location=useLocation();
     const {userid}=authCtx;
     const [image,setImage]=useState(null);
     const [preview,setPreview]=useState(null);
     const [isEditing,setIsEditing]=useState(false);
+    const queryParameters=new URLSearchParams(location.search);
+    console.log(queryParameters)
     const [addressFetchedValues,setAddressFetchedValues]=useState({
       address:[{
         customerName:'',
@@ -101,6 +106,9 @@ const UserProfile = () => {
         toast.success("Added Address Successfully !");
         setIsEditing(false);
         dispatch(userActions.setUpdated());
+        if(queryParameters.get('redirect')!==null){
+          navigate(+queryParameters.get('redirect'))
+        }
       }
       )
       .catch((err)=>{

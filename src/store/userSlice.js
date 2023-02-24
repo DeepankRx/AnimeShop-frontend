@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit"
 
 const initialState={
     user:{},
-    isUpdated:false
+    isUpdated:false,
+    location:{}
 }
 
 export const userSlice=createSlice({
@@ -14,6 +15,9 @@ export const userSlice=createSlice({
         },
         setUpdated:(state)=>{
             state.isUpdated=!state.isUpdated;
+        },
+        setLocation:(state,action)=>{
+            state.location=action.payload;
         }
     }
 })

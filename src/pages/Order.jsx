@@ -3,6 +3,9 @@ import { getUserOrders } from '../services/APIs';
 import { Button } from '@mui/material'
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import NoList from '../components/UI/NoList';
+import { ALL_LINKS } from '../constant';
+import { Link } from 'react-router-dom';
 const Order = () => {
   const [orders,setOrders]=useState([]);
   useEffect(() => {
@@ -19,7 +22,7 @@ const Order = () => {
     console.log(details)
     const [showMore,setShowMore]=useState(false);
     return(
-      <div className='rounded-lg overflow-hidden border-[1px] border-black md:max-w-5xlxl'>
+      <div className='rounded-lg overflow-hidden border-[1px] border-black w-[100%]'>
       <div className='bg-gray-200 px-4 py-2 flex justify-between mdrev:p-2'>
         <div className='flex  gap-2 w-full justify-between  '>
         <div>
@@ -28,7 +31,7 @@ const Order = () => {
         </div>
         <div >
         <h4 className='font-semibold '>Order Status</h4>
-        <h4 className='text-sm'>{details.orderStatus}</h4>
+        <h4 className='text-sm uppercase font-bold'>{details.orderStatus}</h4>
         </div>
         </div>
 
@@ -44,16 +47,15 @@ const Order = () => {
         <div className='w-60 h-40 m-auto'>
           <img src={item.images[0]} className='w-[100%] h-[100%] object-contain' />
         </div>
-        <div className='flex gap-4 flex-col'>
+        <div className='flex gap-4 flex-col flex-1'>
             <h4>{item.description}</h4>
           <h4>Total Price : <span className='font-semibold'>{item.price}</span></h4>
             <div className='flex gap-4'>
-              <Button size='small' variant='contained'>View Product</Button>
-              <Button size='small' variant='outlined'>Buy Again</Button>
+              <Link to={ALL_LINKS.Product.pageLink.substring(0,ALL_LINKS.Product.pageLink.length-3)+item._id}><Button size='small' variant='contained'>View Product</Button></Link>
+              {/* <Button size='small' variant='contained' >Review</Button> */}
             </div>
         </div>
         <div className='flex items-center'>
-        <Button variant='contained' className='flex-1'>Review</Button>
         </div>
       </div>
       ))}
@@ -125,7 +127,8 @@ const Order = () => {
                 />
               )
             })
-            : <h2 className='text-2xl'>No Orders Found</h2>
+            : <NoList message='No Order in Process Senpai !'/>
+
           }
         </div>
     </div>

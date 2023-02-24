@@ -1,6 +1,6 @@
 import { Button, Divider } from '@mui/material'
 import { Form, Formik } from 'formik';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { createOrder,BASE_MAIN_URL ,razorpayCreateOrder,capturePayment} from '../services/APIs';
 import Gap from '../components/UI/Gap';
 import * as Yup from 'yup'
@@ -9,6 +9,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretLeft, faCaretRight, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { cartActions } from '../store/cartSlice';
 import {toast} from 'react-toastify'
+import { Link, useNavigate } from 'react-router-dom';
+import { ALL_LINKS } from '../constant';
 const CheckoutPage = () => {
   const dispatch=useDispatch()
   const [paymentChecked,setPaymentChecked]=useState(1);
@@ -16,6 +18,7 @@ const CheckoutPage = () => {
   const [loading,setLoading]=useState(false);
   const items=useSelector(state=>state.cart.items)
   const user=useSelector(state=>state.user.user)
+  const navigate=useNavigate();
 
   const createRazorpayOrder=async()=>{
     if(!user.address)
@@ -136,11 +139,16 @@ const CheckoutPage = () => {
 const addToCartHandler=(item,amount,size)=>{
     dispatch(cartActions.addItemToCart({item:{...item,amount,size}}))
 }
+
+useEffect(() => {
+  if(items.length==0)navigate(ALL_LINKS.Category.pageLink);
+}, [items])
+
   return (
-    <div className=' gap-4 flex flex-col'>
+    <div className='gap-4 flex flex-col'>
         <h2 id='Monton' className='text-4xl p-4'>CHECKOUT DETAILS</h2>
         <div className='p-4 grid grid-cols-3  bg-primary rounded-xl gap-4 mdrev:grid-cols-1 md:m-2'>
-          <div className='col-span-1 flex flex-col bg-slate-100 p-4 rounded-xl  gap-4'>
+          <div className='min-h-[500px] col-span-1 flex flex-col bg-slate-100 p-4 rounded-xl  gap-4'>
             <Gap>Shipping Address</Gap>
             <form className='flex flex-col gap-4'>
               {
@@ -150,7 +158,9 @@ const addToCartHandler=(item,amount,size)=>{
                 })
               }
             </form>
-            <div className='flex'><Button variant='contained'>Add Other Address</Button></div>
+            <div className='flex'>
+            <Link to={`${ALL_LINKS.UserProfile.pageLink}?redirect=-1`}><Button variant='contained'>Add Other Address</Button></Link>
+            </div>
 
             <Gap>Billing Address</Gap>
             <div className='flex  gap-4 items-center
@@ -204,7 +214,7 @@ const addToCartHandler=(item,amount,size)=>{
                     description: item.description,
                     images: item.images,
                     brand: item.brand,
-                    _id: item.itemId,
+                    _id: item._id,
                   },
                   1,
                   item.size

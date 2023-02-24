@@ -1,17 +1,15 @@
-import { faCrown, faHeadset, faRankingStar, faTag } from '@fortawesome/free-solid-svg-icons'
+import { faCrown, faHeadset, faRankingStar } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { addNewsletter,isTokenValid } from '../services/APIs'
-import React,{useState,useEffect} from 'react'
-import { assets } from '../assets'
-import Categories from '../components/UI/Categories'
+import { addNewsletter } from '../services/APIs'
+import React,{useState} from 'react'
 import Collections from '../components/UI/Collections'
 import HeroSection from '../components/UI/HeroSection'
 import ShopByAnime from '../components/UI/ShopByAnime'
-import styles from '../styles/css/backgrounds.module.css'
 import parallex from '../styles/css/parallex.module.css'
 import { toast } from 'react-toastify'
 const HomePage = () => {
-  const [email,setEmail] = useState('')
+  const [email,setEmail] = useState('');
+  
   const handleAddNewsletter = async (e)=>{
     try{
     e.preventDefault()

@@ -19,6 +19,8 @@ import { useState } from 'react';
 import { SellerMenu } from '../../seller/SellerDashboard';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import HistoryIcon from '@mui/icons-material/History';
 const LeftPane = () => {
     const authCtx=useContext(AuthContext);
@@ -68,6 +70,12 @@ const LeftPane = () => {
           icon:<AccountCircleIcon/>,
           showAlways:false
         },
+        Cart:{
+          name:'Cart',
+          pageLink:ALL_LINKS.Cart.pageLink,
+          icon:<ShoppingBagIcon/>,
+          showAlways:false
+        },
         Wishlist:{
           name:'Wishlist',
           pageLink:ALL_LINKS.Wishlist.pageLink,
@@ -75,9 +83,15 @@ const LeftPane = () => {
           showAlways:false
         },
         History:{
-          name:'Orders',
+          name:'History',
           pageLink:ALL_LINKS.OrderHistory.pageLink,
           icon:<HistoryIcon/>,
+          showAlways:false
+        },
+        Orders:{
+          name:'Orders',
+          pageLink:ALL_LINKS.Order.pageLink,
+          icon:<AccessTimeIcon/>,
           showAlways:false
         },
         AllProducts:{
@@ -120,7 +134,7 @@ const LeftPane = () => {
 
     const showMenu={
         '':[menu['Home'],menu['Login']],
-        'customer':[menu['Home'],menu['Profile'],menu['Wishlist'],menu['History']],
+        'customer':[menu['Home'],menu['Profile'],menu['Wishlist'],menu['Orders'],menu['History'],menu['Cart']],
         'seller':[menu['Home'],menu['Dashboard'],menu['MyProducts'],menu['AddProduct']],
         'admin':[menu['Home'],menu['Dashboard'],menu['AllProducts'],menu['AllCarts'],menu['AllOrders'],menu['AllUsers'],menu['AllOrderHistory'],
         menu['AllWishlist']]

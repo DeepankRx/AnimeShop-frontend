@@ -1,10 +1,9 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { assets } from '../../assets'
 import { ALL_LINKS } from '../../constant';
 
 const ShopByAnime = () => {
-    const navigate=useNavigate();
     const data = [
         {
             title: 'Attack On Titan',
@@ -50,15 +49,14 @@ const ShopByAnime = () => {
 
     const Card=({title,image})=>{
         return(
-            <button onClick={()=>navigate(ALL_LINKS.Category.pageLink.slice(0,ALL_LINKS.Category.pageLink.length-9)+title.toLowerCase())
-            }>
+            <Link to={`${ALL_LINKS.Category.pageLink}?search=${title}`}>
             <div className='cursor-pointer hover:scale-110 duration-500 space-y-2 flex flex-col items-center'>
             <div className='w-32 h-32'>
             <img className='rounded-full bg-white' src={image}/>
             </div>
             <h2 className='text-center text-lg font-bold text-white'>{title}</h2>
             </div>
-            </button>
+            </Link>
         )
     }
   return (

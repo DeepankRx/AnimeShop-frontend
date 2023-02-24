@@ -3,7 +3,7 @@ import { assets } from '../assets';
 import Grid4x4Icon from '@mui/icons-material/Grid4x4';
 import GridViewIcon from '@mui/icons-material/GridView';
 import TableRowsIcon from '@mui/icons-material/TableRows';
-import { Link,useParams } from 'react-router-dom';
+import { Link,useLocation,useParams } from 'react-router-dom';
 import { ALL_LINKS } from '../constant';
 import { Checkbox, FormControlLabel, FormGroup, Slider } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,10 +15,10 @@ import styles from '../styles/css/Premium.module.css'
 import CardPlaceHolderSkelton from '../components/skeltons/CardPlaceHolderSkelton';
 import NoList from '../components/UI/NoList';
 const CategoryPage = () => {
-  const { category } = useParams();
   const [products, setProducts] = useState([]);
   const [productsType, setProductsType] = useState([]);
   const [productsBrand, setProductsBrand] = useState([]);
+  const location=useLocation();
   const [loading,setLoading]=useState(true);
   useEffect(() => {
     getProducts()
@@ -64,8 +64,14 @@ const CategoryPage = () => {
 
   const [currentLook, setCurrentLook] = useState(looks[0]);
   const [filteredProducts, setFilteredProducts] = useState(products);
-  const [search, setSearch] = useState(category === 'all' ? '' : category);
+  const [search, setSearch] = useState("");
   const ProductDetailLink = ALL_LINKS.Product.pageLink.substring(0,ALL_LINKS.Product.pageLink.length-3);
+
+  const queryParams=new URLSearchParams(location.search);
+  useEffect(() => {
+    if(queryParams.get('search')!==null)setSearch(queryParams.get('search').toLocaleLowerCase());
+  }, [])
+  
 
   const Product = ({ image, name, brand, price,id }) => {
     return (
@@ -223,7 +229,7 @@ const CategoryPage = () => {
                       productsType: !collapsableMenu.productsType,
                     })
                   }
-                  className="cursor-pointer shadow-md w-8 h-8 flex justify-center items-center rounded-full"
+                  className="cursor-pointer shadow-md w-8 h-8 flex justify-center items-center rounded-full bg-white"
                 >
                   <FontAwesomeIcon
                     icon={
@@ -283,7 +289,7 @@ const CategoryPage = () => {
                       brand: !collapsableMenu.brand,
                     })
                   }
-                  className="cursor-pointer shadow-md w-8 h-8 flex justify-center items-center rounded-full"
+                  className="cursor-pointer shadow-md w-8 h-8 flex justify-center items-center rounded-full bg-white"
                 >
                   <FontAwesomeIcon
                     icon={
@@ -372,8 +378,8 @@ const CategoryPage = () => {
                 filteredProducts.length >0 && filteredProducts.map((product, index) => {
                   return (
                     <div
-                      key={index}
-                      className={`col-span-1 ${currentLook.productChild}`}
+                    key={index}
+                    className={`col-span-1 ${currentLook.productChild}`}
                     >
                       <Product
                         image={product.images[0]}
@@ -381,7 +387,7 @@ const CategoryPage = () => {
                         price={product.price}
                         brand={product.brand}
                         id = {product._id}
-                      />
+                        />
                     </div>
                   );
                 }

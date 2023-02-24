@@ -82,12 +82,12 @@ const Cart = () => {
 
     <div className='flex justify-between'>
     <h2 className='text-lg font-semibold'>SHIPPING</h2>
-    <h2 className='text-lg font-semibold'>₹ 999</h2>
+    <h2 className='text-lg font-semibold'>₹ {totalAmount===0 ? 0 : 60}</h2>
     </div>
 
     <div className='flex justify-between'>
     <h2 className='text-lg font-semibold'>TOTAL</h2>
-    <h2 className='text-lg font-semibold'>₹ 999</h2>
+    <h2 className='text-lg font-semibold'>₹ {totalAmount===0 ? 0 : (totalAmount+60)}</h2>
     </div>
     </div>
 

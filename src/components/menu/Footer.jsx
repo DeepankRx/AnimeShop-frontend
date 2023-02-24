@@ -12,10 +12,6 @@ const Footer = () => {
             title:'Category',
             link:'/category'
         },
-        {
-            title:'Login',
-            link:'/login'
-        },
     ]
     const currentYear=new Date().getFullYear();
   return (
