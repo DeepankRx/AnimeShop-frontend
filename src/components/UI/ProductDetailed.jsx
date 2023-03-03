@@ -1,18 +1,8 @@
-// const dataToSend={
-//   pName:'',
-//   pImages:[],
-//   pDescription:[],
-
-//   pID:'',
-//   pPrice:'',
-//   pTags:''
-
-// }
-
 import {
   faAdd,
   faHeart,
   faMinus,
+  faStar,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -71,8 +61,14 @@ const averageRating = (reviews) => {
   reviews.forEach((review) => {
     sum += review.rating;
   });
-  return sum / reviews.length;
+  return (sum / reviews.length).toPrecision(2);
 };
+
+const Star=()=>{
+  return(
+    <FontAwesomeIcon icon={faStar} size='xl' color='#faaf00'/>
+  )
+}
 
 const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews,productId }) => {
   const authCtx=useContext(AuthContext);
@@ -266,11 +262,11 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews,p
   }
 
   return (
-    <div className={`relative flex flex-col bg-light pb-20 `}>
+    <div className={`relative flex flex-col bg-gradient-to-tl from-[#FCEE21] to-[#009245] pb-20 `}>
       <div
         className={`flex justify-center p-8  lgrev:flex-col gap-8 lgrev:gap-4 lgrev:p-4`}
       >
-        <div className="flex flex-col w-[600px]  gap-4 lgrev:w-[100%] bg-white p-4 rounded-lg relative">
+        <div className="flex flex-col w-[800px]  gap-4 lgrev:w-[100%] bg-white p-4 rounded-lg relative">
           <div className=" w-[100%] h-[400px]   lgrev:h-auto overflow-hidden ">
             <img
               id="productImage"
@@ -279,7 +275,7 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews,p
               className="object-contain w-[100%] h-[100%]"
             />
         {authCtx.role!=='seller' &&
-            <div onClick={()=>{addToWishlistHandler(productId)}} className='absolute top-2 right-2'>
+            <div onClick={()=>{authCtx.isLoggedIn ? addToWishlistHandler(productId) : navigate(`${ALL_LINKS.LoginPage.pageLink}?redirect=-1`)}} className='absolute top-2 right-2'>
               <FontAwesomeIcon className='p-2 bg-gray-200 rounded-full text-red-500 hover:opacity-80 cursor-pointer' size='xl' icon={faHeart} />
             </div>
         }
@@ -323,7 +319,7 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews,p
           </p>
         </div>
 
-        <div className="flex flex-col  w-[600px] gap-4 lgrev:w-[100%]  h-[100%] text-gray-800 bg-white p-4 rounded-xl">
+        <div className="flex flex-col  w-[800px] gap-4 lgrev:w-[100%]  h-[100%] text-gray-800 bg-white p-4 rounded-xl">
           <h2 className="text-4xl font-bold text-black">{name}</h2>
           <div className="space-x-4 flex">
             <div className="space-x-1">
@@ -366,10 +362,31 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews,p
             <h2>Confused about your size ? Check our</h2>
           <a href={ALL_LINKS.SizingGuide.pageLink} target='_blank'  className='text-blue-600' variant='text' >Size Chart</a>
           </div>
+          {/* Rate Product */}
+          <div className='space-y-2 border-t-2 border-black'>
+            <h3 className='text-xl font-semibold'>Rate Product.</h3>
+            <Rating name="size-large" defaultValue={1} size="large" />
+            <h3 className='text-xl font-semibold'>Write a Review.</h3>
+            <textarea placeholder='Amazing Purchase.' className='bg-blue-50 ring-2 ring-blue-500 rounded-md w-[100%] resize-none h-60 p-2' type='text' />
+            
+            <div className='flex justify-end'>
+            <Button variant='contained'>Submit</Button>
+            </div>
+          </div>
 
-
-          {reviews.length > 0 &&     <div className="flex flex-col gap-4">
-            <h2 className="text-xl font-bold">Rating and Reviews</h2>
+          {reviews &&     <div className="flex flex-col gap-4">
+            <h3 className="text-xl font-bold">Rating and Reviews</h3>
+            <div className='flex items-center space-x-2'>
+            <h2 className='text-3xl font-bold'>4.5</h2>
+            <Star/>
+            </div>
+          <div >
+            <div className='flex'><h3 className='mr-2 text-lg font-semibold'>(100)</h3><Star/><Star/><Star/><Star/><Star/></div>
+            <div className='flex'><h3 className='mr-2 text-lg font-semibold'>(100)</h3><Star/><Star/><Star/><Star/></div>
+            <div className='flex'><h3 className='mr-2 text-lg font-semibold'>(100)</h3><Star/><Star/><Star/></div>
+            <div className='flex'><h3 className='mr-2 text-lg font-semibold'>(100)</h3><Star/><Star/></div>
+            <div className='flex'><h3 className='mr-2 text-lg font-semibold'>(100)</h3><Star/></div>
+          </div>
             {/* <Box width={300}>
               <Rating name="text-feedback" value={5} readOnly precision={0.5} emptyIcon={<StarIcon  style={{ opacity: 0.55 }} fontSize="inherit" />} />
               </Box> */}

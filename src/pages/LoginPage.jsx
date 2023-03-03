@@ -98,7 +98,12 @@ useEffect(() => {
             dispatch(userActions.setUserDetails(res.data.data))
             })
       .catch(err=>console.log(err));
-      navigate(ALL_LINKS.HomePage.pageLink);
+      if(queryParameters.get('redirect')===null){
+        navigate(ALL_LINKS.HomePage.pageLink);
+      }
+      else{
+        navigate(+queryParameters.get('redirect'))
+      }
       toast.success('Login Successful');
     })
     .catch((err)=>{

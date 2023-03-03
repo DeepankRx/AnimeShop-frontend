@@ -328,12 +328,12 @@ const CategoryPage = () => {
           {/* Products Listing */}
 
           <div className="w-[80%] mdrev:w-[100%] flex flex-col gap-2">
-            <div className="flex justify-between">
+            <div className="flex justify-between pb-4">
               <p className="text-xl ">{filteredProducts.length} products</p>
               <div className="flex justify-center items-center">
-                <div className="border-r-2 border-r-gray-500 px-2">
+                {/* <div className="border-r-2 border-r-gray-500 px-2">
                   Best Selling
-                </div>
+                </div> */}
                 <div className="px-4 flex gap-1 mdrev:px-0">
                   <div
                     onClick={() => setCurrentLook(looks[0])}

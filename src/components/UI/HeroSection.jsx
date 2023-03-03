@@ -51,8 +51,8 @@ const HeroSection = () => {
 
 
   return (
-    <div className={`md:h-[720px] flex  mdrev:flex-col text-white relative ${currentHero.order}`}>
-        <div className={` md:w-[50%] bg-gradient-to-tl from-[#1BFFFF] to-[#2E3192]  flex flex-col justify-center px-10 smrev:px-2 mdrev:h-[400px] gap-4 `}>
+    <div className={`md:h-[720px] flex  mdrev:flex-col text-white relative `}>
+        <div className={` md:w-[50%] bg-gradient-to-tl from-[#DD2476] to-[#FF512F]  flex flex-col justify-center px-10 smrev:px-2 mdrev:h-[400px] gap-4 `}>
             <div className='text-7xl font-semibold mdrev:text-5xl' id='Monton'>{currentHero.text.para1}</div>
             <div className='text-7xl font-semibold mdrev:text-5xl' id='RubyVinyl'>{currentHero.text.para2}</div>
             <div className='font-semibold text-xl mdrev:text-lg' id='Poppins'>{currentHero.text.para3}</div>

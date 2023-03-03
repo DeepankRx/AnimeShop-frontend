@@ -70,8 +70,8 @@ const Cart = () => {
     <div className='bg-light'>
     <div id='Poppins' className='p-8  gap-8 w-[80%] m-auto mdrev:w-[100%]  grid grid-cols-3 '>
     <div className='flex flex-col gap-4 col-span-2 lgrev:col-span-3'>
-        <h2 className='text-lg font-semibold'>Special Message for Seller</h2>
-        <textarea className='w-[60%]  rounded-xl h-[240px] lgrev:w-[100%]' rows='0' />
+        {/* <h2 className='text-lg font-semibold'>Special Message for Seller</h2>
+        <textarea className='w-[60%]  rounded-xl h-[240px] lgrev:w-[100%]' rows='0' /> */}
     </div>
     <div className='col-span-1 flex flex-col gap-4  lgrev:col-span-3 '>
     <div className='bg-white rounded-xl p-4 py-6'>

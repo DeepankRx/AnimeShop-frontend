@@ -70,7 +70,7 @@ const App = () => {
     <GoogleOAuthProvider
     clientId="376399515469-1v98mimj9jmi1afthal23g84nln4q8uo.apps.googleusercontent.com">
     <BrowserRouter>
-      <div id="" className="relative min-h-[100vh]">
+      <div id="" className="relative min-h-[100vh] pb-[214px]">
         <div className="">
           {loading ? (
             <SplashScreen />
@@ -102,7 +102,7 @@ const App = () => {
           )}
           <ToastContainer/>
         </div>
-        {/* <Footer/> */}
+        <Footer/>
       </div>
     </BrowserRouter>
     </GoogleOAuthProvider>

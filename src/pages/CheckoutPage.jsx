@@ -124,7 +124,6 @@ const CheckoutPage = () => {
     expirationDate:'',
     cvv:''
   }
-
   const validationSchema=Yup.object({
     cardNo:Yup.number().required('Required').max(16),
     expirationDate:Yup.string().required('Required'),
@@ -148,7 +147,8 @@ useEffect(() => {
     <div className='gap-4 flex flex-col'>
         <h2 id='Monton' className='text-4xl p-4'>CHECKOUT DETAILS</h2>
         <div className='p-4 grid grid-cols-3  bg-primary rounded-xl gap-4 mdrev:grid-cols-1 md:m-2'>
-          <div className='min-h-[500px] col-span-1 flex flex-col bg-slate-100 p-4 rounded-xl  gap-4'>
+          <div className='h-[calc(100vh_-_210px)]  col-span-1 flex flex-col bg-slate-100 py-4 pl-4 rounded-xl  gap-4 '>
+          <div className='overflow-scroll pr-4'>
             <Gap>Shipping Address</Gap>
             <form className='flex flex-col gap-4'>
               {
@@ -168,10 +168,9 @@ useEffect(() => {
             <input name='shipping' checked={true} className='w-5 h-5 ring-0 rounded' type='radio' />
             <label for='shipping' className='text-lg font-bold'>Same as Shipping Address</label>
             </div>
-
-
           </div>
-        <div className='px-4 py-4  flex flex-col gap-4 bg-slate-100 rounded-xl  lgrev:p-4'>
+          </div>
+        <div className='h-[calc(100vh_-_210px)] overflow-scroll px-4 py-4  flex flex-col gap-4 bg-slate-100 rounded-xl  lgrev:p-4'>
             <Gap>Shipping Method</Gap>
             <div className='flex items-center justify-between'>
             <div className='flex  gap-4 items-center'>
@@ -194,7 +193,8 @@ useEffect(() => {
             </div>
 
         </div>
-        <div className='px-4 py-4  flex flex-col gap-4 bg-slate-100 rounded-xl  lgrev:p-4'>
+        <div className='h-[calc(100vh_-_210px)]  pl-4 py-4  flex flex-col gap-4 bg-slate-100 rounded-xl  lgrev:p- lgrev:pr-0'>
+        <div className='overflow-scroll pr-4'>
             <Gap>Review Order</Gap>
             <div className='flex flex-col gap-2'>
               {items.map((item,i)=>
@@ -244,6 +244,7 @@ useEffect(() => {
                 }</Button>
 
             </div>
+          </div>
           </div>
         </div>
     </div>
