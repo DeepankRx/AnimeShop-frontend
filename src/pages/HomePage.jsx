@@ -1,7 +1,7 @@
-import { faCrown, faHeadset, faRankingStar } from '@fortawesome/free-solid-svg-icons'
+import { faCrown, faHeadset, faRankingStar} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { addNewsletter } from '../services/APIs'
-import React,{useState} from 'react'
+import { addNewsletter,getTopProducts } from '../services/APIs'
+import React,{useState,useEffect} from 'react'
 import Collections from '../components/UI/Collections'
 import HeroSection from '../components/UI/HeroSection'
 import ShopByAnime from '../components/UI/ShopByAnime'
@@ -9,7 +9,19 @@ import parallex from '../styles/css/parallex.module.css'
 import { toast } from 'react-toastify'
 const HomePage = () => {
   const [email,setEmail] = useState('');
-  
+  const [topProducts,setTopProducts] = useState([])
+  useEffect(()=>{
+    const fetchData = async ()=>{
+      try{
+        const res = await getTopProducts()
+        console.log(res.data.data)
+        setTopProducts(res.data.data)
+      }catch(err){
+        toast.error(err.response.data.message)
+      }
+    }
+    fetchData()
+  },[])
   const handleAddNewsletter = async (e)=>{
     try{
     e.preventDefault()

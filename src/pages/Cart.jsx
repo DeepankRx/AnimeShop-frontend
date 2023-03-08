@@ -1,6 +1,7 @@
 import { faAppleAlt, faCarCrash, faCaretLeft, faCaretRight, faRupeeSign, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react'
+import React,{useEffect,useState} from 'react'
+import {getProductByCategoryWithHighestRating} from '../services/APIs'
 import { assets } from '../assets'
 import {faPaypal} from '@fortawesome/free-brands-svg-icons'
 import { Button } from '@mui/material'
@@ -14,7 +15,37 @@ const Cart = () => {
     const navigate=useNavigate();
     const items=useSelector(state=>state.cart.items);
     const totalAmount=useSelector(state=>state.cart.totalAmount);
-
+    const [similarProducts,setSimilarProducts]=useState([]);
+    useEffect(()=>{
+        getProductByCategoryWithHighestRating(3,items[0]?._id)
+        .then((res)=>{
+            setSimilarProducts(res.data.data)
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
+    },[items])
+    const ProductDetailLink = ALL_LINKS.Product.pageLink.substring(0,ALL_LINKS.Product.pageLink.length-3);
+    const Card=({product})=>{
+        return(
+            <div className="flex flex-col gap-2">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                        <img src={product.images[0]} className="w-16 h-16"/>
+                        <div className="flex flex-col gap-1">
+                            <h2 className="text-lg font-bold">{product.name}</h2>
+                            <h2 className="text-sm font-semibold">₹ {product.price}</h2>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                    <Link className='bg-white' to={`${ProductDetailLink}${product._id}`}>
+                        <Button variant="contained" color="primary" className="text-sm font-semibold">View</Button>
+                    </Link>
+                    </div>
+                </div>
+                </div>
+        )
+    }
 
     const cartRemoveHandler=(_id,size,amount)=>{
         dispatch(cartActions.removeItemFromCart({_id,size,amount}))
@@ -65,13 +96,16 @@ const Cart = () => {
             {items.map((item,i)=><Product key={i} product={item}/>)}
             {items.length===0 && <NoList message="No Products Found Senpai , Let's Add Together ?"/>}
         </div>
-        
+
     </div>
     <div className='bg-light'>
     <div id='Poppins' className='p-8  gap-8 w-[80%] m-auto mdrev:w-[100%]  grid grid-cols-3 '>
     <div className='flex flex-col gap-4 col-span-2 lgrev:col-span-3'>
         {/* <h2 className='text-lg font-semibold'>Special Message for Seller</h2>
         <textarea className='w-[60%]  rounded-xl h-[240px] lgrev:w-[100%]' rows='0' /> */}
+        {
+            similarProducts.map((item,i)=><Card key={i} product={item}/>)
+        }
     </div>
     <div className='col-span-1 flex flex-col gap-4  lgrev:col-span-3 '>
     <div className='bg-white rounded-xl p-4 py-6'>
@@ -82,21 +116,21 @@ const Cart = () => {
 
     <div className='flex justify-between'>
     <h2 className='text-lg font-semibold'>SHIPPING</h2>
-    <h2 className='text-lg font-semibold'>₹ {totalAmount===0 ? 0 : 60}</h2>
+    <h2 className='text-lg font-semibold'>₹ {totalAmount===0 ? 0 : 49}</h2>
     </div>
 
     <div className='flex justify-between'>
     <h2 className='text-lg font-semibold'>TOTAL</h2>
-    <h2 className='text-lg font-semibold'>₹ {totalAmount===0 ? 0 : (totalAmount+60)}</h2>
+    <h2 className='text-lg font-semibold'>₹ {totalAmount===0 ? 0 : (totalAmount+49)}</h2>
     </div>
     </div>
 
-    <div className='bg-white rounded-xl p-4 gap-2 flex flex-col'>
+    {/* <div className='bg-white rounded-xl p-4 gap-2 flex flex-col'>
     <h2 className='text-sm'>Accepted Payments Methods</h2>
     <div>
     <FontAwesomeIcon className='px-4 bg-gray-200 py-2 rounded-lg' icon={faPaypal}/>
     </div>
-    </div>
+    </div> */}
 
     <div className='bg-white rounded-xl p-4 gap-2 flex flex-col'>
     <Button onClick={()=>navigate(ALL_LINKS.Checkout.pageLink)} className='w-[100%]' sx={{backgroundColor:'orange'}} variant='contained' disabled={items.length===0}>Proceed</Button>

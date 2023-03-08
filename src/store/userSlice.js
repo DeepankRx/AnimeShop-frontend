@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit"
 const initialState={
     user:{},
     isUpdated:false,
-    location:{}
+    location:{},
+    orderHistory:[],
 }
 
 export const userSlice=createSlice({
@@ -18,6 +19,9 @@ export const userSlice=createSlice({
         },
         setLocation:(state,action)=>{
             state.location=action.payload;
+        },
+        setOrderHistory:(state,action)=>{
+            state.orderHistory=action.payload;
         }
     }
 })

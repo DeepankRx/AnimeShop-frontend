@@ -23,10 +23,10 @@ import { assets } from '../../assets';
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { cartActions } from '../../store/cartSlice';
 import { ALL_LINKS } from '../../constant';
-import { addToWishlist } from '../../services/APIs';
+import { addToWishlist ,addReview} from '../../services/APIs';
 import { toast } from 'react-toastify';
 import { useContext } from 'react';
 import AuthContext from '../../store/AuthContext';
@@ -74,6 +74,46 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews,p
   const authCtx=useContext(AuthContext);
   const dispatch=useDispatch();
   const navigate=useNavigate();
+  const orderHistoryIds = useSelector(state=>state.user.orderHistory);
+  const [reviewSubmitted, setReviewSubmitted] = useState(false);
+  const [review, setReview] = useState({
+    rating: 0,
+    commentTitle: '',
+    comment: '',
+  });
+  const canWriteReview = () => {
+    if(authCtx.isLoggedIn){
+      if(orderHistoryIds.includes(productId)){
+          //if user has bought not written review
+          if(!reviews.map((review)=>review.user._id).includes(authCtx.userid)){
+            return true;
+          }
+        }
+
+      }
+      return false;
+  };
+  const permissionToWriteReview = canWriteReview();
+  const submitReviewHandler = async () => {
+    if(authCtx.isLoggedIn){
+    const response = await addReview(productId, review);
+    if (response.status === 200) {
+      toast.success('Review added successfully');
+      setReview({
+        rating: 0,
+        commentTitle: '',
+        comment: '',
+      });
+      setReviewSubmitted(true);
+    } else {
+      toast.error('Something went wrong');
+    }
+    }else{
+      navigate(ALL_LINKS.LoginPage.pageLink+'?redirect=-1')
+    }
+  };
+  useEffect(() => {
+  }, [reviewSubmitted]);
   const Review = ({review}) => {
     return (
       <div className="w-[100%] border-[1px] border-gray-400 p-2 flex flex-col gap-2">
@@ -81,12 +121,12 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews,p
           <span className="bg-black text-white p-1 text-sm w-[50px]">
             {review.rating} <StarIcon fontSize="small" sx={{ color: 'gold' }} />
           </span>
-          <span className="text-black font-bold">{review.commentTitle}</span>
+          <span className="text-black font-bold">{review.user.firstName + ' ' + review.user.lastName}</span>
         </div>
         <div className="text-sm">
           {review.comment}
         </div>
-        <div className="text-xs">{review.user.firstName + ' ' + review.user.lastName}</div>
+        {/* <div className="text-xs"></div> */}
         <div className="text-xs">
           {
             timeAgo(new Date(review.date))
@@ -363,30 +403,57 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews,p
           <a href={ALL_LINKS.SizingGuide.pageLink} target='_blank'  className='text-blue-600' variant='text' >Size Chart</a>
           </div>
           {/* Rate Product */}
+            {permissionToWriteReview &&
           <div className='space-y-2 border-t-2 border-black'>
             <h3 className='text-xl font-semibold'>Rate Product.</h3>
-            <Rating name="size-large" defaultValue={1} size="large" />
+            <Rating name="size-large" defaultValue={1} size="large"
+            onChange={(e)=>{setReview({
+              ...review,
+              rating:e.target.value
+            })}
+            }
+            />
             <h3 className='text-xl font-semibold'>Write a Review.</h3>
-            <textarea placeholder='Amazing Purchase.' className='bg-blue-50 ring-2 ring-blue-500 rounded-md w-[100%] resize-none h-60 p-2' type='text' />
-            
+            <textarea placeholder='Amazing Purchase.' className='bg-blue-50 ring-2 ring-blue-500 rounded-md w-[100%] resize-none h-60 p-2' type='text'
+              onChange={(e)=>{setReview({
+                ...review,
+                comment:e.target.value
+              })}}
+             />
+
             <div className='flex justify-end'>
-            <Button variant='contained'>Submit</Button>
+            <Button variant='contained'
+              onClick={submitReviewHandler}
+            >Submit</Button>
             </div>
           </div>
-
+            }
           {reviews &&     <div className="flex flex-col gap-4">
             <h3 className="text-xl font-bold">Rating and Reviews</h3>
             <div className='flex items-center space-x-2'>
-            <h2 className='text-3xl font-bold'>4.5</h2>
-            <Star/>
+            <h2 className='text-3xl font-bold'>
+              {averageRating(reviews)}
+            </h2>
+              <Rating
+
+                name="text-feedback"
+                value={averageRating(reviews)}
+                readOnly
+                precision={0.5}
+                emptyIcon={
+                  <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+                }
+              />
             </div>
-          <div >
+
+          {/* <div >
             <div className='flex'><h3 className='mr-2 text-lg font-semibold'>(100)</h3><Star/><Star/><Star/><Star/><Star/></div>
             <div className='flex'><h3 className='mr-2 text-lg font-semibold'>(100)</h3><Star/><Star/><Star/><Star/></div>
             <div className='flex'><h3 className='mr-2 text-lg font-semibold'>(100)</h3><Star/><Star/><Star/></div>
             <div className='flex'><h3 className='mr-2 text-lg font-semibold'>(100)</h3><Star/><Star/></div>
             <div className='flex'><h3 className='mr-2 text-lg font-semibold'>(100)</h3><Star/></div>
-          </div>
+          </div> */}
+
             {/* <Box width={300}>
               <Rating name="text-feedback" value={5} readOnly precision={0.5} emptyIcon={<StarIcon  style={{ opacity: 0.55 }} fontSize="inherit" />} />
               </Box> */}

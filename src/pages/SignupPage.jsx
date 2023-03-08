@@ -11,7 +11,7 @@ import { register } from '../services/APIs';
 import AuthContext from '../store/AuthContext';
 import { useEffect } from 'react';
 const SignupPage = () => {
-  
+
   const navigate=useNavigate();
   const authCtx=useContext(AuthContext);
   const initialValues = {
@@ -28,6 +28,10 @@ const SignupPage = () => {
     }, [authCtx.isLoggedIn]);
 
   const onSubmit = (values,{resetForm}) => {
+    if(values.mobileNo<1000000000 || values.mobileNo>9999999999){
+      toast.error('Invalid Mobile No');
+      return;
+    }
     register(values)
       .then((res) => {
         toast.success('Signup Successful');
@@ -43,7 +47,7 @@ const SignupPage = () => {
     firstName: Yup.string().required('Required'),
     lastName: Yup.string().required('Required'),
     email: Yup.string().email('Invalid Email Format').required('Required'),
-    mobileNo: Yup.string().required('Required').max(10),
+    mobileNo: Yup.string().required('Required'),
     password: Yup.string().required('Required'),
     repeatedPassword: Yup.string().required('Required'),
   });
@@ -87,7 +91,7 @@ const SignupPage = () => {
             <InputField
               className="col-span-2"
               labelName="Mobile No"
-              type="text"
+              type="number"
               uni="mobileNo"
               placeholder="Mobile No"
             />

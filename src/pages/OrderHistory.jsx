@@ -57,8 +57,8 @@ const OrderHistory = () => {
           <h4>Total Price : <span className='font-semibold'>{item.price}</span></h4>
             <div className='flex gap-4'>
             <Link to={ALL_LINKS.Product.pageLink.substring(0,ALL_LINKS.Product.pageLink.length-3)+item._id}><Button size='small' variant='contained'>View Product</Button></Link>
-              <Button size='small' variant='outlined'>Buy Again</Button>
-              <Button size='small' variant='contained'>Review</Button>
+              {/* <Button size='small' variant='outlined'>Buy Again</Button>
+              <Button size='small' variant='contained'>Review</Button> */}
             </div>
         </div>
       </div>
@@ -95,7 +95,7 @@ const OrderHistory = () => {
         <div className='flex justify-between'>
         <h2>Shipping</h2>
         <h2>
-        ₹ {details.items.reduce((acc,item)=>acc+item.price,0) > 499 ? 0 : 49}
+        ₹ {details.items.reduce((acc,item)=>acc+item.price,0) > 500 ? 0 : 49}
         </h2>
         </div>
 
@@ -109,7 +109,7 @@ const OrderHistory = () => {
         <div className='flex justify-between font-semibold text-base'>
         <h2 className=''>Grand Total</h2>
         <h2>
-        ₹ {details.items.reduce((acc,item)=>acc+item.price,0) > 499 ? details.items.reduce((acc,item)=>acc+item.price,0) : details.items.reduce((acc,item)=>acc+item.price,0)+49}
+        ₹ {details.items.reduce((acc,item)=>acc+item.price,0) > 500 ? details.items.reduce((acc,item)=>acc+item.price,0) : details.items.reduce((acc,item)=>acc+item.price,0)+49}
         </h2>
         </div>
         </div>

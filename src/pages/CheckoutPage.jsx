@@ -34,7 +34,7 @@ const CheckoutPage = () => {
         paymentStatus:'pending',
         orderStatus:'pending',
         items:items,
-        totalAmount:items.reduce((acc,item)=>acc+item.amount*item.price,0),
+        totalAmount:items.reduce((acc,item)=>acc+item.amount*item.price,0) > 500 ? items.reduce((acc,item)=>acc+item.amount*item.price,0) : items.reduce((acc,item)=>acc+item.amount*item.price,0)+49
       },
     }
     try{
@@ -99,7 +99,7 @@ const CheckoutPage = () => {
         paymentStatus:'pending',
         orderStatus:'pending',
         items:items,
-        totalAmount:items.reduce((acc,item)=>acc+item.amount*item.price,0)
+        totalAmount:items.reduce((acc,item)=>acc+item.amount*item.price,0) > 500 ? items.reduce((acc,item)=>acc+item.amount*item.price,0) : items.reduce((acc,item)=>acc+item.amount*item.price,0)+49
       }
     }
     const response=await createOrder(order);
@@ -177,7 +177,11 @@ useEffect(() => {
             <input name='delivery' checked={true} className='w-5 h-5 ring-0 rounded' type='radio' />
             <label for='delivery' className='text-lg font-bold'>Regular (4-6 Days)</label>
             </div>
-            <h2>FREE</h2>
+            <h2>
+              {
+                items.reduce((acc,item)=>acc+item.amount*item.price,0) > 500 ? 'FREE' : '₹ 49'
+              }
+            </h2>
             </div>
 
             <Gap>Payment Method</Gap>
@@ -227,8 +231,14 @@ useEffect(() => {
                 </div>
               </div>
               <div className='flex justify-between p-2'>
+                <h2>Shipping</h2>
+                <h2>{
+                  (+item.price) * (+item.amount) > 500 ? 'FREE' : '₹ 49'
+                  }</h2>
                 <h2>SubTotal</h2>
-                <h2>{(+item.price) * (+item.amount)}</h2>
+                <h2>{
+                  (+item.price) * (+item.amount) > 500 ? (+item.price) * (+item.amount) : (+item.price) * (+item.amount) + 49
+                  }</h2>
               </div>
 
               </div>

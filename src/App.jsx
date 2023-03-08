@@ -7,7 +7,7 @@ import { ALL_LINKS } from "./constant";
 import SplashScreen from "./pages/SplashScreen";
 import AuthContext from "./store/AuthContext";
 import "react-toastify/dist/ReactToastify.css";
-import { getUserProfile } from "./services/APIs";
+import { getUserProfile ,getUserOrderHistory} from "./services/APIs";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "./store/userSlice";
 import { fetchCart, sendCartData } from "./store/cartSlice";
@@ -51,6 +51,12 @@ const App = () => {
       })
       .catch((err)=>{
         toast.error(err)
+      })
+      getUserOrderHistory(authCtx.userid)
+      .then((res)=>{
+        const orderHistory = res?.data?.orderHistories?.order.map((item)=>item.items.map((item)=>item._id))
+         const orderHistoryId = [...new Set(orderHistory.flat())]
+        dispatch(userActions.setOrderHistory(orderHistoryId));
       })
     }else{
     }

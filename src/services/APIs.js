@@ -2,7 +2,7 @@ import http from './http_service';
 
 
 export const BASE_MAIN_URL='https://anime-shop-9r2x.vercel.app'
-//export const BASE_MAIN_URL='http://localhost:5001'
+// export const BASE_MAIN_URL='http://localhost:5001'
 
 const BASE_URL={
   userApi :BASE_MAIN_URL+ '/api/user',
@@ -59,6 +59,10 @@ const userModule={
   getAllWishlists :BASE_URL.wishlistApi+'/all',
   addNewsletter:BASE_URL.newsletterApi+'/add',
   isTokenValid:BASE_URL.tokenApi+'/is-valid/',
+  addReview :BASE_URL.productApi+'/add-review/',
+  changeOrderStatus:BASE_URL.orderApi+'/change-status/',
+  changeRole:BASE_URL.userApi+'/change-user-role/',
+  getProductByCategoryWithHighestRating:BASE_URL.productApi+'/getProductByCategoryWithHighestRating/',
 }
 
 let token='';
@@ -272,4 +276,26 @@ export function addNewsletter(email) {
 export function isTokenValid() {
   retrieveStoredToken();
   return http.get(userModule.isTokenValid + userid,{ headers: {"Authorization" : `Bearer ${token}`}});
+}
+
+export function addReview(productId,review) {
+  retrieveStoredToken();
+  return http.put(userModule.addReview + productId, {
+    ...review,
+    user:userid
+  },{ headers: {"Authorization" : `Bearer ${token}`}});
+}
+
+export function changeOrderStatus(id,status) {
+  retrieveStoredToken();
+  return http.post(userModule.changeOrderStatus + id, {status},{ headers: {"Authorization" : `Bearer ${token}`}});
+}
+
+export function changeRole(id,role){
+  retrieveStoredToken();
+  return http.post(userModule.changeRole + id, {role},{ headers: {"Authorization" : `Bearer ${token}`}});
+}
+
+export function getProductByCategoryWithHighestRating(limit,category) {
+  return http.get(userModule.getProductByCategoryWithHighestRating + category +"?limit="+limit);
 }
