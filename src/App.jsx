@@ -86,7 +86,6 @@ const App = () => {
               <Suspense fallback={<div />}>
             <Routes>
               {PAGES.map((item, i) => {
-                // console.log(authCtx.role + ' '+ item.pageLink + ' '+ item.show[authCtx.role])
                 return ((item.loginRequire && item.show[authCtx.role]) ? (
                   <Route
                     key={i}

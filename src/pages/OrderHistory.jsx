@@ -24,7 +24,6 @@ const OrderHistory = () => {
     }
   ]
   const Card=({details})=>{
-    console.log(details)
     const [showMore,setShowMore]=useState(false);
     return(
       <div className='rounded-lg overflow-hidden border-[1px] border-black w-[100%]'>

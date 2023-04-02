@@ -12,14 +12,12 @@ const Order = () => {
     getUserOrders()
       .then((res) => {
         setOrders(res.data.orders.order);
-        console.log(res);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
   const Card=({details})=>{
-    console.log(details)
     const [showMore,setShowMore]=useState(false);
     return(
       <div className='rounded-lg overflow-hidden border-[1px] border-black w-[100%]'>

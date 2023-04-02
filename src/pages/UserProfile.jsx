@@ -31,7 +31,6 @@ const UserProfile = () => {
     const [preview,setPreview]=useState(null);
     const [isEditing,setIsEditing]=useState(false);
     const queryParameters=new URLSearchParams(location.search);
-    console.log(queryParameters)
     const [addressFetchedValues,setAddressFetchedValues]=useState({
       address:[{
         customerName:'',

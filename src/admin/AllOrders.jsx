@@ -10,7 +10,6 @@ const AllOrders = () => {
     useEffect(()=>{
         getAllOrdersOfAllUsers().then((res)=>{
             setOrders(res.data.allOrders)
-            console.log(res.data)
         })
         .catch((err)=>{
             console.log(err)

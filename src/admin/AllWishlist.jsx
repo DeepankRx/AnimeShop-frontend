@@ -7,7 +7,6 @@ const AllWishlist = () => {
     getAllWishlist()
     .then(res=>{
       setWishlist(res.data.data)
-       console.log(res.data.data)
     })
     .catch(err=>{
       console.log(err.message)

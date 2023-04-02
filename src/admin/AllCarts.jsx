@@ -5,7 +5,6 @@ const AllCarts = () => {
   useEffect(()=>{
     getAllCarts().then((res)=>{
       setCarts(res.data)
-      console.log(res.data)
     })
     .catch((err)=>{
       console.log(err)

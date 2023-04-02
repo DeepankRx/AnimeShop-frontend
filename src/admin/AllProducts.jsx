@@ -22,7 +22,6 @@ const AllProducts = () => {
   useEffect(() => {
     getProducts()
       .then((res) => {
-        console.log(res.data);
         setProducts(res.data.data);
       })
       .catch((err) => {

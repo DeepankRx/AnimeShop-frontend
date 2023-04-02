@@ -19,10 +19,10 @@ const Collections = () => {
   return (
     <div className='p-8  grid grid-cols-6 gap-8 mdrev:px-4 mdrev:py-8'>
       <Card className='col-span-2' title='T-SHIRT' image={assets.collections.shirt} />
-      <Card className='col-span-2' title='Trending' image={assets.collections.fleece} />
-      <Card className='col-span-2' title='Fleece' image={assets.collections.trending} />
+      <Card className='col-span-2' title='Hoodies' image={assets.collections.fleece} />
+      <Card className='col-span-2' title='Oversize T-Shirt' image={assets.collections.trending} />
       <Card className='col-span-3' title='accessories' image={assets.collections.accessories} />
-      <Card className='col-span-3' title='accessories' image={assets.collections.accessories} />
+      <Card className='col-span-3' title='Mugs' image={assets.collections.mug} />
 
     </div>
   )

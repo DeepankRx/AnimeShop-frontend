@@ -29,6 +29,7 @@ import trending from'./images/collections/trending.webp'
 import fleece from'./images/collections/fleece.webp'
 import accessories from'./images/collections/accessories.webp'
 import online_shop from'./images/online_shop.svg'
+import mug from'./images/collections/mugs.jpg'
 export const assets = {
   bg_01,
   hero_1,
@@ -60,6 +61,7 @@ export const assets = {
     naruto,
   },
   collections: {
+    mug,
     shirt,
     accessories,
     fleece,

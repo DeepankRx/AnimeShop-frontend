@@ -12,7 +12,6 @@ import { getUserProfile, login,loginWithGoogle } from '../services/APIs';
 import AuthContext from '../store/AuthContext'
 import { useDispatch } from 'react-redux'
 import { userActions } from '../store/userSlice'
-import { faJarWheat } from '@fortawesome/free-solid-svg-icons';
 function parseJwt (token) {
   var base64Url = token.split('.')[1];
   var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -33,9 +32,9 @@ const LoginPage = () => {
 useEffect(() => {
     if(authCtx.isLoggedIn)navigate(ALL_LINKS.HomePage.pageLink)
     }, []);
-  
+
   const queryParameters=new URLSearchParams(location.search);
-  
+
   const onSubmit=(values)=>{
     login(values)
     .then((res)=>{
@@ -44,7 +43,6 @@ useEffect(() => {
       authCtx.login(data.token,data.id,data.role);
       getUserProfile(data.id)
       .then(res=>{
-        console.log(res.data.data)
         dispatch(userActions.setUserDetails(res.data.data))
       })
       .catch(err=>console.log(err));

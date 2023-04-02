@@ -8,7 +8,6 @@ const AllUsers = () => {
     useEffect(()=>{
         getAllUsers().then((res)=>{
             setUsers(res.data.data)
-            console.log(res.data)
         })
         .catch((err)=>{
             console.log(err)
