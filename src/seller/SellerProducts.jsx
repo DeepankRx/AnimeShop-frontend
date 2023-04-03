@@ -7,7 +7,7 @@ import { ALL_LINKS, SELLER_LINKS } from "../constant";
 import { useEffect } from "react";
 import { deleteProduct } from "../services/APIs";
 import { useState } from "react";
-import { getSellerProducts } from "../services/APIs";
+import { getSellerProducts,duplicateProduct } from "../services/APIs";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
@@ -26,6 +26,18 @@ const SellerProducts = () => {
   const [loading ,setLoading] =useState(true);
   const [search,setSearch]=useState("");
   const [filteredProducts,setFilteredProducts]=useState([]);
+  const handleDuplicate=async (id)=>{
+    try{
+      const res=await duplicateProduct(id);
+      toast.success("Product duplicated successfully");
+      setProducts([...products,res.data.data]);
+
+    }
+    catch(err){
+      toast.error(err.response.data.message);
+    }
+  }
+
   useEffect(() => {
     getSellerProducts(authCtx.userid)
       .then((res) => {
@@ -122,6 +134,12 @@ const SellerProducts = () => {
             <Button size="medium"
             onClick={() => {navigate(`/product/${productId}`)}}
             >View</Button>
+            <Button size="medium"
+            onClick={() => {
+              handleDuplicate(productId);
+              handleClose();
+            }}
+            >Duplicate</Button>
             <Button size="medium"
               onClick={() => {
                 handleDelete(productId);

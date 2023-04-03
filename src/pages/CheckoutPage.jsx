@@ -83,8 +83,8 @@ const CheckoutPage = () => {
   }
   }
 
-
-  const handleCreateOrder=async()=>{
+  const handleOnlineOrder=async()=>{
+    try{
     if(!user.address)
     {
         toast.warn('Select an address');
@@ -103,6 +103,39 @@ const CheckoutPage = () => {
       }
     }
     const response=await createOrder(order);
+    toast.success('Order placed!');
+    toast.success('A payment link will be send to you on your registered phone number');
+  }catch(e){
+    toast(e.message)
+  }
+  }
+
+
+  const handleCreateOrder=async()=>{
+    try{
+    if(!user.address)
+    {
+        toast.warn('Select an address');
+        return ;
+    }
+    dispatch(cartActions.replaceCart({items:[],totalAmount:0,changed:!user.changed}))
+    const order={
+      user:user.id,
+      order:{
+        address:user.address.address[addressChecked],
+        paymentType:paymentChecked===1 ? 'ONLINE' : 'COD',
+        paymentStatus:'pending',
+        orderStatus:'pending',
+        items:items,
+        totalAmount:items.reduce((acc,item)=>acc+item.amount*item.price,0) > 500 ? items.reduce((acc,item)=>acc+item.amount*item.price,0) : items.reduce((acc,item)=>acc+item.amount*item.price,0)+49
+      }
+    }
+    const response=await createOrder(order);
+    toast.success('Order placed!');
+  }
+  catch(e){
+    toast.error(e.message)
+  }
   }
 
   const Address=({name,address})=>{
@@ -246,7 +279,7 @@ useEffect(() => {
               )}
                 <Button variant='contained' className='bg-black text-white'
                 onClick={()=>
-                  paymentChecked===1 ?  createRazorpayOrder() : handleCreateOrder()
+                  paymentChecked===1 ?  handleOnlineOrder() : handleCreateOrder()
                 }
                 disabled={items.length===0 ? true : false}
                 >{

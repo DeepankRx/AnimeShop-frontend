@@ -105,6 +105,7 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews,p
         comment: '',
       });
       setReviewSubmitted(true);
+      window.location.reload();
     } else {
       toast.error('Something went wrong');
     }
@@ -342,12 +343,12 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews,p
             </span>
             <span className="text-blue-500">{brand}</span>
           </div>
-          <h2 className="text-black font-bold text-lg">SHIPPING</h2>
+          {/* <h2 className="text-black font-bold text-lg">SHIPPING</h2>
           <p>
             Currently we are not Shipping anything as as our site is in
             development mode , you could visit our store and purchase our
             products , Thank you.
-          </p>
+          </p> */}
 
           <h2 className="text-black font-bold text-lg">REFUND</h2>
           <p>
@@ -432,7 +433,7 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews,p
             <h3 className="text-xl font-bold">Rating and Reviews</h3>
             <div className='flex items-center space-x-2'>
             <h2 className='text-3xl font-bold'>
-              {averageRating(reviews)}
+              {!isNaN(averageRating(reviews)) ? averageRating(reviews) : 0}
             </h2>
               <Rating
 

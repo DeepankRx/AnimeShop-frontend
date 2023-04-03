@@ -63,6 +63,8 @@ const userModule={
   changeOrderStatus:BASE_URL.orderApi+'/change-status/',
   changeRole:BASE_URL.userApi+'/change-user-role/',
   getProductByCategoryWithHighestRating:BASE_URL.productApi+'/getProductByCategoryWithHighestRating/',
+  duplicateProduct:BASE_URL.productApi+'/duplicate/',
+  getAProductFromEachCategory:BASE_URL.productApi+'/one-product-from-each-category/',
 }
 
 let token='';
@@ -106,7 +108,8 @@ export function createProduct(product) {
   return http.post(userModule.createProduct, product,{
     headers: {
       'Content-Type': 'multipart/form-data',
-      "Authorization" : `Bearer ${token}`
+      "Authorization" : `Bearer ${token}`,
+      'Access-Control-Allow-Origin': '*',
     }
   });
 }
@@ -116,7 +119,8 @@ export function updateProduct(id,product) {
   return http.put(userModule.updateProduct + id, product,{
     headers: {
       'Content-Type': 'multipart/form-data',
-      "Authorization" : `Bearer ${token}`
+      "Authorization" : `Bearer ${token}`,
+      'Access-Control-Allow-Origin': '*',
     }
   });
 }
@@ -298,4 +302,9 @@ export function changeRole(id,role){
 
 export function getProductByCategoryWithHighestRating(limit,category) {
   return http.get(userModule.getProductByCategoryWithHighestRating + category +"?limit="+limit);
+}
+
+export function duplicateProduct(id) {
+  retrieveStoredToken();
+  return http.get(userModule.duplicateProduct + id,{ headers: {"Authorization" : `Bearer ${token}`}});
 }

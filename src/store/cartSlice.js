@@ -15,7 +15,6 @@ export const cartSlice=createSlice({
         const data=action.payload;
         const updatedAmount =
         state.totalAmount + data.item.price * data.item.amount;
-
           const existingCartItemIndex = state.items.findIndex(
             (item) => item._id === data.item._id && item.size===data.item.size
           );

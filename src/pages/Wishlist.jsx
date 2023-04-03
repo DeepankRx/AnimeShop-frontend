@@ -19,11 +19,12 @@ const Wishlist = () => {
             setProducts(res.data.data.wishlist.products)
             setLoading(false);
         })
-        .then(err=>{
+        .catch(err=>{
             console.log(err)
+            setLoading(false);
         })
     }, [updated])
-    //how to write node js code?    
+    //how to write node js code?
 
     const Product=({product})=>{
         const removeFromWishHandler=(productId)=>{
@@ -33,7 +34,7 @@ const Wishlist = () => {
                 toast.success("Removed from wishlist")
             })
         }
-        
+
         return(
         <div className='col-span-1 flex flex-col items-center justify-between gap-4 mdrev:flex-col  mdrev:items-start shadow-lg p-4 rounded-lg relative '>
         <div className='flex  gap-2 items-center mdrev:w-[100%] '>

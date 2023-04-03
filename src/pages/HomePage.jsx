@@ -1,6 +1,6 @@
 import { faCrown, faHeadset, faRankingStar} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { addNewsletter,getTopProducts ,getProducts} from '../services/APIs'
+import { addNewsletter,getTopProducts ,getAProductFromEachCategory,getProducts} from '../services/APIs'
 import React,{useState,useEffect} from 'react'
 import Collections from '../components/UI/Collections'
 import HeroSection from '../components/UI/HeroSection'
@@ -14,10 +14,11 @@ const HomePage = () => {
   useEffect(()=>{
     const fetchData = async ()=>{
       try{
-        const res = await getProducts()
+        const res = await getAProductFromEachCategory()
         setTopProducts(res.data.data)
       }catch(err){
-        toast.error(err.response.data.message)
+        console.log(err.message)
+        // toast.error(err.response.data.message)
       }
     }
     fetchData()
@@ -52,8 +53,8 @@ const HomePage = () => {
       >
 
         <div className='flex flex-col items-center space-y-4 relative top-52 p-3'>
-          <h2 className='text-xl text-yellow-300'>{product.name}</h2>
-          <p className='text-lg text-yellow-300'>₹{product.price}</p>
+          <h2 className='text-xl text-yellow-300'>{product.category}</h2>
+          {/* <p className='text-lg text-yellow-300'>₹{product.price}</p> */}
         </div>
       </div>
       </div>
@@ -87,10 +88,8 @@ const HomePage = () => {
     <>
     <HeroSection/>
     <Collections/>
-    <div className={`${parallex.para3}  sm:bg-fixed bg-cover flex flex-col items-center justify-center lg:gird-cols-4 md:grid  gap-4 p-20 smrev:p-6 smrev:grid-cols-1 smrev:gap-2 mdrev:grid-cols-1
-    mdrev:gap-2  lg:grid-cols-4 lg:gap-4 lgrev:grid-cols-1 mdrev:grip-cols-1  lgrev:gap-2 object-fit`
-
-    }>
+    <div className={`${parallex.para3}   bg-repeat bg-contain lg:bg-cover flex flex-col items-center justify-center lg:grid-cols-4 md:grid  gap-4 p-20 smrev:p-6 smrev:grid-cols-1 smrev:gap-2 mdrev:grid-cols-1
+    mdrev:gap-2  lg:gap-4 lgrev:grid-cols-1 mdrev:grip-cols-1  lgrev:gap-2  bg-repeat-z bg-center bg-fixed`}>
       {
         topProducts.slice(0,8).map((product,i)=>{
           return (
