@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import { makeStyles } from "@mui/styles";
+import React, { useState, useRef, useEffect } from 'react';
+import { makeStyles } from '@mui/styles';
 import Popover from '@mui/material/Popover';
 import Button from '@mui/material/Button';
 import { useContext } from 'react';
@@ -12,11 +12,11 @@ import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   popover: {
-    pointerEvents: "none",
+    pointerEvents: 'none'
   },
   popoverContent: {
-    pointerEvents: "auto",
-  },
+    pointerEvents: 'auto'
+  }
 }));
 const CartPopOver = () => {
   const [openedPopover, setOpenedPopover] = useState(false);
@@ -32,26 +32,15 @@ const CartPopOver = () => {
 
   const classes = useStyles();
 
-  const authCtx=useContext(AuthContext);
-  const navigate=useNavigate();
-  const user=useSelector(state=>state.user.user);
+  const authCtx = useContext(AuthContext);
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user.user);
 
   return (
     <div>
-      <div
-        ref={popoverAnchor}
-        aria-owns="mouse-over-popover"
-        aria-haspopup="true"
-        onMouseEnter={popoverEnter}
-        onMouseLeave={popoverLeave}
-      >
+      <div ref={popoverAnchor} aria-owns="mouse-over-popover" aria-haspopup="true" onMouseEnter={popoverEnter} onMouseLeave={popoverLeave}>
         <IconButton>
-
-              <PersonIcon
-              sx={{color:"black"}}
-                fontSize="medium"
-                className=""
-              />
+          <PersonIcon sx={{ color: 'black' }} fontSize="medium" className="" />
         </IconButton>
       </div>
 
@@ -59,30 +48,56 @@ const CartPopOver = () => {
         id="mouse-over-popover"
         className={classes.popover}
         classes={{
-          paper: classes.popoverContent,
+          paper: classes.popoverContent
         }}
         open={openedPopover}
         anchorEl={popoverAnchor.current}
         anchorOrigin={{
-          vertical: "center",
-          horizontal: "center",
+          vertical: 'center',
+          horizontal: 'center'
         }}
         transformOrigin={{
-          vertical: "top",
-          horizontal: "center",
+          vertical: 'top',
+          horizontal: 'center'
         }}
         PaperProps={{ onMouseEnter: popoverEnter, onMouseLeave: popoverLeave }}
       >
-      <div className='p-4 flex flex-col w-[300px] gap-2'>
-            <div className='flex flex-col items-center gap-2'>
-            {authCtx.isLoggedIn && <p>Hello 👋 {user.firstName} {user.lastName}</p> }
-            {authCtx.isLoggedIn && <Button onClick={()=>{navigate(ALL_LINKS.UserProfile.pageLink);}}>Profile</Button> }
-            {authCtx.isLoggedIn && <Button onClick={()=>authCtx.logout()} variant='contained' endIcon={<PersonIcon/>}>logout</Button>}
-            {!authCtx .isLoggedIn && <Button onClick={()=>navigate(ALL_LINKS.LoginPage.pageLink)} variant='contained' endIcon={<PersonIcon/>}>Login</Button>}
-            {!authCtx .isLoggedIn && <p>New Customer ? <Link className='text-blue-500' to={ALL_LINKS.SignupPage.pageLink}>Sign up</Link></p>}
-            </div>
-            {/* <div className='h-[1px] bg-black'></div> */}
-
+        <div className="p-4 flex flex-col w-[300px] gap-2">
+          <div className="flex flex-col items-center gap-2">
+            {authCtx.isLoggedIn && (
+              <p>
+                Hello 👋 {user.firstName} {user.lastName}
+              </p>
+            )}
+            {authCtx.isLoggedIn && (
+              <Button
+                onClick={() => {
+                  navigate(ALL_LINKS.UserProfile.pageLink);
+                }}
+              >
+                Profile
+              </Button>
+            )}
+            {authCtx.isLoggedIn && (
+              <Button onClick={() => authCtx.logout()} variant="contained" endIcon={<PersonIcon />}>
+                logout
+              </Button>
+            )}
+            {!authCtx.isLoggedIn && (
+              <Button onClick={() => navigate(ALL_LINKS.LoginPage.pageLink)} variant="contained" endIcon={<PersonIcon />}>
+                Login
+              </Button>
+            )}
+            {!authCtx.isLoggedIn && (
+              <p>
+                New Customer ?{' '}
+                <Link className="text-blue-500" to={ALL_LINKS.SignupPage.pageLink}>
+                  Sign up
+                </Link>
+              </p>
+            )}
+          </div>
+          {/* <div className='h-[1px] bg-black'></div> */}
         </div>
       </Popover>
     </div>

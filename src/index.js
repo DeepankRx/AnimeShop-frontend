@@ -8,10 +8,9 @@ import { store } from './store/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <Provider store={store}>
+  <Provider store={store}>
     <AuthContextProvider>
-    <App />
+      <App />
     </AuthContextProvider>
-    </Provider>
+  </Provider>
 );
-

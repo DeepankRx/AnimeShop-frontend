@@ -1,6 +1,6 @@
-import React from "react";
-import StarIcon from "@mui/icons-material/Star";
-import AddIcon from "@mui/icons-material/Add";
+import React from 'react';
+import StarIcon from '@mui/icons-material/Star';
+import AddIcon from '@mui/icons-material/Add';
 const ProductCardSmall = () => {
   return (
     <div className="bg-white w-[200px]  rounded-md shadow-lg">
@@ -14,7 +14,7 @@ const ProductCardSmall = () => {
             4.9
           </div>
           <div className="rounded-full bg-pink-300 p-1 cursor-pointer ">
-            <AddIcon  />
+            <AddIcon />
           </div>
         </div>
       </div>

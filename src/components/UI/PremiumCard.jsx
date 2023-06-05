@@ -1,13 +1,13 @@
-import React from 'react'
-import styles from '../../styles/css/Premium.module.css'
+import React from 'react';
+import styles from '../../styles/css/Premium.module.css';
 const PremiumCard = () => {
   return (
     <div className={styles.container}>
-    <div className={styles.card_box}>
+      <div className={styles.card_box}>
         <span></span>
+      </div>
     </div>
-</div>
-  )
-}
+  );
+};
 
-export default PremiumCard
+export default PremiumCard;

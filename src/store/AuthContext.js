@@ -1,86 +1,83 @@
-import { useState } from "react";
-import React from "react";
-import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
-import { cartActions } from "./cartSlice";
-const AuthContext=React.createContext({
-    role:"",
-    token:"",
-    userid:"",
-    isLoggedIn:false,
-    login: (token) => {},
-    logout: () => {},
-    updateRole:()=>{},
-    
-})
+import { useState } from 'react';
+import React from 'react';
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { cartActions } from './cartSlice';
+import PropTypes from 'prop-types';
+const AuthContext = React.createContext({
+  role: '',
+  token: '',
+  userid: '',
+  isLoggedIn: false,
+  login: () => {},
+  logout: () => {},
+  updateRole: () => {}
+});
 
 const retrieveStoredToken = () => {
-    const token = localStorage.getItem("token");
-    const userid = localStorage.getItem("userid");
-    const role = localStorage.getItem("role");
-  
-    return { token,userid,role};
+  const token = localStorage.getItem('token');
+  const userid = localStorage.getItem('userid');
+  const role = localStorage.getItem('role');
+
+  return { token, userid, role };
+};
+
+export const AuthContextProvider = (props) => {
+  const dispatch = useDispatch({ items: [], totalAmount: 0 });
+  const tokenData = retrieveStoredToken();
+  let initialToken;
+  let initialUserid;
+  let initialRole;
+  if (tokenData) {
+    initialToken = tokenData.token;
+    initialUserid = tokenData.userid;
+    initialRole = tokenData.role;
+  }
+  const [token, setToken] = useState(initialToken);
+  const [role, setRole] = useState(initialRole);
+  const [userid, setUserId] = useState(initialUserid);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!initialToken);
+
+  const updateRoleHandler = (role) => {
+    localStorage.setItem('role', role);
+    setRole(role);
+  };
+  const logoutHandler = () => {
+    dispatch(cartActions.replaceCart({ items: [], totalAmount: 0 }));
+    setToken(null);
+    setIsLoggedIn(false);
+    setUserId(null);
+    setRole(null);
+    localStorage.removeItem('token');
+    localStorage.removeItem('userid');
+    localStorage.removeItem('role');
+    toast.success('Logged out Successfully');
   };
 
-export const AuthContextProvider=(props)=>
-{
-    const dispatch=useDispatch({items:[],totalAmount:0});
-    const tokenData = retrieveStoredToken();
-    let initialToken;
-    let initialUserid;
-    let initialRole;
-    if (tokenData) {
-      initialToken = tokenData.token;
-      initialUserid=tokenData.userid;
-      initialRole=tokenData.role;
-    }
-    const [token, setToken] = useState(initialToken);
-    const [role, setRole] = useState(initialRole);
-    const [userid, setUserId] = useState(initialUserid);
-    const [isLoggedIn,setIsLoggedIn]=useState(!!initialToken)
+  const loginHandler = (token, userid, role) => {
+    setToken(token);
+    setUserId(userid);
+    setIsLoggedIn(true);
+    setRole(role);
+    localStorage.setItem('token', token);
+    localStorage.setItem('userid', userid);
+    localStorage.setItem('role', role);
+  };
 
-    const updateRoleHandler=(role)=>{
-      localStorage.setItem('role',role);
-      setRole(role);
-    }
-    const logoutHandler = () => {
-        dispatch(cartActions.replaceCart({items:[],totalAmount:0}))
-        setToken(null);
-        setIsLoggedIn(false);
-        setUserId(null);
-        setRole(null)
-        localStorage.removeItem("token");
-        localStorage.removeItem("userid");
-        localStorage.removeItem("role");
-        toast.success("Logged out Successfully")
-      };
+  const tokenValue = {
+    token: token,
+    userid: userid,
+    role: role,
+    isLoggedIn: isLoggedIn,
+    login: loginHandler,
+    logout: logoutHandler,
+    updateRole: updateRoleHandler
+  };
+  AuthContextProvider.propTypes = {
+    children: PropTypes.any
+  };
 
-      const loginHandler = (token,userid,role) => {
-        setToken(token);
-        setUserId(userid);
-        setIsLoggedIn(true);
-        setRole(role);
-        localStorage.setItem("token", token);
-        localStorage.setItem("userid", userid);
-        localStorage.setItem("role", role);
+  return <AuthContext.Provider value={tokenValue}>{props.children}</AuthContext.Provider>;
+};
 
-      };
-
-      const tokenValue = {
-        token: token,
-        userid:userid,
-        role:role,
-        isLoggedIn: isLoggedIn,
-        login: loginHandler,
-        logout: logoutHandler,
-        updateRole:updateRoleHandler
-      };
-
-      return (
-        <AuthContext.Provider value={tokenValue}>
-          {props.children}
-        </AuthContext.Provider>
-      );
-}
-
-export default AuthContext
+export default AuthContext;

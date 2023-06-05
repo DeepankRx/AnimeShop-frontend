@@ -1,5 +1,5 @@
-import React from "react";
-import styles from '../../styles/css/Spinner.module.css'
+import React from 'react';
+import styles from '../../styles/css/Spinner.module.css';
 const Spinner = () => {
   return (
     <div className={styles.three_body}>
