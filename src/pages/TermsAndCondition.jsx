@@ -32,7 +32,7 @@ const TermsAndCondition = () => {
     {
       title: '4. Shipping and Delivery',
       points: [
-        'a. We offer shipping services to the specified locations mentioned during the checkout process. Shipping fees and estimated delivery timescales are provided for your reference.',
+        'a. We offer shipping services to the specified locations mentioned during the checkout process. Shipping fees and estimated delivery timescales are provided for your reference. It can take 3-15 Business Days to deliver.',
         'b. We aim to fulfill orders promptly; however, delivery times may vary depending on factors beyond our control, such as customs clearance or unforeseen circumstances.',
         'c. Customers are responsible for any customs duties, import taxes, or additional fees imposed by the destination country.',
         'd. In case of lost or damaged shipments, please contact our customer support for assistance.'
