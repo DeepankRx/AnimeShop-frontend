@@ -25,7 +25,7 @@ const Footer = () => {
   ];
   const currentYear = new Date().getFullYear();
   return (
-    <footer id="footer" className="absolute   w-[100%]  p-4 bg-white  md:px-6 md:py-8">
+    <footer id="footer" className=" w-[100%]  p-4 bg-white  md:px-6 md:py-8   ">
       <div className="sm:flex sm:items-center sm:justify-between">
         <Link to="/" className="flex items-center mb-4 sm:mb-0 gap-2 ">
           <img src={assets.logo} className="w-16 h-16 rounded-full" alt="Logo" />
@@ -41,13 +41,13 @@ const Footer = () => {
           ))}
         </ul>
       </div>
-      <div className="flex justify-around mt-6 space-x-6 md:order-2 w-full p-4  lg:flex-row md:flex-row gap-6 flex-col">
+      <div className=" relative flex justify-around mt-6 space-x-6 md:order-2 w-full p-4  lg:flex-row md:flex-row gap-6 flex-col">
         <div className="flex flex-col items-center gap-2">
           <LocationOnIcon fontSize="large" />
-          <h4 className="text-md text-center font-extrabold">
+          <h3 className="text-md text-center font-extrabold">
             19/36 A , Gandhi Nagar, <br />
             Aligarh (202001) Uttar Pradesh, India
-          </h4>
+          </h3>
           <span className="flex gap-2 items-center text-md">Our Address</span>
         </div>
         <div className="flex flex-col items-center gap-2">

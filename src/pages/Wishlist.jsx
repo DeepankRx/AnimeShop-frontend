@@ -20,7 +20,7 @@ const Wishlist = () => {
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        toast.error('Something Went Wrong');
         setLoading(false);
       });
   }, [updated]);

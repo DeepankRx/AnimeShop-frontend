@@ -1,3 +1,4 @@
+import {assets} from './assets.js';
 export const homePageKeywords = [
   'anime merchandise india',
   'anime merchandise',
@@ -7,13 +8,13 @@ export const homePageKeywords = [
 ];
 
 export const homePageDescription =
-  'Buy Anime Merchandise Online in India at Animart.in. We offer a wide selection of anime merchandise for different seasons through out the year. Our merchandise is made with premium materials and designed to last for years. We offer competitive prices and excellent customer service to ensure our customers have the best shopping experience.';
+  'Buy Anime Merchandise Online in India at Animart.in. We offer a wide selection of anime merchandise for different seasons through out the year.';
 
 export const homePageTitle = 'Home | Animart.in';
 
 export const author = 'Deepank';
 
-export const ogImage = 'https://res.cloudinary.com/deepank123/image/upload/v1685741565/TAILOR_SHOPE/kkrauforee4q9k5qting.jpg';
+export const ogImage = assets.logo;
 
 export const twitterHandle = '@OfficialAnimart';
 

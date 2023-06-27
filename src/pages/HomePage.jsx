@@ -1,31 +1,31 @@
 import { faCrown, faHeadset, faRankingStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { addNewsletter, getAProductFromEachCategory } from '../services/APIs';
-import React, { useState, useEffect } from 'react';
+import { addNewsletter } from '../services/APIs';
+import React, { useState } from 'react';
 import Collections from '../components/UI/Collections';
 import HeroSection from '../components/UI/HeroSection';
 import ShopByAnime from '../components/UI/ShopByAnime';
 import parallex from '../styles/css/parallex.module.css';
-import { Link } from 'react-router-dom';
+
 import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
 import Helmet from '../util/Helmet';
 import { homePageDescription,homePageKeywords,homePageTitle } from '../seoConstant';
 const HomePage = () => {
   const [email, setEmail] = useState('');
-  const [topProducts, setTopProducts] = useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await getAProductFromEachCategory();
-        setTopProducts(res.data.data);
-      } catch (err) {
-        console.log(err.message);
-        // toast.error(err.response.data.message)
-      }
-    };
-    fetchData();
-  }, []);
+  // const [topProducts, setTopProducts] = useState([]);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const res = await getAProductFromEachCategory();
+  //       setTopProducts(res.data.data);
+  //     } catch (err) {
+  //       console.log(err.message);
+  //       // toast.error(err.response.data.message)
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
   const handleAddNewsletter = async (e) => {
     try {
       e.preventDefault();
@@ -108,17 +108,8 @@ const HomePage = () => {
       <HeroSection />
       <Collections />
       <div
-        className={`${parallex.para3}   bg-repeat bg-contain lg:bg-cover flex flex-col items-center justify-center lg:grid-cols-4 md:grid  gap-4 p-20 smrev:p-6 smrev:grid-cols-1 smrev:gap-2 mdrev:grid-cols-1
-    mdrev:gap-2  lg:gap-4 lgrev:grid-cols-1 mdrev:grip-cols-1  lgrev:gap-2  bg-repeat-z bg-center bg-fixed`}>
-        {topProducts.slice(0, 8).map((product, i) => {
-          return (
-            <div className="flex flex-row p-2 justify-between items-center cursor-pointer" key={i}>
-              <Link to={`/category`}>
-                <ProductCard key={i} product={product} />
-              </Link>
-            </div>
-          );
-        })}
+        className={`${parallex.para3}   bg-repeat bg-contain lg:bg-cover flex flex-col items-center justify-center  md:grid  gap-4 p-20   lgrev:gap-2  bg-repeat-z bg-center bg-fixed`}>
+
       </div>
       <ShopByAnime />
 

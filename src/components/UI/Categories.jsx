@@ -12,7 +12,7 @@ const Categories = () => {
         setTopProducts(res.data.data);
       })
       .catch((err) => {
-        console.log(err);
+        toast.error('Something Went Wrong');
       });
   }, []);
 

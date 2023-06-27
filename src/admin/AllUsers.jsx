@@ -12,7 +12,7 @@ const AllUsers = () => {
         setUsers(res.data.data);
       })
       .catch((err) => {
-        console.log(err);
+        toast.error('Something Went Wrong');
       });
   }, []);
   const handleRoleChange = (id, role) => {
@@ -25,7 +25,7 @@ const AllUsers = () => {
         toast.success('Role Changed Successfully');
       })
       .catch((err) => {
-        console.log(err);
+        toast.error('Something Went Wrong');
         toast.error(err.response.data.message);
       });
   };

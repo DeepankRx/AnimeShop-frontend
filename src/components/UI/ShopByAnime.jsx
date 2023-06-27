@@ -67,7 +67,7 @@ const ShopByAnime = () => {
 
   return (
     <div className="px-20 py-20 bg-gradient-to-br from-[#FBB03B]  to-[#D4145A] flex flex-col justify-center mdrev:px-8 mdrev:py-12">
-      <h1 className="text-4xl font-bold text-white mb-10 text-center">Shop By Anime</h1>
+      <h2 className="text-4xl font-bold text-white mb-10 text-center">Shop By Anime</h2>
       <div className="grid grid-cols-5 gap-10 mdrev:grid-cols-2">
         {data.map((item, index) => (
           <Card key={index} title={item.title} image={item.image} />

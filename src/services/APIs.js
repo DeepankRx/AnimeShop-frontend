@@ -137,8 +137,8 @@ export function deleteProduct(id) {
   });
 }
 
-export function getProducts() {
-  return http.get(userModule.getProducts);
+export function getProducts(page) {
+  return http.get(userModule.getProducts + `?page=${page}`);
 }
 
 export function getProduct(id) {

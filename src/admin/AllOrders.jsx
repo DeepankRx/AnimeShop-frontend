@@ -13,8 +13,8 @@ const AllOrders = () => {
       .then((res) => {
         setOrders(res.data.allOrders);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        toast.error('Something Went Wrong');
       });
   }, []);
   const handleChangeOrderStatus = (id, orderStatus) => {
@@ -28,7 +28,7 @@ const AllOrders = () => {
         toast.success('Order status changed successfully');
       })
       .catch((err) => {
-        console.log(err);
+        toast.error('Something Went Wrong');
         toast.error(err.response.data.message);
       });
   };

@@ -3,7 +3,7 @@ import { assets } from '../assets';
 import Grid4x4Icon from '@mui/icons-material/Grid4x4';
 import GridViewIcon from '@mui/icons-material/GridView';
 import TableRowsIcon from '@mui/icons-material/TableRows';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ALL_LINKS } from '../constant';
 import { Checkbox, FormControlLabel, FormGroup, Slider } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,31 +16,40 @@ import CardPlaceHolderSkelton from '../components/skeltons/CardPlaceHolderSkelto
 import NoList from '../components/UI/NoList';
 import Helmet from '../util/Helmet';
 import { productPageTitle, productPageDescription, productPageKeywords } from '../seoConstant';
+import { Pagination } from '@mui/material';
+import { toast } from 'react-toastify';
 const CategoryPage = () => {
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [productsType, setProductsType] = useState([]);
   const [productsBrand, setProductsBrand] = useState([]);
+  const [paginationData, setPaginationData] = useState({});
   const location = useLocation();
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
   useEffect(() => {
-    getProducts()
+    setLoading(true);
+    //scroll to top
+    window.scrollTo(0, 0);
+    getProducts(page)
       .then((res) => {
-        setProducts(res.data.data);
-        setFilteredProducts(res.data.data);
+        setPaginationData(res.data.data.pagination);
+        setProducts(res.data.data.products);
+        setFilteredProducts(res.data.data.products);
         setLoading(false);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        toast.error('Something Went Wrong');
       });
     getFilters()
       .then((res) => {
         setProductsType(res.data.data.subCategories);
         setProductsBrand(res.data.data.brands);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        toast.error('Something Went Wrong');
       });
-  }, []);
+  }, [page]);
   const looks = [
     {
       active: 'grid4x4',
@@ -62,43 +71,45 @@ const CategoryPage = () => {
       desc: 'flex-1'
     }
   ];
-
+  const handleRedirect = (product) => {
+    console.log(product);
+    navigate(`${ALL_LINKS.Product.pageLink.substring(0, ALL_LINKS.Product.pageLink.length - 3)}${product._id}`, { state: { product } });
+  };
   const [currentLook, setCurrentLook] = useState(looks[0]);
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [search, setSearch] = useState('');
-  const ProductDetailLink = ALL_LINKS.Product.pageLink.substring(0, ALL_LINKS.Product.pageLink.length - 3);
+  // const ProductDetailLink = ALL_LINKS.Product.pageLink.substring(0, ALL_LINKS.Product.pageLink.length - 3);
 
   const queryParams = new URLSearchParams(location.search);
   useEffect(() => {
     if (queryParams.get('search') !== null) setSearch(queryParams.get('search').toLocaleLowerCase());
   }, []);
 
-  const Product = ({ image, name, brand, price, id }) => {
+  const Product = ({ image, name, brand, price, _id, images }) => {
     return (
-      <Link className="bg-white" to={`${ProductDetailLink}${id}`}>
-        <div
-          className={`cursor-pointer hover:scale-105 ease-linear duration-300 col-span-1 bg-white flex px-2 py-4 space-y-2 shadow-lg ${currentLook.product} ${styles.card_box}`}>
-          {brand.toLowerCase() === 'zerox' && <span />}
-          <div className="gap-2 flex flex-col">
-            <div className={`flex justify-center items-center ${currentLook.imageParent}`}>
-              <img src={image} className="w-[100%] h-[100%] object-contain " alt={name} />
-            </div>
-            <div className="flex  items-center gap-1">
-              <div
-                className="w-6 h-6 rounded-full
+      <div
+        onClick={() => handleRedirect({ images, name, brand, price, _id })}
+        className={`cursor-pointer hover:scale-105 ease-linear duration-300 col-span-1 bg-white flex px-2 py-4 space-y-2 shadow-lg ${currentLook.product} ${styles.card_box}`}>
+        {brand.toLowerCase() === 'zerox' && <span />}
+        <div className="gap-2 flex flex-col">
+          <div className={`flex justify-center items-center ${currentLook.imageParent}`}>
+            <img src={image} className="w-[100%] h-[100%] object-contain " alt={name} />
+          </div>
+          <div className="flex  items-center gap-1">
+            <div
+              className="w-6 h-6 rounded-full
             flex items-center justify-center bg-blue-500 text-white font-bold">
-                {brand.charAt(0).toUpperCase()}
-              </div>
-              <h2 className="text-blue-500 text-sm font-bold">{brand}</h2>
+              {brand.charAt(0).toUpperCase()}
             </div>
+            <h2 className="text-blue-500 text-sm font-bold">{brand}</h2>
           </div>
-          <div className={`p-2 ${currentLook.desc}`}>
-            <p className="text-gray-700 text-sm overflow-hidden break-normal">{name}</p>
-            <p className="text-gray-500 text-xs overflow-hidden break-normal">{brand}</p>
-          </div>
-          <p className="text-black font-bold text-sm p-2">₹{price}</p>
         </div>
-      </Link>
+        <div className={`p-2 ${currentLook.desc}`}>
+          <p className="text-gray-700 text-sm overflow-hidden break-normal">{name}</p>
+          <p className="text-gray-500 text-xs overflow-hidden break-normal">{brand}</p>
+        </div>
+        <p className="text-black font-bold text-sm p-2">₹{price}</p>
+      </div>
     );
   };
 
@@ -107,7 +118,8 @@ const CategoryPage = () => {
     name: PropTypes.string.isRequired,
     brand: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
-    id: PropTypes.string.isRequired
+    _id: PropTypes.string.isRequired,
+    images: PropTypes.array.isRequired
   };
 
   // Price Range
@@ -201,9 +213,21 @@ const CategoryPage = () => {
     setFilteredProducts(filtered);
   }, [search, products, value, checkboxValue]);
 
+  const handlePageChange = (e, page) => {
+    setPage(page);
+    navigate(`/category?page=${page}`, { replace: true });
+  };
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+    navigate(`/category?search=${encodeURIComponent(e.target.value)}`, { replace: true });
+  };
   return (
     <>
-      <Helmet title={queryParams.get('search') ? queryParams.get('search') + ' | Animart' : productPageTitle} description={productPageDescription} keywords={productPageKeywords.join(',')} />
+      <Helmet
+        title={queryParams.get('search') ? queryParams.get('search') + ' | Animart' : productPageTitle}
+        description={productPageDescription}
+        keywords={productPageKeywords.join(',')}
+      />
 
       <div className="bg-light">
         <div className="text-4xl  border-b-2  h-[320px] overflow-hidden bg-[#27203b] mdrev:h-[160px] relative">
@@ -224,7 +248,7 @@ const CategoryPage = () => {
             name="search"
             value={search}
             onChange={(e) => {
-              setSearch(e.target.value);
+              handleSearch(e);
             }}
           />
         </div>
@@ -358,13 +382,32 @@ const CategoryPage = () => {
                 filteredProducts.map((product, index) => {
                   return (
                     <div key={index} className={`col-span-1 ${currentLook.productChild}`}>
-                      <Product image={product.images[0]} name={product.name} price={product.price} brand={product.brand} id={product._id} />
+                      <Product
+                        image={product.images[0]}
+                        name={product.name}
+                        price={product.price}
+                        brand={product.brand}
+                        _id={product._id}
+                        images={product.images}
+                      />
                     </div>
                   );
                 })
               )}
             </div>
             {filteredProducts.length === 0 && !loading && <NoList message="No Products Found Senpai !" />}
+            <div className="flex justify-center items-center">
+              <Pagination
+                count={paginationData.totalPages}
+                variant="outlined"
+                onChange={(event, value) => {
+                  handlePageChange(event, value);
+                }}
+                size="large"
+                className="mt-5"
+                color="secondary"
+              />
+            </div>
           </div>
         </div>
       </div>

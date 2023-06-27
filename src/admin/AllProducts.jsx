@@ -26,7 +26,7 @@ const AllProducts = () => {
         setProducts(res.data.data);
       })
       .catch((err) => {
-        console.log(err);
+        toast.error('Something Went Wrong');
       });
   }, []);
   const PopoverCard = ({ productId }) => {

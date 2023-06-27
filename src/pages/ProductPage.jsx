@@ -1,18 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import ProductDetailed from '../components/UI/ProductDetailed';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { getProduct } from '../services/APIs';
 import ProductPageSkelton from '../components/skeltons/ProductPageSkelton';
 const ProductPage = () => {
-  const { id } = useParams();
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  const { id } = useParams();
   useEffect(() => {
-    getProduct(id).then((res) => {
-      setProduct(res.data.data);
-      setLoading(false);
-    });
-  }, [id]);
+    if (!location.state) {
+      //than fetch product from api
+      getProduct(id)
+        .then((res) => {
+          setProduct(res.data.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      return;
+    }
+    setProduct(location.state.product);
+    console.log(location.state.product._id);
+    setLoading(false);
+  }, [location]);
 
   return (
     <div>

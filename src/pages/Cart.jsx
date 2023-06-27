@@ -23,7 +23,7 @@ const Cart = () => {
         setSimilarProducts(res.data.data);
       })
       .catch((err) => {
-        console.log(err);
+        toast.error('Something Went Wrong');
       });
   }, [items]);
   const ProductDetailLink = ALL_LINKS.Product.pageLink.substring(0, ALL_LINKS.Product.pageLink.length - 3);

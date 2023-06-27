@@ -17,7 +17,7 @@ const Order = () => {
         setOrders(res.data.orders.order);
       })
       .catch((err) => {
-        console.log(err);
+        toast.error('Something Went Wrong');
       });
   }, []);
   const Card = ({ details }) => {
