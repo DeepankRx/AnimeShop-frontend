@@ -59,7 +59,7 @@ const AddProduct = () => {
           });
           setPreview(data.images);
         })
-        .catch((err) => {
+        .catch(() => {
           toast.error('Something Went Wrong');
         });
     }

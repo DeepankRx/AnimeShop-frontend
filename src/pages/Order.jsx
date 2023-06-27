@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Helmet from '../util/Helmet';
 import { orderPageTitle } from '../seoConstant';
+import { toast } from 'react-toastify';
 const Order = () => {
   const [orders, setOrders] = useState([]);
   useEffect(() => {
@@ -16,7 +17,7 @@ const Order = () => {
       .then((res) => {
         setOrders(res.data.orders.order);
       })
-      .catch((err) => {
+      .catch(() => {
         toast.error('Something Went Wrong');
       });
   }, []);

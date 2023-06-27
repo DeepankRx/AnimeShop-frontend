@@ -19,7 +19,7 @@ const Wishlist = () => {
         setProducts(res.data.data.wishlist.products);
         setLoading(false);
       })
-      .catch((err) => {
+      .catch(() => {
         toast.error('Something Went Wrong');
         setLoading(false);
       });

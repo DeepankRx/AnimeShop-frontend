@@ -10,6 +10,7 @@ import { ALL_LINKS } from '../constant';
 import { Link, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Helmet from '../util/Helmet';
+import {toast} from 'react-toastify';
 import { cartPageTitle,cartPageDescription } from '../seoConstant';
 const Cart = () => {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const Cart = () => {
       .then((res) => {
         setSimilarProducts(res.data.data);
       })
-      .catch((err) => {
+      .catch(() => {
         toast.error('Something Went Wrong');
       });
   }, [items]);

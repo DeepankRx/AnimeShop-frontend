@@ -9,6 +9,7 @@ import { getUserOrderHistory } from '../services/APIs';
 import PropTypes from 'prop-types';
 import Helmet from '../util/Helmet';
 import { orderHistoryPageTitle } from '../seoConstant';
+import { toast } from 'react-toastify';
 const OrderHistory = () => {
   const [orderHistory, setOrderHistory] = useState([]);
   useEffect(() => {
@@ -16,7 +17,7 @@ const OrderHistory = () => {
       .then((res) => {
         setOrderHistory(res.data.orderHistories.order);
       })
-      .catch((err) => {
+      .catch(() => {
         toast.error('Something Went Wrong');
       });
   }, []);

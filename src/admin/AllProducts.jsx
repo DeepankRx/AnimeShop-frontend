@@ -25,7 +25,7 @@ const AllProducts = () => {
       .then((res) => {
         setProducts(res.data.data);
       })
-      .catch((err) => {
+      .catch(() => {
         toast.error('Something Went Wrong');
       });
   }, []);

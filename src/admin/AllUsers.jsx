@@ -11,7 +11,7 @@ const AllUsers = () => {
       .then((res) => {
         setUsers(res.data.data);
       })
-      .catch((err) => {
+      .catch(() => {
         toast.error('Something Went Wrong');
       });
   }, []);
