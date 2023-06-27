@@ -8,7 +8,7 @@ import { ALL_LINKS } from '../constant';
 import { Checkbox, FormControlLabel, FormGroup, Slider } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
-import { getProducts, getFilters } from '../services/APIs';
+import { getProducts, getFilters, searchProducts } from '../services/APIs';
 import SearchIcon from '@mui/icons-material/Search';
 import PropTypes from 'prop-types';
 import styles from '../styles/css/Premium.module.css';
@@ -18,6 +18,8 @@ import Helmet from '../util/Helmet';
 import { productPageTitle, productPageDescription, productPageKeywords } from '../seoConstant';
 import { Pagination } from '@mui/material';
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+
 const CategoryPage = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
@@ -26,21 +28,43 @@ const CategoryPage = () => {
   const [paginationData, setPaginationData] = useState({});
   const location = useLocation();
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
+  const storeProducts = useSelector((state) => state.products.products);
+  const itemsPerPage = 20;
+  const queryPage = new URLSearchParams(location.search).get('page');
+  const [page, setPage] = useState(queryPage || 1);
+
   useEffect(() => {
+    if (queryPage) {
+      setPage(Number(queryPage));
+    }
     setLoading(true);
-    //scroll to top
+    // Scroll to top
     window.scrollTo(0, 0);
-    getProducts(page)
-      .then((res) => {
-        setPaginationData(res.data.data.pagination);
-        setProducts(res.data.data.products);
-        setFilteredProducts(res.data.data.products);
-        setLoading(false);
-      })
-      .catch(() => {
-        toast.error('Something Went Wrong');
+    if (!storeProducts.length) {
+      getProducts(page)
+        .then((res) => {
+          setPaginationData(res.data.data.pagination);
+          setProducts(res.data.data.products);
+          setFilteredProducts(res.data.data.products);
+          setLoading(false);
+        })
+        .catch(() => {
+          toast.error('Something Went Wrong');
+        });
+    } else {
+      const totalPages = Math.ceil(storeProducts.length / itemsPerPage);
+      setPaginationData({
+        totalPages: totalPages
       });
+      const startIndex = (page - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const slicedProducts = storeProducts.slice(startIndex, endIndex);
+      setProducts(slicedProducts);
+      setFilteredProducts(slicedProducts);
+      setLoading(false);
+    }
+  }, [page, storeProducts]);
+  useEffect(() => {
     getFilters()
       .then((res) => {
         setProductsType(res.data.data.subCategories);
@@ -49,7 +73,7 @@ const CategoryPage = () => {
       .catch(() => {
         toast.error('Something Went Wrong');
       });
-  }, [page]);
+  }, []);
   const looks = [
     {
       active: 'grid4x4',
@@ -72,7 +96,6 @@ const CategoryPage = () => {
     }
   ];
   const handleRedirect = (product) => {
-    console.log(product);
     navigate(`${ALL_LINKS.Product.pageLink.substring(0, ALL_LINKS.Product.pageLink.length - 3)}${product._id}`, { state: { product } });
   };
   const [currentLook, setCurrentLook] = useState(looks[0]);
@@ -211,15 +234,29 @@ const CategoryPage = () => {
       }
     });
     setFilteredProducts(filtered);
-  }, [search, products, value, checkboxValue]);
+  }, [products, value, checkboxValue]);
 
   const handlePageChange = (e, page) => {
     setPage(page);
     navigate(`/category?page=${page}`, { replace: true });
   };
-  const handleSearch = (e) => {
-    setSearch(e.target.value);
-    navigate(`/category?search=${encodeURIComponent(e.target.value)}`, { replace: true });
+  const handleSearch = () => {
+    if(!search) {
+      setProducts(products);
+      return;
+    }
+    setLoading(true);
+    searchProducts(search)
+      .then((res) => {
+        setProducts(res.data.data.products);
+        setPaginationData(res.data.data.pagination);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
   return (
     <>
@@ -240,7 +277,6 @@ const CategoryPage = () => {
           </div>
         </div>
         <div className="p-3 flex justify-center items-center translate-y-[-32px] bg-white rounded-xl shadow-xl w-[50%] m-auto smrev:w-[80%]  ">
-          <SearchIcon className="mx-1" fontSize="large" color="primary" />
           <input
             placeholder="Search"
             className="appearance-none  w-[100%] !outline-none  "
@@ -248,9 +284,17 @@ const CategoryPage = () => {
             name="search"
             value={search}
             onChange={(e) => {
-              handleSearch(e);
+              setSearch(e.target.value);
+              navigate(`/category?search=${encodeURIComponent(e.target.value)}`, { replace: true });
             }}
           />
+          <button
+            onClick={() => {
+              handleSearch();
+            }}
+            className="appearance-none  !outline-none  ">
+            <SearchIcon className="mx-1" fontSize="large" color="primary" />
+          </button>
         </div>
 
         <div className="px-20 py-8 lgrev:p-4 flex mdrev:flex-col gap-4">
@@ -403,6 +447,7 @@ const CategoryPage = () => {
                 onChange={(event, value) => {
                   handlePageChange(event, value);
                 }}
+                page={page}
                 size="large"
                 className="mt-5"
                 color="secondary"

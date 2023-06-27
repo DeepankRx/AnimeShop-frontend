@@ -1,7 +1,7 @@
 import http from './http_service';
 
-export const BASE_MAIN_URL = 'https://anime-shop-9r2x.vercel.app';
-// export const BASE_MAIN_URL='http://localhost:5001'
+// export const BASE_MAIN_URL = 'https://anime-shop-9r2x.vercel.app';
+export const BASE_MAIN_URL='http://localhost:5001'
 
 const BASE_URL = {
   userApi: BASE_MAIN_URL + '/api/user',
@@ -63,7 +63,9 @@ const userModule = {
   changeRole: BASE_URL.userApi + '/change-user-role/',
   getProductByCategoryWithHighestRating: BASE_URL.productApi + '/getProductByCategoryWithHighestRating/',
   duplicateProduct: BASE_URL.productApi + '/duplicate/',
-  getAProductFromEachCategory: BASE_URL.productApi + '/one-product-from-each-category/'
+  getAProductFromEachCategory: BASE_URL.productApi + '/one-product-from-each-category/',
+  getAllProducts: BASE_URL.productApi + '/getAllProducts',
+  searchProduct: BASE_URL.productApi + '/search-product/',
 };
 
 let token = '';
@@ -337,4 +339,12 @@ export function duplicateProduct(id) {
   return http.get(userModule.duplicateProduct + id, {
     headers: { Authorization: `Bearer ${token}` }
   });
+}
+
+export function getAllProducts() {
+  return http.get(userModule.getAllProducts);
+}
+
+export function searchProducts(search) {
+  return http.get(userModule.searchProduct + '?search=' + search);
 }

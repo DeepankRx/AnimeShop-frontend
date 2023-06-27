@@ -5,7 +5,7 @@ import App from './App';
 import { AuthContextProvider } from './store/AuthContext';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
-
+import { Analytics } from '@vercel/analytics/react';
 const rootElement = document.getElementById('root');
 
 // If server-rendered markup exists, use hydrate
@@ -14,6 +14,7 @@ if (rootElement.hasChildNodes()) {
     <Provider store={store}>
       <AuthContextProvider>
         <App />
+        <Analytics />
       </AuthContextProvider>
     </Provider>,
     rootElement
@@ -24,6 +25,7 @@ if (rootElement.hasChildNodes()) {
     <Provider store={store}>
       <AuthContextProvider>
         <App />
+        <Analytics />
       </AuthContextProvider>
     </Provider>,
     rootElement

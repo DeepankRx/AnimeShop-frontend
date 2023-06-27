@@ -22,7 +22,6 @@ const ProductPage = () => {
       return;
     }
     setProduct(location.state.product);
-    console.log(location.state.product._id);
     setLoading(false);
   }, [location]);
 

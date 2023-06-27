@@ -25,12 +25,12 @@ export const productPageTitle = 'Product | Animart.in';
 export const productPageKeywords = ['anime oversize tshirt', 'anime tshirt', 'naruto tshirt', 'one piece tshirt'];
 
 export const productPageDescription =
-  'Discover a wide selection of high-quality anime merchandise for sale. From collectibles and figures to clothing and accessories, find everything you need to indulge in your love for anime. Shop now for officially licensed products and express your passion for the anime culture.';
+  'Discover a wide selection of high-quality anime merchandise for sale. From collectibles and figures to clothing and accessories, find everything you need to indulge in your love for anime.';
 
 export const cartPageTitle = 'Cart | Animart.in';
 
 export const cartPageDescription =
-  'Discover a wide selection of high-quality anime merchandise for sale. From collectibles and figures to clothing and accessories, find everything you need to indulge in your love for anime. Shop now for officially licensed products and express your passion for the anime culture.';
+  'Discover a wide selection of high-quality anime merchandise for sale. From collectibles and figures to clothing and accessories, find everything you need to indulge in your love for anime.';
 
 export const checkoutPageTitle = 'Checkout | Animart.in';
 

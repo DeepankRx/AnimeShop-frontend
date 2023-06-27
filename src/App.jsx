@@ -7,9 +7,10 @@ import { ALL_LINKS } from './constant';
 import SplashScreen from './pages/SplashScreen';
 import AuthContext from './store/AuthContext';
 import 'react-toastify/dist/ReactToastify.css';
-import { getUserProfile, getUserOrderHistory } from './services/APIs';
+import { getUserProfile, getUserOrderHistory, getAllProducts } from './services/APIs';
 import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from './store/userSlice';
+import { setProducts } from './store/productSlice';
 import { fetchCart, sendCartData } from './store/cartSlice';
 import Footer from './components/menu/Footer';
 const App = () => {
@@ -37,28 +38,28 @@ const App = () => {
     ALL_LINKS.Wishlist,
     ALL_LINKS.Order,
     ALL_LINKS.TermsAndCondition,
-    ALL_LINKS.PrivacyPolicy,
+    ALL_LINKS.PrivacyPolicy
   ];
   const [loading, setLoading] = useState(true);
+  const storeProducts = useSelector((state) => state.products.products);
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-
     if (authCtx.isLoggedIn) {
-      getUserProfile(authCtx.userid)
-        .then((res) => {
-          dispatch(userActions.setUserDetails(res.data.data));
+      Promise.all([getUserProfile(authCtx.userid), getUserOrderHistory(authCtx.userid), storeProducts.length === 0 ? getAllProducts() : storeProducts])
+        .then(([profileRes, orderHistoryRes, productRes]) => {
+          dispatch(userActions.setUserDetails(profileRes.data.data));
+          dispatch(setProducts(productRes.data.data));
+          const orderHistory = orderHistoryRes?.data?.orderHistories?.order.map((item) => item.items.map((item) => item._id));
+          const orderHistoryId = [...new Set(orderHistory?.flat())];
+
+          setLoading(false);
+          dispatch(userActions.setOrderHistory(orderHistoryId));
         })
         .catch((err) => {
           toast.error(err);
+          setLoading(false);
         });
-      getUserOrderHistory(authCtx.userid).then((res) => {
-        const orderHistory = res?.data?.orderHistories?.order.map((item) => item.items.map((item) => item._id));
-        const orderHistoryId = [...new Set(orderHistory?.flat())];
-        dispatch(userActions.setOrderHistory(orderHistoryId));
-      });
     }
+    setLoading(false);
   }, [isUpdated]);
 
   useEffect(() => {
