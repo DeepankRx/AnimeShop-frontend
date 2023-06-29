@@ -4,7 +4,7 @@ import { addNewsletter } from '../services/APIs';
 import React, { useState } from 'react';
 import Collections from '../components/UI/Collections';
 import HeroSection from '../components/UI/HeroSection';
-import ShopByAnime from '../components/UI/ShopByAnime';
+// import ShopByAnime from '../components/UI/ShopByAnime';
 import parallex from '../styles/css/parallex.module.css';
 
 import { toast } from 'react-toastify';
@@ -111,7 +111,7 @@ const HomePage = () => {
         className={`${parallex.para3}   bg-repeat bg-contain lg:bg-cover flex flex-col items-center justify-center  md:grid  gap-4 p-20   lgrev:gap-2  bg-repeat-z bg-center bg-fixed`}>
 
       </div>
-      <ShopByAnime />
+      {/* <ShopByAnime /> */}
 
       {/* <Categories/> */}
       <div className={`grid grid-cols-3 mdrev:grid-cols-1 px-20 py-20   smrev:p-6`}>
