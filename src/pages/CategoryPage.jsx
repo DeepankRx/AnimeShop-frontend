@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { assets } from '../assets';
+import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Grid4x4Icon from '@mui/icons-material/Grid4x4';
 import GridViewIcon from '@mui/icons-material/GridView';
-import TableRowsIcon from '@mui/icons-material/TableRows';
-import { Link,useLocation,useParams } from 'react-router-dom';
-import { ALL_LINKS } from '../constant';
-import { Checkbox, FormControlLabel, FormGroup, Slider } from '@mui/material';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
-import { getProducts,getFilters } from '../services/APIs';
 import SearchIcon from '@mui/icons-material/Search';
-import PremiumCard from '../components/UI/PremiumCard';
-import styles from '../styles/css/Premium.module.css'
+import TableRowsIcon from '@mui/icons-material/TableRows';
+import { Checkbox, FormControlLabel, FormGroup, Slider } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { assets } from '../assets';
 import CardPlaceHolderSkelton from '../components/skeltons/CardPlaceHolderSkelton';
 import NoList from '../components/UI/NoList';
+import { ALL_LINKS } from '../constant';
+import { getFilters, getProducts } from '../services/APIs';
+import styles from '../styles/css/Premium.module.css';
 const CategoryPage = () => {
   const [products, setProducts] = useState([]);
   const [productsType, setProductsType] = useState([]);
@@ -23,8 +22,8 @@ const CategoryPage = () => {
   useEffect(() => {
     getProducts()
       .then((res) => {
-        setProducts(res.data.data);
-        setFilteredProducts(res.data.data);
+        setProducts(res.data.data.products);
+        setFilteredProducts(res.data.data.products);
         setLoading(false)
       })
       .catch((err) => {
@@ -130,6 +129,7 @@ const CategoryPage = () => {
     brand: false,
   });
   // Search
+  console.log(products);
   useEffect(() => {
     const filtered = products.filter((product) => {
       if (search.length > 0 && checkboxValue.productsType.length === 0 && checkboxValue.brand.length === 0) {

@@ -14,12 +14,12 @@ import AddIcon from '@mui/icons-material/Add';
 import AuthContext from '../store/AuthContext'
 
 export const AdminMenu=[
-  {
-    name:'Dashboard',
-    pageLink:ADMIN_LINKS.AdminDashboardDefault.pageLink,
-    icon:<DashboardIcon/>,
-    showAlways:false
-  },
+  // {
+  //   name:'Dashboard',
+  //   pageLink:ADMIN_LINKS.AdminDashboardDefault.pageLink,
+  //   icon:<DashboardIcon/>,
+  //   showAlways:false
+  // },
   {
     name:'All Products',
     pageLink:ADMIN_LINKS.AllProducts.pageLink,
@@ -39,24 +39,24 @@ export const AdminMenu=[
     icon:<ProductionQuantityLimitsIcon/>,
     showAlways:false
     },
-    {
-        name:'All Carts',
-        pageLink:ADMIN_LINKS.AllCarts.pageLink,
-        icon:<ProductionQuantityLimitsIcon/>,
-        showAlways:false
-    },
-    {
-        name:'All Order History',
-        pageLink:ADMIN_LINKS.AllOrderHistory.pageLink,
-        icon:<ProductionQuantityLimitsIcon/>,
-        showAlways:false
-    },
-    {
-      name:'All Wishlist',
-      pageLink:ADMIN_LINKS.AllWishlist.pageLink,
-      icon:<ProductionQuantityLimitsIcon/>,
-      showAlways:false
-    }
+    // {
+    //     name:'All Carts',
+    //     pageLink:ADMIN_LINKS.AllCarts.pageLink,
+    //     icon:<ProductionQuantityLimitsIcon/>,
+    //     showAlways:false
+    // },
+    // {
+    //     name:'All Order History',
+    //     pageLink:ADMIN_LINKS.AllOrderHistory.pageLink,
+    //     icon:<ProductionQuantityLimitsIcon/>,
+    //     showAlways:false
+    // },
+    // {
+    //   name:'All Wishlist',
+    //   pageLink:ADMIN_LINKS.AllWishlist.pageLink,
+    //   icon:<ProductionQuantityLimitsIcon/>,
+    //   showAlways:false
+    // }
 ]
 const AdminDashboard = () => {
 

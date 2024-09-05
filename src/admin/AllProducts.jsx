@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { getProducts ,deleteProduct} from '../services/APIs';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { Button, Popover } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import {toast} from 'react-toastify';
-import { SELLER_LINKS } from '../constant';
+import React, { useEffect, useState } from "react";
+import { getProducts, deleteProduct } from "../services/APIs";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import { Button, Popover } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { SELLER_LINKS } from "../constant";
 const AllProducts = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
@@ -22,7 +22,7 @@ const AllProducts = () => {
   useEffect(() => {
     getProducts()
       .then((res) => {
-        setProducts(res.data.data);
+        setProducts(res.data.data.products);
       })
       .catch((err) => {
         console.log(err);
@@ -40,7 +40,7 @@ const AllProducts = () => {
     };
 
     const open = Boolean(anchorEl);
-    const id = open ? 'simple-popover' : undefined;
+    const id = open ? "simple-popover" : undefined;
 
     let edit_link = SELLER_LINKS.EditProduct.pageLink;
     // edit_link=edit_link.substring(0,edit_link.length-4);
@@ -60,27 +60,33 @@ const AllProducts = () => {
           anchorEl={anchorEl}
           onClose={handleClose}
           anchorOrigin={{
-            vertical: 'center',
-            horizontal: 'center',
+            vertical: "center",
+            horizontal: "center",
           }}
           transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
+            vertical: "top",
+            horizontal: "center",
           }}
         >
           <div className="rounded-lg flex flex-col">
             <Button
               onClick={() =>
-                navigate()
+                navigate(
                   `/dashboard/${edit_link}?productId=${productId}&edit=true`
+                )
               }
               size="medium"
             >
               Edit
             </Button>
-            <Button size="medium"
-             onClick={() => {navigate(`/product/${productId}`)}}
-            >View</Button>
+            <Button
+              size="medium"
+              onClick={() => {
+                navigate(`/product/${productId}`);
+              }}
+            >
+              View
+            </Button>
             <Button
               size="medium"
               onClick={() => {
@@ -108,7 +114,7 @@ const AllProducts = () => {
           <h2 className=" font-semibold">{product.name}</h2>
           {product.variants.map((item, i) => (
             <h2 key={i} className=" text-sm">
-              {item.size} -{' '}
+              {item.size} -{" "}
               <span className="font-bold text-lg">{item.countInStock}</span>
             </h2>
           ))}
