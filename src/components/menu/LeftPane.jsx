@@ -155,19 +155,20 @@ const LeftPane = () => {
     ],
     admin: [
       menu["Home"],
-      menu["Dashboard"],
+      // menu["Dashboard"],
       menu["AllProducts"],
-      menu["AllCarts"],
+      // menu["AllCarts"],
       menu["AllOrders"],
       menu["AllUsers"],
-      menu["AllOrderHistory"],
-      menu["AllWishlist"],
+      // menu["AllOrderHistory"],
+      // menu["AllWishlist"],
     ],
   };
 
   let loadMenu = [];
   if (authCtx.isLoggedIn) {
     loadMenu = showMenu[authCtx.role];
+    console.log(loadMenu);
   } else {
     loadMenu = showMenu[""];
   }

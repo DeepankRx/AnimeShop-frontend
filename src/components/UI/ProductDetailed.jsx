@@ -122,7 +122,7 @@ const ProductDetailed = ({ price, name, description,images,brand,sizes,reviews,p
           <span className="bg-black text-white p-1 text-sm w-[50px]">
             {review.rating} <StarIcon fontSize="small" sx={{ color: 'gold' }} />
           </span>
-          <span className="text-black font-bold">{review.user.firstName + ' ' + review.user.lastName}</span>
+          <span className="text-black font-bold">{review?.user?.firstName + ' ' + review?.user?.lastName}</span>
         </div>
         <div className="text-sm">
           {review.comment}
