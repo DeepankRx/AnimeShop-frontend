@@ -111,12 +111,12 @@ const LeftPane = () => {
     //   icon:<ProductionQuantityLimitsIcon/>,
     //   showAlways:false
     // },
-    // AllOrders:{
-    //   name:'All Orders',
-    //   pageLink:'dashboard/'+ADMIN_LINKS.AllOrders.pageLink,
-    //   icon:<ProductionQuantityLimitsIcon/>,
-    //   showAlways:false
-    // },
+    AllOrders:{
+      name:'All Orders',
+      pageLink:'dashboard/'+ADMIN_LINKS.AllOrders.pageLink,
+      icon:<ProductionQuantityLimitsIcon/>,
+      showAlways:false
+    },
     AllUsers: {
       name: "All Users",
       pageLink: "dashboard/" + ADMIN_LINKS.AllUsers.pageLink,
