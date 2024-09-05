@@ -46,7 +46,7 @@ const AddProduct = () => {
 
   useEffect(() => {
     if (queryParams.get("edit") === "true") {
-      alert("EDITING");
+
       setEditingMode(true);
 
       getProduct(queryParams.get("productId"))
