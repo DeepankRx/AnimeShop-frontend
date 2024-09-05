@@ -14,7 +14,7 @@ const Order = () => {
         setOrders(res.data.orders.order);
       })
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
   const Card=({details})=>{
@@ -35,7 +35,7 @@ const Order = () => {
 
         {/* <div className='flex justify-center items-center text-lg gap-1'>
          <div className={`w-4 h-4  rounded-full`}/>  Status : <span>Delivered</span>
-        console.log(item),
+        ,
         </div> */}
       </div>
       <div className='p-4 mdrev:p-2 flex flex-col gap-4'>

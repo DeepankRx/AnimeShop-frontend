@@ -12,7 +12,7 @@ const AllOrders = () => {
             setOrders(res.data.allOrders)
         })
         .catch((err)=>{
-            console.log(err)
+            
         })
     },[])
     const handleChangeOrderStatus=(id,orderStatus)=>{
@@ -25,7 +25,7 @@ const AllOrders = () => {
             toast.success('Order status changed successfully')
         })
         .catch((err)=>{
-            console.log(err)
+            
             toast.error(err.response.data.message)
         })
     }

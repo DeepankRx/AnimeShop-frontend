@@ -49,7 +49,7 @@ const App = () => {
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-    console.log(authCtx, "AUTH CTX");
+    
     if (authCtx.isLoggedIn) {
       getUserProfile(authCtx.userid)
         .then((res) => {
@@ -59,7 +59,7 @@ const App = () => {
           toast.error(err);
         });
       getUserOrderHistory(authCtx.userid).then((res) => {
-        // console.log(res.data, "ORDER HISTORY");
+        // 
         const orderHistory = res?.data?.orderHistories?.order.map((item) =>
           item.items.map((item) => item._id)
         ) || [];

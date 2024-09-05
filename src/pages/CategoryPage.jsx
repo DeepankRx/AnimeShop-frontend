@@ -27,7 +27,7 @@ const CategoryPage = () => {
         setLoading(false)
       })
       .catch((err) => {
-        console.log(err);
+        
       });
     getFilters()
       .then((res) => {
@@ -35,7 +35,7 @@ const CategoryPage = () => {
         setProductsBrand(res.data.data.brands);
       })
       .catch((err) => {
-        console.log(err);
+        
       }
       );
   }, []);
@@ -129,7 +129,7 @@ const CategoryPage = () => {
     brand: false,
   });
   // Search
-  console.log(products);
+  
   useEffect(() => {
     const filtered = products.filter((product) => {
       if (search.length > 0 && checkboxValue.productsType.length === 0 && checkboxValue.brand.length === 0) {

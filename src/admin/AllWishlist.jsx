@@ -9,7 +9,7 @@ const AllWishlist = () => {
       setWishlist(res.data.data)
     })
     .catch(err=>{
-      console.log(err.message)
+      
     }
     )
   },[])

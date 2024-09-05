@@ -15,7 +15,7 @@ const OrderHistory = () => {
         setOrderHistory(res.data.orderHistories.order);
       })
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
   const status=[
@@ -41,7 +41,7 @@ const OrderHistory = () => {
 
         {/* <div className='flex justify-center items-center text-lg gap-1'>
          <div className={`w-4 h-4  rounded-full`}/>  Status : <span>Delivered</span>
-        console.log(item),
+        ,
         </div> */}
       </div>
 

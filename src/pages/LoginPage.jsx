@@ -45,7 +45,6 @@ useEffect(() => {
       .then(res=>{
         dispatch(userActions.setUserDetails(res.data.data))
       })
-      .catch(err=>console.log(err));
       toast.success('Login Successful');
       if(queryParameters.get('redirect')===null){
         navigate(ALL_LINKS.HomePage.pageLink);
@@ -95,7 +94,6 @@ useEffect(() => {
 
             dispatch(userActions.setUserDetails(res.data.data))
             })
-      .catch(err=>console.log(err));
       if(queryParameters.get('redirect')===null){
         navigate(ALL_LINKS.HomePage.pageLink);
       }
@@ -109,7 +107,7 @@ useEffect(() => {
     })
   }}
   onError={() => {
-    console.log('Login Failed');
+    
   }}
   useOneTap
             />

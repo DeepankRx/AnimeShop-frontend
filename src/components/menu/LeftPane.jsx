@@ -168,7 +168,6 @@ const LeftPane = () => {
   let loadMenu = [];
   if (authCtx.isLoggedIn) {
     loadMenu = showMenu[authCtx.role];
-    console.log(loadMenu,authCtx.role);
   } else {
     loadMenu = showMenu[""];
   }

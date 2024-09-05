@@ -10,7 +10,7 @@ const AllUsers = () => {
             setUsers(res.data.data)
         })
         .catch((err)=>{
-            console.log(err)
+            
         })
     },[])
     const handleRoleChange=(id,role)=>{
@@ -23,7 +23,7 @@ const AllUsers = () => {
             toast.success('Role Changed Successfully')
         })
         .catch((err)=>{
-            console.log(err)
+            
             toast.error(err.response.data.message)
         })
     }

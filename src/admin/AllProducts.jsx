@@ -25,7 +25,7 @@ const AllProducts = () => {
         setProducts(res.data.data.products);
       })
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
   const PopoverCard = ({ productId }) => {

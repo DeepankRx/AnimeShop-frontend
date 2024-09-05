@@ -17,7 +17,7 @@ const HomePage = () => {
         const res = await getAProductFromEachCategory()
         setTopProducts(res.data.data)
       }catch(err){
-        console.log(err.message)
+        
         // toast.error(err.response.data.message)
       }
     }

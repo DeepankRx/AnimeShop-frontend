@@ -20,7 +20,7 @@ const Wishlist = () => {
             setLoading(false);
         })
         .catch(err=>{
-            console.log(err)
+            
             setLoading(false);
         })
     }, [updated])

@@ -44,7 +44,6 @@ const AddProduct = () => {
     variants: [{ size: "", countInStock: "" }],
   });
 
-  console.log("use effect");
   useEffect(() => {
     if (queryParams.get("edit") === "true") {
       alert("EDITING");
@@ -53,7 +52,6 @@ const AddProduct = () => {
       getProduct(queryParams.get("productId"))
         .then((res) => {
           const data = res.data.data;
-          console.log(res.data.data, "PRODUCT");
           setProductId(data._id);
 
           setFetchedValues({
@@ -69,7 +67,7 @@ const AddProduct = () => {
           setPreview(data.images);
         })
         .catch((err) => {
-          console.log(err);
+          
         });
     }
   }, []);
